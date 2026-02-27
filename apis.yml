@@ -1,0 +1,82 @@
+name: Prisma
+description: Prisma is a next-generation ORM that helps developers build applications faster and with fewer errors. It provides a type-safe database client, migrations system, and visual database browser.
+image: https://www.prisma.io/images/prisma-logo.svg
+url: https://www.prisma.io
+created: '2024'
+modified: '2024'
+specificationVersion: '0.18'
+apis:
+- name: Prisma Data Platform API
+  description: REST API for managing Prisma Data Platform resources including projects, environments, and database connections
+  image: https://www.prisma.io/images/prisma-logo.svg
+  humanUrl: https://www.prisma.io/docs/data-platform
+  baseUrl: https://api.cloud.prisma.io
+  tags:
+  - Database
+  - ORM
+  - GraphQL
+  - TypeScript
+  - Developer Tools
+  properties:
+  - type: Documentation
+    url: https://www.prisma.io/docs
+  - type: OpenAPI
+    url: https://api.cloud.prisma.io/openapi.json
+  - type: Authentication
+    url: https://www.prisma.io/docs/data-platform/data-platform-api-reference#authentication
+  contact:
+  - FN: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+- name: Prisma Accelerate API
+  description: API for Prisma Accelerate, providing connection pooling and global database caching
+  image: https://www.prisma.io/images/prisma-logo.svg
+  humanUrl: https://www.prisma.io/docs/accelerate
+  baseUrl: https://accelerate.prisma-data.net
+  tags:
+  - Caching
+  - Performance
+  - Connection Pooling
+  - Database
+  properties:
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: Getting Started
+    url: https://www.prisma.io/docs/accelerate/getting-started
+- name: Prisma Pulse API
+  description: API for Prisma Pulse, enabling real-time database change events and subscriptions
+  image: https://www.prisma.io/images/prisma-logo.svg
+  humanUrl: https://www.prisma.io/docs/pulse
+  baseUrl: https://pulse.prisma-data.net
+  tags:
+  - Real-time
+  - Events
+  - Subscriptions
+  - Database
+  - Change Data Capture
+  properties:
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse
+  - type: Getting Started
+    url: https://www.prisma.io/docs/pulse/getting-started
+common:
+- type: Blog
+  url: https://www.prisma.io/blog
+- type: GitHub Organization
+  url: https://github.com/prisma
+- type: Discord
+  url: https://pris.ly/discord
+- type: Twitter
+  url: https://twitter.com/prisma
+- type: Pricing
+  url: https://www.prisma.io/pricing
+- type: Status
+  url: https://www.prisma-status.com
+- type: Terms of Service
+  url: https://www.prisma.io/terms
+- type: Privacy Policy
+  url: https://www.prisma.io/privacy
+maintainers:
+- FN: Prisma
+  email: hello@prisma.io
+  url: https://www.prisma.io
