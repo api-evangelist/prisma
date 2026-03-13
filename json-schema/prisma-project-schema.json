@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prisma.io/schemas/project.json",
+  "title": "Prisma Project",
+  "description": "A project represents an application or service within a Prisma workspace. Projects contain environments with database connections and API keys, and serve as the primary organizational unit for Prisma Data Platform resources.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the project",
+      "examples": ["prj_abc123def456"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the project",
+      "minLength": 1,
+      "maxLength": 255,
+      "examples": ["My Application"]
+    },
+    "workspaceId": {
+      "type": "string",
+      "description": "Identifier of the parent workspace"
+    },
+    "environments": {
+      "type": "array",
+      "description": "Deployment environments configured for the project",
+      "items": {
+        "$ref": "#/$defs/Environment"
+      }
+    },
+    "databases": {
+      "type": "array",
+      "description": "Prisma Postgres databases associated with the project",
+      "items": {
+        "$ref": "#/$defs/DatabaseReference"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the project was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the project was last updated"
+    }
+  },
+  "required": ["id", "name", "workspaceId", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "$defs": {
+    "Environment": {
+      "type": "object",
+      "description": "A deployment environment within a project representing a stage such as development, staging, or production",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the environment"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the environment",
+          "examples": ["Production", "Staging", "Development"]
+        },
+        "projectId": {
+          "type": "string",
+          "description": "Identifier of the parent project"
+        },
+        "connectionString": {
+          "type": "string",
+          "description": "Database connection string for this environment"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the environment was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the environment was last updated"
+        }
+      },
+      "required": ["id", "name", "projectId", "createdAt", "updatedAt"]
+    },
+    "DatabaseReference": {
+      "type": "object",
+      "description": "A reference to a Prisma Postgres database associated with the project",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the database"
+        },
+        "region": {
+          "type": "string",
+          "description": "Region where the database is deployed"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current operational status",
+          "enum": ["provisioning", "active", "suspended", "deleting", "deleted"]
+        }
+      },
+      "required": ["id", "region", "status"]
+    }
+  }
+}

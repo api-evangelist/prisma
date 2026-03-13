@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prisma.io/schemas/workspace.json",
+  "title": "Prisma Workspace",
+  "description": "A workspace is the top-level organizational unit in the Prisma Data Platform that contains projects, team members, and billing configuration. Workspaces provide shared access control and resource management across all contained projects and databases.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the workspace",
+      "examples": ["ws_abc123def456"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the workspace",
+      "minLength": 1,
+      "maxLength": 255,
+      "examples": ["My Workspace"]
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier for the workspace, used in console URLs and API paths",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+      "examples": ["my-workspace"]
+    },
+    "plan": {
+      "type": "string",
+      "description": "Current billing plan for the workspace that determines resource limits and feature availability",
+      "enum": ["free", "pro", "business", "enterprise"]
+    },
+    "members": {
+      "type": "array",
+      "description": "Team members with access to the workspace",
+      "items": {
+        "$ref": "#/$defs/WorkspaceMember"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the workspace was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the workspace was last updated"
+    }
+  },
+  "required": ["id", "name", "slug", "plan", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "$defs": {
+    "WorkspaceMember": {
+      "type": "object",
+      "description": "A member of a workspace with an assigned role controlling access permissions",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the membership"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Identifier of the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the member"
+        },
+        "role": {
+          "type": "string",
+          "description": "Role assigned to the member within the workspace",
+          "enum": ["owner", "admin", "member", "viewer"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the membership",
+          "enum": ["active", "invited", "suspended"]
+        },
+        "joinedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the member joined"
+        }
+      },
+      "required": ["id", "userId", "email", "role", "status"]
+    }
+  }
+}

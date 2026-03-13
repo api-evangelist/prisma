@@ -1,0 +1,283 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "prisma": "https://prisma.io/vocab/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "vcard": "http://www.w3.org/2006/vcard/ns#",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+    "dcat": "http://www.w3.org/ns/dcat#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Workspace": {
+      "@id": "prisma:Workspace",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "slug": "prisma:slug",
+        "plan": "prisma:billingPlan",
+        "members": "schema:member",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Project": {
+      "@id": "prisma:Project",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "workspaceId": {
+          "@id": "prisma:workspace",
+          "@type": "@id"
+        },
+        "environments": "prisma:hasEnvironment",
+        "databases": "prisma:hasDatabase",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Environment": {
+      "@id": "prisma:Environment",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "projectId": {
+          "@id": "prisma:project",
+          "@type": "@id"
+        },
+        "connectionString": "prisma:connectionString",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Database": {
+      "@id": "prisma:Database",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "projectId": {
+          "@id": "prisma:project",
+          "@type": "@id"
+        },
+        "region": "prisma:deploymentRegion",
+        "status": "prisma:operationalStatus",
+        "engine": "prisma:databaseEngine",
+        "engineVersion": "schema:softwareVersion",
+        "connectionString": "prisma:connectionString",
+        "apiKeys": "prisma:hasApiKey",
+        "directConnection": "prisma:directConnection",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "DatabaseBackup": {
+      "@id": "prisma:DatabaseBackup",
+      "@context": {
+        "id": "@id",
+        "databaseId": {
+          "@id": "prisma:database",
+          "@type": "@id"
+        },
+        "type": "prisma:backupType",
+        "status": "prisma:operationalStatus",
+        "sizeBytes": {
+          "@id": "schema:contentSize",
+          "@type": "xsd:long"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "completedAt": {
+          "@id": "prisma:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Connection": {
+      "@id": "prisma:Connection",
+      "@context": {
+        "id": "@id",
+        "databaseId": {
+          "@id": "prisma:database",
+          "@type": "@id"
+        },
+        "type": "prisma:connectionType",
+        "connectionString": "prisma:connectionString",
+        "host": "schema:url",
+        "port": "prisma:port",
+        "username": "prisma:username",
+        "database": "prisma:databaseName"
+      }
+    },
+
+    "ApiKey": {
+      "@id": "prisma:ApiKey",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "hint": "prisma:maskedValue",
+        "environmentId": {
+          "@id": "prisma:environment",
+          "@type": "@id"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "WorkspaceMember": {
+      "@id": "prisma:WorkspaceMember",
+      "@context": {
+        "id": "@id",
+        "userId": {
+          "@id": "prisma:user",
+          "@type": "@id"
+        },
+        "email": "schema:email",
+        "role": "prisma:memberRole",
+        "status": "prisma:memberStatus",
+        "joinedAt": {
+          "@id": "prisma:joinedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "CacheStrategy": {
+      "@id": "prisma:CacheStrategy",
+      "@context": {
+        "ttl": {
+          "@id": "prisma:timeToLive",
+          "@type": "xsd:integer"
+        },
+        "swr": {
+          "@id": "prisma:staleWhileRevalidate",
+          "@type": "xsd:integer"
+        },
+        "tags": "prisma:cacheTag"
+      }
+    },
+
+    "AccelerateInfo": {
+      "@id": "prisma:AccelerateInfo",
+      "@context": {
+        "cacheStatus": "prisma:cacheStatus",
+        "lastModified": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "region": "prisma:edgeRegion",
+        "requestId": "prisma:requestIdentifier",
+        "signature": "prisma:responseSignature"
+      }
+    },
+
+    "PulseEvent": {
+      "@id": "prisma:PulseEvent",
+      "@context": {
+        "id": "@id",
+        "action": "prisma:eventAction",
+        "modelName": "prisma:modelName",
+        "created": "prisma:createdRecord",
+        "after": "prisma:afterState",
+        "before": "prisma:beforeState",
+        "deleted": "prisma:deletedRecord"
+      }
+    },
+
+    "RecordingSession": {
+      "@id": "prisma:RecordingSession",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "status": "prisma:sessionStatus",
+        "databaseProvider": "prisma:databaseProvider",
+        "queryCount": {
+          "@id": "prisma:queryCount",
+          "@type": "xsd:integer"
+        },
+        "totalDuration": {
+          "@id": "prisma:totalDuration",
+          "@type": "xsd:float"
+        },
+        "startedAt": {
+          "@id": "schema:startDate",
+          "@type": "xsd:dateTime"
+        },
+        "endedAt": {
+          "@id": "schema:endDate",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "QueryRecommendation": {
+      "@id": "prisma:QueryRecommendation",
+      "@context": {
+        "id": "@id",
+        "severity": "prisma:severity",
+        "category": "prisma:recommendationCategory",
+        "title": "schema:name",
+        "description": "schema:description",
+        "affectedQueries": {
+          "@id": "prisma:affectedQuery",
+          "@type": "@id"
+        },
+        "suggestedAction": "prisma:suggestedAction",
+        "estimatedImpact": "prisma:estimatedImpact"
+      }
+    },
+
+    "SoftwareApplication": "schema:SoftwareApplication",
+    "WebAPI": "schema:WebAPI",
+    "name": "schema:name",
+    "description": "schema:description",
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "email": "schema:email",
+    "version": "schema:version",
+    "provider": {
+      "@id": "schema:provider",
+      "@type": "@id"
+    },
+    "documentation": {
+      "@id": "schema:documentation",
+      "@type": "@id"
+    }
+  }
+}

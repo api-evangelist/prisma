@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prisma.io/schemas/pulse-event.json",
+  "title": "Prisma Pulse Database Event",
+  "description": "A database change event captured by Prisma Pulse through PostgreSQL logical replication. Events represent create, update, or delete operations on database records and include the relevant record data. Event IDs use ULID format for time-ordered uniqueness.",
+  "type": "object",
+  "discriminator": {
+    "propertyName": "action"
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/PulseCreateEvent" },
+    { "$ref": "#/$defs/PulseUpdateEvent" },
+    { "$ref": "#/$defs/PulseDeleteEvent" }
+  ],
+  "$defs": {
+    "PulseCreateEvent": {
+      "type": "object",
+      "title": "Create Event",
+      "description": "Event triggered when a new record is created in the database. Contains the complete data of the newly created record as captured from the PostgreSQL WAL (Write-Ahead Log).",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ULID identifier for the event, providing time-ordered uniqueness",
+          "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "action": {
+          "type": "string",
+          "const": "create",
+          "description": "The type of database operation"
+        },
+        "modelName": {
+          "type": "string",
+          "description": "Name of the Prisma model the event relates to",
+          "examples": ["User", "Post", "Comment"]
+        },
+        "created": {
+          "type": "object",
+          "description": "The full data of the newly created record with all column values",
+          "additionalProperties": true
+        }
+      },
+      "required": ["id", "action", "modelName", "created"]
+    },
+    "PulseUpdateEvent": {
+      "type": "object",
+      "title": "Update Event",
+      "description": "Event triggered when a record is updated. Contains the new values (after) and optionally the previous values (before) if the PostgreSQL table has REPLICA IDENTITY FULL configured.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ULID identifier for the event",
+          "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "action": {
+          "type": "string",
+          "const": "update",
+          "description": "The type of database operation"
+        },
+        "modelName": {
+          "type": "string",
+          "description": "Name of the Prisma model the event relates to"
+        },
+        "after": {
+          "type": "object",
+          "description": "Record field values after the update, always populated",
+          "additionalProperties": true
+        },
+        "before": {
+          "type": ["object", "null"],
+          "description": "Record field values before the update. Only populated when the PostgreSQL table has REPLICA IDENTITY FULL configured; otherwise null.",
+          "additionalProperties": true
+        }
+      },
+      "required": ["id", "action", "modelName", "after"]
+    },
+    "PulseDeleteEvent": {
+      "type": "object",
+      "title": "Delete Event",
+      "description": "Event triggered when a record is deleted. The completeness of the deleted record data depends on the PostgreSQL REPLICA IDENTITY configuration. With default identity, only the primary key is included. With REPLICA IDENTITY FULL, all column values are included.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique ULID identifier for the event",
+          "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+        },
+        "action": {
+          "type": "string",
+          "const": "delete",
+          "description": "The type of database operation"
+        },
+        "modelName": {
+          "type": "string",
+          "description": "Name of the Prisma model the event relates to"
+        },
+        "deleted": {
+          "type": "object",
+          "description": "Data of the deleted record. With default REPLICA IDENTITY, only the primary key columns are included. With REPLICA IDENTITY FULL, all column values are included.",
+          "additionalProperties": true
+        }
+      },
+      "required": ["id", "action", "modelName", "deleted"]
+    }
+  }
+}

@@ -1,0 +1,509 @@
+openapi: 3.1.0
+info:
+  title: Prisma Pulse API
+  description: >-
+    API for Prisma Pulse, a managed Change Data Capture (CDC) service that
+    enables real-time database change events and type-safe subscriptions via
+    Prisma Client. Pulse captures PostgreSQL logical replication events and
+    delivers them through stream() and subscribe() methods. The stream() API
+    provides at-least-once delivery with ordering guarantees and resumability,
+    while subscribe() provides at-most-once delivery for simpler use cases.
+    Events include create, update, and delete operations with full or partial
+    record data depending on PostgreSQL REPLICA IDENTITY configuration.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+externalDocs:
+  description: Prisma Pulse Documentation
+  url: https://www.prisma.io/docs/pulse/database-events
+servers:
+  - url: https://pulse.prisma-data.net
+    description: Prisma Pulse production endpoint
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Streams
+    description: >-
+      Resumable event streams with at-least-once delivery and ordering
+      guarantees. Requires event persistence to be enabled.
+  - name: Subscriptions
+    description: >-
+      Transient event subscriptions with at-most-once delivery. Missed events
+      during downtime are not recovered.
+  - name: Events
+    description: Database change event retrieval and management
+  - name: Health
+    description: Service health and status checks
+paths:
+  /streams:
+    post:
+      operationId: createStream
+      summary: Create a named event stream
+      description: >-
+        Creates a new named event stream for a specific database model. Named
+        streams are resumable, meaning that if the consumer disconnects and
+        reconnects with the same stream name, it will resume from where it
+        left off. Requires event persistence to be enabled on the environment.
+        The stream() API provides at-least-once delivery with correct ordering
+        guarantees.
+      tags:
+        - Streams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamCreateRequest'
+      responses:
+        '201':
+          description: Stream created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: A stream with this name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PulseError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: listStreams
+      summary: List active event streams
+      description: >-
+        Retrieves a list of all active named streams for the current
+        environment, including their status and cursor positions.
+      tags:
+        - Streams
+      responses:
+        '200':
+          description: Successfully retrieved list of streams
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /streams/{streamName}/events:
+    get:
+      operationId: consumeStreamEvents
+      summary: Consume events from a named stream
+      description: >-
+        Opens a long-lived connection to receive events from a named stream.
+        Events are delivered in order with at-least-once delivery guarantees
+        when event persistence is enabled. The connection uses server-sent
+        events (SSE) for real-time delivery. If the stream was previously
+        consumed and has a saved cursor position, events resume from that
+        position.
+      tags:
+        - Streams
+      parameters:
+        - name: streamName
+          in: path
+          required: true
+          description: Name of the stream to consume events from
+          schema:
+            type: string
+            examples:
+              - all-user-events
+      responses:
+        '200':
+          description: >-
+            Event stream opened successfully. Events are delivered as
+            server-sent events.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /streams/{streamName}:
+    delete:
+      operationId: deleteStream
+      summary: Delete a named stream
+      description: >-
+        Permanently removes a named stream and its associated cursor position.
+        Any active consumers will be disconnected. The stream name can be
+        reused after deletion.
+      tags:
+        - Streams
+      parameters:
+        - name: streamName
+          in: path
+          required: true
+          description: Name of the stream to delete
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Stream deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /subscribe:
+    post:
+      operationId: createSubscription
+      summary: Create a transient event subscription
+      description: >-
+        Creates a transient subscription to database change events for a
+        specific model. The subscribe() method provides at-most-once delivery
+        with no ordering guarantees. Events that occur while the subscriber
+        is disconnected are not recovered. For guaranteed delivery, use the
+        stream() API instead.
+      tags:
+        - Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+      responses:
+        '200':
+          description: >-
+            Subscription opened successfully. Events are delivered as
+            server-sent events.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /events/{eventId}:
+    get:
+      operationId: getEvent
+      summary: Get a specific event by ID
+      description: >-
+        Retrieves a specific database change event by its unique ULID
+        identifier. Only available when event persistence is enabled.
+      tags:
+        - Events
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          description: ULID identifier of the event
+          schema:
+            type: string
+            pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+      responses:
+        '200':
+          description: Event retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /health:
+    get:
+      operationId: getHealthStatus
+      summary: Check Pulse service health
+      description: >-
+        Returns the current health status of the Pulse service and its
+        connection to the configured database for change data capture.
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        API key for Pulse authentication provided as a Bearer token. Generated
+        from the Prisma Data Platform Console for each environment.
+  schemas:
+    StreamCreateRequest:
+      type: object
+      description: Request to create a new named event stream
+      properties:
+        name:
+          type: string
+          description: >-
+            Unique name for the stream. Used for resumability; reconnecting
+            with the same name resumes from the last acknowledged position.
+          examples:
+            - all-user-events
+        model:
+          type: string
+          description: The Prisma model name to stream events for
+          examples:
+            - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
+      required:
+        - name
+        - model
+    StreamInfo:
+      type: object
+      description: Information about a named event stream
+      properties:
+        name:
+          type: string
+          description: Name of the stream
+        model:
+          type: string
+          description: Model being streamed
+        status:
+          type: string
+          description: Current status of the stream
+          enum:
+            - active
+            - paused
+            - stopped
+        cursor:
+          type: string
+          description: Current cursor position (ULID of last processed event)
+        createdAt:
+          type: string
+          format: date-time
+          description: When the stream was created
+      required:
+        - name
+        - model
+        - status
+        - createdAt
+    SubscriptionRequest:
+      type: object
+      description: Request to create a transient event subscription
+      properties:
+        model:
+          type: string
+          description: The Prisma model name to subscribe to
+          examples:
+            - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
+      required:
+        - model
+    EventFilter:
+      type: object
+      description: >-
+        Filters to apply to event subscriptions. Filters can target specific
+        event types and field values.
+      properties:
+        create:
+          type: object
+          description: Filter conditions for create events based on scalar fields
+          additionalProperties: true
+        update:
+          type: object
+          description: >-
+            Filter conditions for update events. Uses the after field to
+            filter on post-update values.
+          properties:
+            after:
+              type: object
+              description: Filter on field values after the update
+              additionalProperties: true
+        delete:
+          type: object
+          description: Filter conditions for delete events based on scalar fields
+          additionalProperties: true
+    PulseEvent:
+      type: object
+      description: >-
+        A database change event captured by Prisma Pulse. The structure varies
+        depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
+      properties:
+        id:
+          type: string
+          description: Unique ULID identifier for the event
+          pattern: '^[0-9A-HJKMNP-TV-Z]{26}$'
+        action:
+          type: string
+          description: The type of database operation that triggered the event
+          enum:
+            - create
+            - update
+            - delete
+        modelName:
+          type: string
+          description: Name of the Prisma model the event relates to
+      required:
+        - id
+        - action
+        - modelName
+    PulseCreateEvent:
+      allOf:
+        - $ref: '#/components/schemas/PulseEvent'
+        - type: object
+          description: >-
+            Event triggered when a new record is created in the database.
+            Contains the complete data of the newly created record.
+          properties:
+            action:
+              type: string
+              const: create
+            created:
+              type: object
+              description: The full data of the newly created record
+              additionalProperties: true
+          required:
+            - created
+    PulseUpdateEvent:
+      allOf:
+        - $ref: '#/components/schemas/PulseEvent'
+        - type: object
+          description: >-
+            Event triggered when a record is updated. Contains the new values
+            (after) and optionally the previous values (before) if the table
+            has REPLICA IDENTITY FULL configured in PostgreSQL.
+          properties:
+            action:
+              type: string
+              const: update
+            after:
+              type: object
+              description: Record field values after the update
+              additionalProperties: true
+            before:
+              type: object
+              description: >-
+                Record field values before the update. Only populated when the
+                PostgreSQL table has REPLICA IDENTITY FULL configured.
+              additionalProperties: true
+          required:
+            - after
+    PulseDeleteEvent:
+      allOf:
+        - $ref: '#/components/schemas/PulseEvent'
+        - type: object
+          description: >-
+            Event triggered when a record is deleted. Contains the deleted
+            record data. The completeness of the data depends on the
+            PostgreSQL REPLICA IDENTITY configuration.
+          properties:
+            action:
+              type: string
+              const: delete
+            deleted:
+              type: object
+              description: >-
+                Data of the deleted record. With default REPLICA IDENTITY, only
+                the primary key is included. With REPLICA IDENTITY FULL, all
+                column values are included.
+              additionalProperties: true
+          required:
+            - deleted
+    HealthStatus:
+      type: object
+      description: Health status of the Pulse service
+      properties:
+        status:
+          type: string
+          enum:
+            - healthy
+            - degraded
+            - unavailable
+        replicationStatus:
+          type: string
+          description: Status of the PostgreSQL logical replication connection
+          enum:
+            - connected
+            - disconnected
+            - reconnecting
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the health check
+      required:
+        - status
+        - timestamp
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+        - code
+        - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'

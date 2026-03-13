@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prisma.io/schemas/database.json",
+  "title": "Prisma Postgres Database",
+  "description": "A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure. Includes built-in connection pooling, query caching via Accelerate, and real-time subscription capabilities via Pulse. Databases are provisioned within projects and can be managed through the Management API or the Prisma Console.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the database"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the database",
+      "examples": ["Production Database"]
+    },
+    "projectId": {
+      "type": "string",
+      "description": "Identifier of the parent project"
+    },
+    "region": {
+      "type": "string",
+      "description": "Cloud region where the database is deployed",
+      "enum": ["us-east-1", "us-west-2", "eu-west-1", "eu-central-1", "ap-southeast-1", "ap-northeast-1"]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current operational status of the database",
+      "enum": ["provisioning", "active", "suspended", "deleting", "deleted"]
+    },
+    "engine": {
+      "type": "string",
+      "description": "Database engine type",
+      "const": "postgresql"
+    },
+    "engineVersion": {
+      "type": "string",
+      "description": "PostgreSQL version",
+      "examples": ["17"]
+    },
+    "connectionString": {
+      "type": "string",
+      "description": "Prisma Postgres connection string in prisma+postgres:// format for use with Prisma Client",
+      "examples": ["prisma+postgres://accelerate.prisma-data.net/?api_key=ey..."]
+    },
+    "apiKeys": {
+      "type": "array",
+      "description": "API keys for accessing the database through Prisma's connection pooler",
+      "items": {
+        "$ref": "#/$defs/ApiKey"
+      }
+    },
+    "directConnection": {
+      "$ref": "#/$defs/DirectConnection"
+    },
+    "usage": {
+      "$ref": "#/$defs/DatabaseUsage"
+    },
+    "backups": {
+      "type": "array",
+      "description": "Available backups for the database",
+      "items": {
+        "$ref": "#/$defs/Backup"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the database was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the database was last updated"
+    }
+  },
+  "required": ["id", "projectId", "region", "status", "createdAt", "updatedAt"],
+  "additionalProperties": false,
+  "$defs": {
+    "ApiKey": {
+      "type": "object",
+      "description": "An API key for accessing the database through Prisma's infrastructure",
+      "properties": {
+        "apiKey": {
+          "type": "string",
+          "description": "The API key value"
+        },
+        "connectionString": {
+          "type": "string",
+          "description": "Full connection string incorporating this API key"
+        }
+      },
+      "required": ["apiKey", "connectionString"]
+    },
+    "DirectConnection": {
+      "type": "object",
+      "description": "Direct TCP connection details for connecting to the PostgreSQL instance without Prisma's proxy layer",
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "Database host address"
+        },
+        "port": {
+          "type": "integer",
+          "description": "Database port number",
+          "default": 5432
+        },
+        "username": {
+          "type": "string",
+          "description": "Database username"
+        },
+        "password": {
+          "type": "string",
+          "description": "Database password"
+        },
+        "database": {
+          "type": "string",
+          "description": "Database name"
+        },
+        "sslMode": {
+          "type": "string",
+          "description": "SSL connection mode",
+          "enum": ["require", "verify-ca", "verify-full"],
+          "default": "require"
+        }
+      },
+      "required": ["host", "port", "username", "password", "database"]
+    },
+    "DatabaseUsage": {
+      "type": "object",
+      "description": "Current usage metrics for the database",
+      "properties": {
+        "storageUsedBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total storage consumed in bytes"
+        },
+        "storageLimitBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Storage limit for the current plan in bytes"
+        },
+        "queryCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of queries executed in the current billing period"
+        },
+        "connectionCount": {
+          "type": "integer",
+          "description": "Current number of active connections"
+        }
+      }
+    },
+    "Backup": {
+      "type": "object",
+      "description": "A database backup snapshot",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the backup"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of backup",
+          "enum": ["automatic", "manual"]
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the backup",
+          "enum": ["pending", "in_progress", "completed", "failed"]
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Size of the backup in bytes"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the backup was created"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the backup completed"
+        }
+      },
+      "required": ["id", "type", "status", "createdAt"]
+    }
+  }
+}

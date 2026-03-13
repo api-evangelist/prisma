@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prisma.io/schemas/cache-strategy.json",
+  "title": "Prisma Accelerate Cache Strategy",
+  "description": "Cache configuration for Prisma Accelerate queries. Defines how query results should be cached using TTL (time-to-live) for fresh cache duration and SWR (stale-while-revalidate) for serving stale data while refreshing in the background. Tags enable targeted cache invalidation of specific query results.",
+  "type": "object",
+  "properties": {
+    "ttl": {
+      "type": "integer",
+      "description": "Time-to-live in seconds. Cached results are served directly for this duration without querying the database. After TTL expires, the cache entry is considered stale.",
+      "minimum": 1,
+      "examples": [60, 300, 3600]
+    },
+    "swr": {
+      "type": "integer",
+      "description": "Stale-while-revalidate time in seconds. After TTL expires, stale cached results are served to the client while a background refresh fetches fresh data from the database. The SWR window starts after TTL expiration.",
+      "minimum": 1,
+      "examples": [60, 300, 3600]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Cache tags for targeted invalidation. Each tag is an alphanumeric string with underscores used to identify groups of cached queries that should be invalidated together.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_]{1,64}$",
+        "description": "A cache tag identifier (alphanumeric with underscores, max 64 characters)"
+      },
+      "maxItems": 5,
+      "uniqueItems": true,
+      "examples": [["user_list", "active_users"]]
+    }
+  },
+  "additionalProperties": false
+}
