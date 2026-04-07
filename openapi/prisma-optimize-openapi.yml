@@ -28,14 +28,14 @@ servers:
 security:
   - apiKeyAuth: []
 tags:
-  - name: Sessions
-    description: Recording session management for query capture and analysis
+  - name: Metrics
+    description: Performance metrics and statistics
   - name: Queries
     description: Recorded query retrieval and analysis
   - name: Recommendations
     description: AI-powered query optimization recommendations
-  - name: Metrics
-    description: Performance metrics and statistics
+  - name: Sessions
+    description: Recording session management for query capture and analysis
 paths:
   /sessions:
     post:

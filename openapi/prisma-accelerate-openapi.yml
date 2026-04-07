@@ -26,14 +26,14 @@ servers:
 security:
   - apiKeyAuth: []
 tags:
-  - name: Queries
-    description: >-
-      Proxied database query operations routed through Accelerate with
-      optional caching
   - name: Cache
     description: Cache management and invalidation operations
   - name: Health
     description: Service health and status checks
+  - name: Queries
+    description: >-
+      Proxied database query operations routed through Accelerate with
+      optional caching
 paths:
   /{apiVersion}/{engineHash}/graphql:
     post:

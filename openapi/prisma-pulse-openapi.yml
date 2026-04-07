@@ -28,6 +28,10 @@ servers:
 security:
   - apiKeyAuth: []
 tags:
+  - name: Events
+    description: Database change event retrieval and management
+  - name: Health
+    description: Service health and status checks
   - name: Streams
     description: >-
       Resumable event streams with at-least-once delivery and ordering
@@ -36,10 +40,6 @@ tags:
     description: >-
       Transient event subscriptions with at-most-once delivery. Missed events
       during downtime are not recovered.
-  - name: Events
-    description: Database change event retrieval and management
-  - name: Health
-    description: Service health and status checks
 paths:
   /streams:
     post:

@@ -29,13 +29,13 @@ servers:
       not a REST API. This specification documents the operations available
       when exposed via a REST layer.
 tags:
-  - name: CRUD
-    description: >-
-      Core create, read, update, and delete operations for database models
   - name: Aggregation
     description: Count, aggregate, and groupBy operations for analytics
   - name: Batch
     description: Batch operations for bulk create, update, and delete
+  - name: CRUD
+    description: >-
+      Core create, read, update, and delete operations for database models
   - name: Raw
     description: Raw SQL query execution
 paths:

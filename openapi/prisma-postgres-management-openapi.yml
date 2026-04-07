@@ -26,20 +26,20 @@ servers:
 security:
   - bearerAuth: []
 tags:
-  - name: Workspaces
-    description: Operations for managing Prisma workspaces
-  - name: Projects
-    description: Operations for creating, managing, and deleting projects
-  - name: Databases
-    description: Operations for provisioning and managing Prisma Postgres databases
+  - name: Connections
+    description: Operations for managing database connection strings
   - name: Database Backups
     description: Operations for managing database backup and restore operations
   - name: Database Usage
     description: Operations for retrieving database usage metrics and statistics
-  - name: Connections
-    description: Operations for managing database connection strings
+  - name: Databases
+    description: Operations for provisioning and managing Prisma Postgres databases
   - name: Integrations
     description: Operations for managing third-party integrations
+  - name: Projects
+    description: Operations for creating, managing, and deleting projects
+  - name: Workspaces
+    description: Operations for managing Prisma workspaces
 paths:
   /workspaces:
     get:

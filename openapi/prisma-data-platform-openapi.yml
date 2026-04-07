@@ -24,16 +24,16 @@ servers:
 security:
   - bearerAuth: []
 tags:
-  - name: Workspaces
-    description: Operations for managing Prisma Data Platform workspaces
-  - name: Projects
-    description: Operations for managing projects within workspaces
-  - name: Environments
-    description: Operations for managing project environments
   - name: API Keys
     description: Operations for managing API keys for platform resources
+  - name: Environments
+    description: Operations for managing project environments
   - name: Members
     description: Operations for managing workspace members and roles
+  - name: Projects
+    description: Operations for managing projects within workspaces
+  - name: Workspaces
+    description: Operations for managing Prisma Data Platform workspaces
 paths:
   /workspaces:
     get:
