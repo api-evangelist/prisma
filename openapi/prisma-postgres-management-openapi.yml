@@ -44,7 +44,7 @@ paths:
   /workspaces:
     get:
       operationId: listWorkspaces
-      summary: List all workspaces
+      summary: Prisma List all workspaces
       description: >-
         Retrieves a list of all workspaces accessible to the authenticated
         user or service token. Workspaces are the top-level organizational
@@ -72,7 +72,7 @@ paths:
   /workspaces/{workspaceId}:
     get:
       operationId: getWorkspace
-      summary: Get a workspace
+      summary: Prisma Get a workspace
       description: >-
         Retrieves detailed information about a specific workspace including
         its configuration and billing status.
@@ -98,7 +98,7 @@ paths:
   /workspaces/{workspaceId}/projects:
     get:
       operationId: listProjects
-      summary: List projects in a workspace
+      summary: Prisma List projects in a workspace
       description: >-
         Retrieves all projects within a specified workspace. Projects contain
         databases and their associated configuration.
@@ -128,7 +128,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createProject
-      summary: Create a project with a database
+      summary: Prisma Create a project with a database
       description: >-
         Creates a new project within the specified workspace. A Prisma Postgres
         database is automatically provisioned in the specified region. The
@@ -164,7 +164,7 @@ paths:
   /projects/{projectId}:
     get:
       operationId: getProject
-      summary: Get a project
+      summary: Prisma Get a project
       description: >-
         Retrieves detailed information about a specific project including
         its associated databases.
@@ -189,7 +189,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: deleteProject
-      summary: Delete a project
+      summary: Prisma Delete a project
       description: >-
         Permanently deletes a project and all associated databases, backups,
         and connection strings. This action cannot be undone.
@@ -211,7 +211,7 @@ paths:
   /projects/{projectId}/databases:
     post:
       operationId: createDatabase
-      summary: Create a database in a project
+      summary: Prisma Create a database in a project
       description: >-
         Provisions a new Prisma Postgres database within an existing project.
         The database runs on PostgreSQL v17 using unikernel-based infrastructure
@@ -246,7 +246,7 @@ paths:
   /databases/{databaseId}:
     get:
       operationId: getDatabase
-      summary: Get a database
+      summary: Prisma Get a database
       description: >-
         Retrieves detailed information about a specific Prisma Postgres
         database including its status, region, and connection details.
@@ -271,7 +271,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: deleteDatabase
-      summary: Delete a database
+      summary: Prisma Delete a database
       description: >-
         Permanently deletes a Prisma Postgres database and all its data.
         This action cannot be undone. All associated backups and connection
@@ -294,7 +294,7 @@ paths:
   /databases/{databaseId}/usage:
     get:
       operationId: getDatabaseUsage
-      summary: Get database usage metrics
+      summary: Prisma Get database usage metrics
       description: >-
         Retrieves usage metrics for a specific database including storage
         consumption, query counts, connection counts, and compute utilization
@@ -333,7 +333,7 @@ paths:
   /databases/{databaseId}/backups:
     get:
       operationId: listDatabaseBackups
-      summary: List database backups
+      summary: Prisma List database backups
       description: >-
         Retrieves a list of all backups for a specific database, including
         automatic and manual backups with their status and size.
@@ -363,7 +363,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createDatabaseBackup
-      summary: Create a manual database backup
+      summary: Prisma Create a manual database backup
       description: >-
         Initiates a manual backup of the specified database. The backup
         process runs asynchronously. Use the backup ID to check status.
@@ -394,7 +394,7 @@ paths:
   /databases/{databaseId}/backups/{backupId}/restore:
     post:
       operationId: restoreDatabaseBackup
-      summary: Restore a database from backup
+      summary: Prisma Restore a database from backup
       description: >-
         Restores a database to the state captured in a specific backup. This
         operation replaces the current database content with the backup data.
@@ -435,7 +435,7 @@ paths:
   /databases/{databaseId}/connections:
     get:
       operationId: listConnections
-      summary: List database connection strings
+      summary: Prisma List database connection strings
       description: >-
         Retrieves all connection strings for a specific database, including
         the Prisma Postgres connection string and direct TCP connection details.
@@ -465,7 +465,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createConnection
-      summary: Create a database connection string
+      summary: Prisma Create a database connection string
       description: >-
         Generates a new connection string for the specified database with
         optional configuration for connection pooling and access restrictions.
@@ -499,7 +499,7 @@ paths:
   /connections/{connectionId}:
     delete:
       operationId: deleteConnection
-      summary: Delete a connection string
+      summary: Prisma Delete a connection string
       description: >-
         Permanently revokes and deletes a connection string. Any clients using
         this connection will immediately lose database access.
@@ -526,7 +526,7 @@ paths:
   /integrations:
     get:
       operationId: listIntegrations
-      summary: List configured integrations
+      summary: Prisma List configured integrations
       description: >-
         Retrieves all third-party integrations configured for the current
         workspace or project.

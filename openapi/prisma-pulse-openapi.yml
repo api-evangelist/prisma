@@ -44,7 +44,7 @@ paths:
   /streams:
     post:
       operationId: createStream
-      summary: Create a named event stream
+      summary: Prisma Create a named event stream
       description: >-
         Creates a new named event stream for a specific database model. Named
         streams are resumable, meaning that if the consumer disconnects and
@@ -81,7 +81,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     get:
       operationId: listStreams
-      summary: List active event streams
+      summary: Prisma List active event streams
       description: >-
         Retrieves a list of all active named streams for the current
         environment, including their status and cursor positions.
@@ -106,7 +106,7 @@ paths:
   /streams/{streamName}/events:
     get:
       operationId: consumeStreamEvents
-      summary: Consume events from a named stream
+      summary: Prisma Consume events from a named stream
       description: >-
         Opens a long-lived connection to receive events from a named stream.
         Events are delivered in order with at-least-once delivery guarantees
@@ -143,7 +143,7 @@ paths:
   /streams/{streamName}:
     delete:
       operationId: deleteStream
-      summary: Delete a named stream
+      summary: Prisma Delete a named stream
       description: >-
         Permanently removes a named stream and its associated cursor position.
         Any active consumers will be disconnected. The stream name can be
@@ -169,7 +169,7 @@ paths:
   /subscribe:
     post:
       operationId: createSubscription
-      summary: Create a transient event subscription
+      summary: Prisma Create a transient event subscription
       description: >-
         Creates a transient subscription to database change events for a
         specific model. The subscribe() method provides at-most-once delivery
@@ -202,7 +202,7 @@ paths:
   /events/{eventId}:
     get:
       operationId: getEvent
-      summary: Get a specific event by ID
+      summary: Prisma Get a specific event by ID
       description: >-
         Retrieves a specific database change event by its unique ULID
         identifier. Only available when event persistence is enabled.
@@ -232,7 +232,7 @@ paths:
   /health:
     get:
       operationId: getHealthStatus
-      summary: Check Pulse service health
+      summary: Prisma Check Pulse service health
       description: >-
         Returns the current health status of the Pulse service and its
         connection to the configured database for change data capture.

@@ -38,7 +38,7 @@ paths:
   /workspaces:
     get:
       operationId: listWorkspaces
-      summary: List all workspaces
+      summary: Prisma List all workspaces
       description: >-
         Retrieves a list of all workspaces accessible to the authenticated user.
         Each workspace contains projects, environments, and associated resources.
@@ -65,7 +65,7 @@ paths:
   /workspaces/{workspaceId}:
     get:
       operationId: getWorkspace
-      summary: Get a workspace
+      summary: Prisma Get a workspace
       description: >-
         Retrieves detailed information about a specific workspace including its
         configuration, billing status, and associated projects.
@@ -90,7 +90,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     patch:
       operationId: updateWorkspace
-      summary: Update a workspace
+      summary: Prisma Update a workspace
       description: >-
         Updates the configuration of a specific workspace, such as its name
         or settings.
@@ -124,7 +124,7 @@ paths:
   /workspaces/{workspaceId}/projects:
     get:
       operationId: listProjects
-      summary: List projects in a workspace
+      summary: Prisma List projects in a workspace
       description: >-
         Retrieves all projects within a specified workspace. Each project
         contains environments and database configurations.
@@ -154,7 +154,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createProject
-      summary: Create a project
+      summary: Prisma Create a project
       description: >-
         Creates a new project within the specified workspace with the given
         name and configuration settings.
@@ -188,7 +188,7 @@ paths:
   /projects/{projectId}:
     get:
       operationId: getProject
-      summary: Get a project
+      summary: Prisma Get a project
       description: >-
         Retrieves detailed information about a specific project including its
         environments and database connections.
@@ -213,7 +213,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: deleteProject
-      summary: Delete a project
+      summary: Prisma Delete a project
       description: >-
         Permanently deletes a project and all associated environments and
         resources. This action cannot be undone.
@@ -235,7 +235,7 @@ paths:
   /projects/{projectId}/environments:
     get:
       operationId: listEnvironments
-      summary: List environments for a project
+      summary: Prisma List environments for a project
       description: >-
         Retrieves all environments configured for a specific project. Environments
         represent different deployment stages such as development, staging, and
@@ -266,7 +266,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createEnvironment
-      summary: Create an environment
+      summary: Prisma Create an environment
       description: >-
         Creates a new environment within a project for a specific deployment
         stage with its own database connection and API key.
@@ -300,7 +300,7 @@ paths:
   /environments/{environmentId}:
     get:
       operationId: getEnvironment
-      summary: Get an environment
+      summary: Prisma Get an environment
       description: >-
         Retrieves detailed information about a specific environment including
         its connection configuration and API key status.
@@ -325,7 +325,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: deleteEnvironment
-      summary: Delete an environment
+      summary: Prisma Delete an environment
       description: >-
         Permanently deletes an environment and its associated API keys. This
         action cannot be undone.
@@ -347,7 +347,7 @@ paths:
   /environments/{environmentId}/apikeys:
     get:
       operationId: listApiKeys
-      summary: List API keys for an environment
+      summary: Prisma List API keys for an environment
       description: >-
         Retrieves all API keys associated with a specific environment. API keys
         are used to authenticate Prisma Client requests to platform resources.
@@ -377,7 +377,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: createApiKey
-      summary: Create an API key
+      summary: Prisma Create an API key
       description: >-
         Generates a new API key for the specified environment. The full API key
         value is only returned once during creation and cannot be retrieved later.
@@ -411,7 +411,7 @@ paths:
   /apikeys/{apiKeyId}:
     delete:
       operationId: deleteApiKey
-      summary: Delete an API key
+      summary: Prisma Delete an API key
       description: >-
         Permanently revokes and deletes an API key. Any clients using this
         key will immediately lose access.
@@ -438,7 +438,7 @@ paths:
   /workspaces/{workspaceId}/members:
     get:
       operationId: listWorkspaceMembers
-      summary: List workspace members
+      summary: Prisma List workspace members
       description: >-
         Retrieves all members of a workspace including their roles and
         invitation status.

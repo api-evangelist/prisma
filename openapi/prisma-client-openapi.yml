@@ -42,7 +42,7 @@ paths:
   /{model}:
     get:
       operationId: findMany
-      summary: Find multiple records
+      summary: Prisma Find multiple records
       description: >-
         Retrieves multiple records from the specified model with optional
         filtering, ordering, pagination, and relation loading. Supports
@@ -117,7 +117,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     post:
       operationId: create
-      summary: Create a new record
+      summary: Prisma Create a new record
       description: >-
         Creates a new record in the specified model with the provided data.
         Supports nested creation of related records via create and
@@ -153,7 +153,7 @@ paths:
   /{model}/{id}:
     get:
       operationId: findUnique
-      summary: Find a unique record
+      summary: Prisma Find a unique record
       description: >-
         Retrieves a single record by its unique identifier or compound unique
         constraint. Returns null if no record matches. Use select to specify
@@ -186,7 +186,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     put:
       operationId: update
-      summary: Update a record
+      summary: Prisma Update a record
       description: >-
         Updates an existing record identified by its unique identifier. Supports
         atomic number operations (increment, decrement, multiply, divide),
@@ -222,7 +222,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: deleteRecord
-      summary: Delete a record
+      summary: Prisma Delete a record
       description: >-
         Permanently deletes a single record identified by its unique
         identifier. Returns the deleted record data. Cascading deletes
@@ -246,7 +246,7 @@ paths:
   /{model}/upsert:
     post:
       operationId: upsert
-      summary: Upsert a record
+      summary: Prisma Upsert a record
       description: >-
         Updates a record if it exists matching the where condition, or creates
         a new record if no match is found. Requires both create and update
@@ -275,7 +275,7 @@ paths:
   /{model}/first:
     get:
       operationId: findFirst
-      summary: Find the first matching record
+      summary: Prisma Find the first matching record
       description: >-
         Returns the first record that matches the filter criteria. Supports
         the same filtering and ordering options as findMany. Returns null
@@ -318,7 +318,7 @@ paths:
   /{model}/count:
     get:
       operationId: count
-      summary: Count matching records
+      summary: Prisma Count matching records
       description: >-
         Returns the count of records matching the filter criteria. Optionally
         provides field-level counts showing how many non-null values exist
@@ -357,7 +357,7 @@ paths:
   /{model}/aggregate:
     get:
       operationId: aggregate
-      summary: Aggregate records
+      summary: Prisma Aggregate records
       description: >-
         Performs aggregate calculations on matching records. Supports _count,
         _avg, _sum, _min, and _max operations on numeric fields with optional
@@ -410,7 +410,7 @@ paths:
   /{model}/groupBy:
     get:
       operationId: groupBy
-      summary: Group records and aggregate
+      summary: Prisma Group records and aggregate
       description: >-
         Groups records by one or more fields and applies aggregate functions
         within each group. Supports filtering groups with having conditions
@@ -456,7 +456,7 @@ paths:
   /{model}/createMany:
     post:
       operationId: createMany
-      summary: Create multiple records
+      summary: Prisma Create multiple records
       description: >-
         Inserts multiple records in a single transaction. Optionally skips
         records that would violate unique constraints. Returns a count of
@@ -486,7 +486,7 @@ paths:
   /{model}/updateMany:
     patch:
       operationId: updateMany
-      summary: Update multiple records
+      summary: Prisma Update multiple records
       description: >-
         Updates all records matching the filter criteria with the provided
         data. Returns a count of the number of records updated. Does not
@@ -515,7 +515,7 @@ paths:
   /{model}/deleteMany:
     delete:
       operationId: deleteMany
-      summary: Delete multiple records
+      summary: Prisma Delete multiple records
       description: >-
         Deletes all records matching the filter criteria. Returns a count of
         the number of records deleted. If no filter is provided, all records
@@ -543,7 +543,7 @@ paths:
   /raw/query:
     post:
       operationId: queryRaw
-      summary: Execute a raw SQL query
+      summary: Prisma Execute a raw SQL query
       description: >-
         Executes a raw SQL SELECT query against the database and returns the
         result set. Use parameterized queries to prevent SQL injection.
@@ -572,7 +572,7 @@ paths:
   /raw/execute:
     post:
       operationId: executeRaw
-      summary: Execute a raw SQL statement
+      summary: Prisma Execute a raw SQL statement
       description: >-
         Executes a raw SQL statement (INSERT, UPDATE, DELETE, DDL) against
         the database and returns the number of affected rows.

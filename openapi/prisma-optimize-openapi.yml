@@ -40,7 +40,7 @@ paths:
   /sessions:
     post:
       operationId: createSession
-      summary: Create a recording session
+      summary: Prisma Create a recording session
       description: >-
         Creates a new query recording session. The Optimize extension captures
         all Prisma Client queries executed during an active session and sends
@@ -71,7 +71,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     get:
       operationId: listSessions
-      summary: List recording sessions
+      summary: Prisma List recording sessions
       description: >-
         Retrieves a list of all recording sessions for the current environment,
         including their status, duration, and query counts.
@@ -122,7 +122,7 @@ paths:
   /sessions/{sessionId}:
     get:
       operationId: getSession
-      summary: Get a recording session
+      summary: Prisma Get a recording session
       description: >-
         Retrieves detailed information about a specific recording session
         including query statistics and analysis status.
@@ -145,7 +145,7 @@ paths:
           $ref: '#/components/responses/InternalServerError'
     delete:
       operationId: stopSession
-      summary: Stop a recording session
+      summary: Prisma Stop a recording session
       description: >-
         Stops an active recording session and finalizes the captured query
         data for analysis. Once stopped, no new queries will be captured
@@ -170,7 +170,7 @@ paths:
   /sessions/{sessionId}/queries:
     get:
       operationId: listSessionQueries
-      summary: List queries from a session
+      summary: Prisma List queries from a session
       description: >-
         Retrieves all queries captured during a specific recording session.
         Queries include the operation type, execution time, affected model,
@@ -222,7 +222,7 @@ paths:
   /sessions/{sessionId}/queries/{queryId}:
     get:
       operationId: getQueryDetails
-      summary: Get query details
+      summary: Prisma Get query details
       description: >-
         Retrieves detailed information about a specific recorded query
         including the full SQL, execution plan, and performance metrics.
@@ -252,7 +252,7 @@ paths:
   /sessions/{sessionId}/recommendations:
     get:
       operationId: listRecommendations
-      summary: List optimization recommendations
+      summary: Prisma List optimization recommendations
       description: >-
         Retrieves AI-powered optimization recommendations for queries
         captured in the session. Recommendations include suggestions for
@@ -296,7 +296,7 @@ paths:
   /sessions/{sessionId}/metrics:
     get:
       operationId: getSessionMetrics
-      summary: Get session performance metrics
+      summary: Prisma Get session performance metrics
       description: >-
         Retrieves aggregated performance metrics for all queries in a session
         including total execution time, average query duration, slowest
@@ -321,7 +321,7 @@ paths:
   /ingest:
     post:
       operationId: ingestQueryData
-      summary: Ingest query execution data
+      summary: Prisma Ingest query execution data
       description: >-
         Receives query execution data from the Prisma Optimize extension
         running in development. This endpoint is called automatically by

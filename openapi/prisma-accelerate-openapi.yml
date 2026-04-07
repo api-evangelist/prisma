@@ -38,7 +38,7 @@ paths:
   /{apiVersion}/{engineHash}/graphql:
     post:
       operationId: executeQuery
-      summary: Execute a proxied database query
+      summary: Prisma Execute a proxied database query
       description: >-
         Executes a Prisma Client query through the Accelerate proxy. The proxy
         manages connection pooling, applies caching strategies based on the
@@ -116,7 +116,7 @@ paths:
   /invalidate:
     post:
       operationId: invalidateCacheByTags
-      summary: Invalidate cache entries by tags
+      summary: Prisma Invalidate cache entries by tags
       description: >-
         Invalidates cached query results that were tagged with the specified
         cache tags. Up to 5 tags can be specified per request. Tags are
@@ -159,7 +159,7 @@ paths:
   /invalidate-all:
     post:
       operationId: invalidateAllCache
-      summary: Invalidate all cache entries
+      summary: Prisma Invalidate all cache entries
       description: >-
         Clears the entire cache for the current environment. Use with caution
         as this affects all cached queries in the environment and may cause
@@ -186,7 +186,7 @@ paths:
   /health:
     get:
       operationId: getHealthStatus
-      summary: Check Accelerate service health
+      summary: Prisma Check Accelerate service health
       description: >-
         Returns the current health status of the Accelerate proxy service
         including regional availability information.
@@ -286,8 +286,8 @@ components:
             pattern: '^[a-zA-Z0-9_]{1,64}$'
           maxItems: 5
           examples:
-            - - user_list
-              - active_users
+            -   - user_list
+                - active_users
     AccelerateInfo:
       type: object
       description: Cache metadata returned alongside query results
