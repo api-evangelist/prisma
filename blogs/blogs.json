@@ -1,0 +1,13 @@
+{
+  "repo": "prisma",
+  "feeds": [
+    {
+      "source": "https://www.prisma.io/blog",
+      "feed_url": "https://www.prisma.io/blog/rss.xml",
+      "saved": 10,
+      "title": "Prisma Blog"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-05-03T23:34:23Z"
+}
