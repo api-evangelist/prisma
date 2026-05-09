@@ -4,10 +4,10 @@
     {
       "source": "https://www.prisma.io/blog",
       "feed_url": "https://www.prisma.io/blog/rss.xml",
-      "saved": 10,
-      "title": "Prisma Blog"
+      "title": "Prisma Blog",
+      "saved": 4
     }
   ],
-  "post_count": 10,
-  "fetched": "2026-05-03T23:34:23Z"
+  "post_count": 14,
+  "fetched": "2026-05-09T20:17:51Z"
 }
