@@ -206,6 +206,28 @@ common:
     url: json-schema/prisma-pulse-event-schema.json
   - type: JSON Schema
     url: json-schema/prisma-query-recommendation-schema.json
+  - type: Integrations
+    url: https://www.prisma.io/partners
+integrations:
+  - name: Gatsby
+  - name: Rapha
+  - name: Poppy
+  - name: Panther
+  - name: Grover
+  - name: Invisible
+  - name: Elsevier
+  - name: Tryg
+  - name: IHI
+  - name: Insta
+  - name: Outrider
+  - name: Oxio
+  - name: Southpole
+  - name: Arnau
+  - name: Sam Goodwin
+  - name: GDPR
+  - name: HIPAA
+  - name: ISO 27001
+  - name: SOC 2
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
