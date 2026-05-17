@@ -25,7 +25,7 @@ apis:
         url: openapi/prisma-data-platform-openapi.yml
       - type: Authentication
         url: https://www.prisma.io/docs/management-api/authentication
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/console/getting-started
     contact:
       - FN: Prisma Support
@@ -47,7 +47,7 @@ apis:
         url: https://www.prisma.io/docs/accelerate
       - type: OpenAPI
         url: openapi/prisma-accelerate-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/accelerate/getting-started
       - type: Reference
         url: https://www.prisma.io/docs/accelerate/reference/api-reference
@@ -73,7 +73,7 @@ apis:
         url: https://www.prisma.io/docs/pulse/database-events
       - type: OpenAPI
         url: openapi/prisma-pulse-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/pulse/getting-started
       - type: FAQ
         url: https://www.prisma.io/docs/pulse/faq
@@ -97,7 +97,7 @@ apis:
         url: https://www.prisma.io/docs/postgres/introduction/management-api
       - type: OpenAPI
         url: openapi/prisma-postgres-management-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/guides/management-api-basic
       - type: Authentication
         url: https://www.prisma.io/docs/management-api/authentication
@@ -124,7 +124,7 @@ apis:
         url: openapi/prisma-client-openapi.yml
       - type: Reference
         url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
       - type: SDKs
         url: https://www.npmjs.com/package/@prisma/client
@@ -147,7 +147,7 @@ apis:
         url: https://www.prisma.io/docs/optimize
       - type: OpenAPI
         url: openapi/prisma-optimize-openapi.yml
-      - type: Getting Started
+      - type: GettingStarted
         url: https://www.prisma.io/docs/optimize/getting-started
       - type: SDKs
         url: https://www.npmjs.com/package/@prisma/extension-optimize
@@ -160,15 +160,15 @@ common:
     url: https://console.prisma.io/login
   - type: Documentation
     url: https://www.prisma.io/docs
-  - type: Getting Started
+  - type: GettingStarted
     url: https://www.prisma.io/docs/getting-started
   - type: Authentication
     url: https://www.prisma.io/docs/management-api/authentication
   - type: Blog
     url: https://www.prisma.io/blog
-  - type: Change Log
+  - type: ChangeLog
     url: https://www.prisma.io/changelog
-  - type: GitHub Organization
+  - type: GitHubOrganization
     url: https://github.com/prisma
   - type: Community
     url: https://www.prisma.io/community
@@ -178,19 +178,19 @@ common:
     url: https://twitter.com/prisma
   - type: Pricing
     url: https://www.prisma.io/pricing
-  - type: Status
+  - type: StatusPage
     url: https://www.prisma-status.com
   - type: Support
     url: https://www.prisma.io/support
-  - type: Terms of Service
+  - type: TermsOfService
     url: https://www.prisma.io/terms
-  - type: Privacy Policy
+  - type: PrivacyPolicy
     url: https://www.prisma.io/privacy
   - type: Website
     url: https://www.prisma.io
   - type: Login
     url: https://console.prisma.io/login
-  - type: Sign Up
+  - type: SignUp
     url: https://console.prisma.io/sign-up
   - type: JSON-LD Context
     url: json-ld/prisma-context.jsonld
