@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Optimize API — Recommendations
+  description: 'Prisma Optimize API — Recommendations. 1 operations. Lead operation: Prisma List optimization recommendations.
+    Self-contained Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Recommendations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: optimize-recommendations
+    baseUri: https://optimize.prisma-data.net
+    description: Prisma Optimize API — Recommendations business capability. Self-contained, no shared references.
+    resources:
+    - name: sessions-sessionId-recommendations
+      path: /sessions/{sessionId}/recommendations
+      operations:
+      - name: listrecommendations
+        method: GET
+        description: Prisma List optimization recommendations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: severity
+          in: query
+          type: string
+          description: Filter recommendations by severity level
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PRISMA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: optimize-recommendations-rest
+    port: 8080
+    description: REST adapter for Prisma Optimize API — Recommendations. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sessions/{sessionid}/recommendations
+      name: sessions-sessionid-recommendations
+      description: REST surface for sessions-sessionId-recommendations.
+      operations:
+      - method: GET
+        name: listrecommendations
+        description: Prisma List optimization recommendations
+        call: optimize-recommendations.listrecommendations
+        with:
+          severity: rest.severity
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: optimize-recommendations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Optimize API — Recommendations. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: prisma-list-optimization-recommendations
+      description: Prisma List optimization recommendations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: optimize-recommendations.listrecommendations
+      with:
+        severity: tools.severity
+      outputParameters:
+      - type: object
+        mapping: $.

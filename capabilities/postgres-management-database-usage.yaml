@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Postgres Management API — Database Usage
+  description: 'Prisma Postgres Management API — Database Usage. 1 operations. Lead operation: Prisma Get database usage metrics.
+    Self-contained Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Database Usage
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: postgres-management-database-usage
+    baseUri: https://api.prisma.io/v1
+    description: Prisma Postgres Management API — Database Usage business capability. Self-contained, no shared references.
+    resources:
+    - name: databases-databaseId-usage
+      path: /databases/{databaseId}/usage
+      operations:
+      - name: getdatabaseusage
+        method: GET
+        description: Prisma Get database usage metrics
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: startDate
+          in: query
+          type: string
+          description: Start date for the usage metrics period (ISO 8601 format)
+        - name: endDate
+          in: query
+          type: string
+          description: End date for the usage metrics period (ISO 8601 format)
+    authentication:
+      type: bearer
+      token: '{{env.PRISMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: postgres-management-database-usage-rest
+    port: 8080
+    description: REST adapter for Prisma Postgres Management API — Database Usage. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/databases/{databaseid}/usage
+      name: databases-databaseid-usage
+      description: REST surface for databases-databaseId-usage.
+      operations:
+      - method: GET
+        name: getdatabaseusage
+        description: Prisma Get database usage metrics
+        call: postgres-management-database-usage.getdatabaseusage
+        with:
+          startDate: rest.startDate
+          endDate: rest.endDate
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: postgres-management-database-usage-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Postgres Management API — Database Usage. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: prisma-get-database-usage-metrics
+      description: Prisma Get database usage metrics
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: postgres-management-database-usage.getdatabaseusage
+      with:
+        startDate: tools.startDate
+        endDate: tools.endDate
+      outputParameters:
+      - type: object
+        mapping: $.

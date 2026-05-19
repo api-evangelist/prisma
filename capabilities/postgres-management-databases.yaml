@@ -1,0 +1,137 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Postgres Management API — Databases
+  description: 'Prisma Postgres Management API — Databases. 3 operations. Lead operation: Prisma Get a database. Self-contained
+    Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Databases
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: postgres-management-databases
+    baseUri: https://api.prisma.io/v1
+    description: Prisma Postgres Management API — Databases business capability. Self-contained, no shared references.
+    resources:
+    - name: databases-databaseId
+      path: /databases/{databaseId}
+      operations:
+      - name: getdatabase
+        method: GET
+        description: Prisma Get a database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletedatabase
+        method: DELETE
+        description: Prisma Delete a database
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: projects-projectId-databases
+      path: /projects/{projectId}/databases
+      operations:
+      - name: createdatabase
+        method: POST
+        description: Prisma Create a database in a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.PRISMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: postgres-management-databases-rest
+    port: 8080
+    description: REST adapter for Prisma Postgres Management API — Databases. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/databases/{databaseid}
+      name: databases-databaseid
+      description: REST surface for databases-databaseId.
+      operations:
+      - method: GET
+        name: getdatabase
+        description: Prisma Get a database
+        call: postgres-management-databases.getdatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletedatabase
+        description: Prisma Delete a database
+        call: postgres-management-databases.deletedatabase
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{projectid}/databases
+      name: projects-projectid-databases
+      description: REST surface for projects-projectId-databases.
+      operations:
+      - method: POST
+        name: createdatabase
+        description: Prisma Create a database in a project
+        call: postgres-management-databases.createdatabase
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: postgres-management-databases-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Postgres Management API — Databases. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: prisma-get-database
+      description: Prisma Get a database
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: postgres-management-databases.getdatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-delete-database
+      description: Prisma Delete a database
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: postgres-management-databases.deletedatabase
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-create-database-project
+      description: Prisma Create a database in a project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: postgres-management-databases.createdatabase
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

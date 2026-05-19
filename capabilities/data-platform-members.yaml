@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Data Platform API — Members
+  description: 'Prisma Data Platform API — Members. 1 operations. Lead operation: Prisma List workspace members. Self-contained
+    Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Members
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-platform-members
+    baseUri: https://api.cloud.prisma.io
+    description: Prisma Data Platform API — Members business capability. Self-contained, no shared references.
+    resources:
+    - name: workspaces-workspaceId-members
+      path: /workspaces/{workspaceId}/members
+      operations:
+      - name: listworkspacemembers
+        method: GET
+        description: Prisma List workspace members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.PRISMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: data-platform-members-rest
+    port: 8080
+    description: REST adapter for Prisma Data Platform API — Members. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/workspaces/{workspaceid}/members
+      name: workspaces-workspaceid-members
+      description: REST surface for workspaces-workspaceId-members.
+      operations:
+      - method: GET
+        name: listworkspacemembers
+        description: Prisma List workspace members
+        call: data-platform-members.listworkspacemembers
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-platform-members-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Data Platform API — Members. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: prisma-list-workspace-members
+      description: Prisma List workspace members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-platform-members.listworkspacemembers
+      outputParameters:
+      - type: object
+        mapping: $.

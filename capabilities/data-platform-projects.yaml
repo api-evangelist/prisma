@@ -1,0 +1,162 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Data Platform API — Projects
+  description: 'Prisma Data Platform API — Projects. 4 operations. Lead operation: Prisma Get a project. Self-contained Naftiko
+    capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Projects
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-platform-projects
+    baseUri: https://api.cloud.prisma.io
+    description: Prisma Data Platform API — Projects business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-projectId
+      path: /projects/{projectId}
+      operations:
+      - name: getproject
+        method: GET
+        description: Prisma Get a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deleteproject
+        method: DELETE
+        description: Prisma Delete a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: workspaces-workspaceId-projects
+      path: /workspaces/{workspaceId}/projects
+      operations:
+      - name: listprojects
+        method: GET
+        description: Prisma List projects in a workspace
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createproject
+        method: POST
+        description: Prisma Create a project
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.PRISMA_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: data-platform-projects-rest
+    port: 8080
+    description: REST adapter for Prisma Data Platform API — Projects. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/projects/{projectid}
+      name: projects-projectid
+      description: REST surface for projects-projectId.
+      operations:
+      - method: GET
+        name: getproject
+        description: Prisma Get a project
+        call: data-platform-projects.getproject
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproject
+        description: Prisma Delete a project
+        call: data-platform-projects.deleteproject
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/workspaces/{workspaceid}/projects
+      name: workspaces-workspaceid-projects
+      description: REST surface for workspaces-workspaceId-projects.
+      operations:
+      - method: GET
+        name: listprojects
+        description: Prisma List projects in a workspace
+        call: data-platform-projects.listprojects
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproject
+        description: Prisma Create a project
+        call: data-platform-projects.createproject
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-platform-projects-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Data Platform API — Projects. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: prisma-get-project
+      description: Prisma Get a project
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-platform-projects.getproject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-delete-project
+      description: Prisma Delete a project
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: data-platform-projects.deleteproject
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-list-projects-workspace
+      description: Prisma List projects in a workspace
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-platform-projects.listprojects
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-create-project
+      description: Prisma Create a project
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: data-platform-projects.createproject
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Client API — Batch
+  description: 'Prisma Client API — Batch. 3 operations. Lead operation: Prisma Create multiple records. Self-contained Naftiko
+    capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Batch
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: client-batch
+    baseUri: https://localhost:3000/api
+    description: Prisma Client API — Batch business capability. Self-contained, no shared references.
+    resources:
+    - name: model-createMany
+      path: /{model}/createMany
+      operations:
+      - name: createmany
+        method: POST
+        description: Prisma Create multiple records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: model-deleteMany
+      path: /{model}/deleteMany
+      operations:
+      - name: deletemany
+        method: DELETE
+        description: Prisma Delete multiple records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: where
+          in: query
+          type: string
+          description: JSON-encoded filter conditions
+    - name: model-updateMany
+      path: /{model}/updateMany
+      operations:
+      - name: updatemany
+        method: PATCH
+        description: Prisma Update multiple records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: client-batch-rest
+    port: 8080
+    description: REST adapter for Prisma Client API — Batch. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/{model}/createmany
+      name: model-createmany
+      description: REST surface for model-createMany.
+      operations:
+      - method: POST
+        name: createmany
+        description: Prisma Create multiple records
+        call: client-batch.createmany
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{model}/deletemany
+      name: model-deletemany
+      description: REST surface for model-deleteMany.
+      operations:
+      - method: DELETE
+        name: deletemany
+        description: Prisma Delete multiple records
+        call: client-batch.deletemany
+        with:
+          where: rest.where
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{model}/updatemany
+      name: model-updatemany
+      description: REST surface for model-updateMany.
+      operations:
+      - method: PATCH
+        name: updatemany
+        description: Prisma Update multiple records
+        call: client-batch.updatemany
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: client-batch-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Client API — Batch. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: prisma-create-multiple-records
+      description: Prisma Create multiple records
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: client-batch.createmany
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-delete-multiple-records
+      description: Prisma Delete multiple records
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: client-batch.deletemany
+      with:
+        where: tools.where
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-update-multiple-records
+      description: Prisma Update multiple records
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: client-batch.updatemany
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

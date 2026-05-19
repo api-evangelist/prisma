@@ -1,0 +1,361 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Client API — CRUD
+  description: 'Prisma Client API — CRUD. 7 operations. Lead operation: Prisma Find multiple records. Self-contained Naftiko
+    capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - CRUD
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: client-crud
+    baseUri: https://localhost:3000/api
+    description: Prisma Client API — CRUD business capability. Self-contained, no shared references.
+    resources:
+    - name: model
+      path: /{model}
+      operations:
+      - name: findmany
+        method: GET
+        description: Prisma Find multiple records
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: where
+          in: query
+          type: string
+          description: JSON-encoded filter conditions using Prisma query operators
+        - name: orderBy
+          in: query
+          type: string
+          description: JSON-encoded sort specification with field names and asc/desc
+        - name: take
+          in: query
+          type: integer
+          description: Number of records to return. Negative values reverse the order.
+        - name: skip
+          in: query
+          type: integer
+          description: Number of records to skip for offset pagination
+        - name: cursor
+          in: query
+          type: string
+          description: JSON-encoded cursor position for cursor-based pagination
+        - name: select
+          in: query
+          type: string
+          description: JSON-encoded field selection specifying which properties to include
+        - name: include
+          in: query
+          type: string
+          description: JSON-encoded relation loading specification for eager loading
+        - name: distinct
+          in: query
+          type: string
+          description: JSON-encoded list of fields to deduplicate results by
+      - name: create
+        method: POST
+        description: Prisma Create a new record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: model-first
+      path: /{model}/first
+      operations:
+      - name: findfirst
+        method: GET
+        description: Prisma Find the first matching record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: where
+          in: query
+          type: string
+          description: JSON-encoded filter conditions
+        - name: orderBy
+          in: query
+          type: string
+          description: JSON-encoded sort specification
+        - name: select
+          in: query
+          type: string
+          description: JSON-encoded field selection
+        - name: include
+          in: query
+          type: string
+          description: JSON-encoded relation loading specification
+    - name: model-upsert
+      path: /{model}/upsert
+      operations:
+      - name: upsert
+        method: POST
+        description: Prisma Upsert a record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: model-id
+      path: /{model}/{id}
+      operations:
+      - name: findunique
+        method: GET
+        description: Prisma Find a unique record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: select
+          in: query
+          type: string
+          description: JSON-encoded field selection
+        - name: include
+          in: query
+          type: string
+          description: JSON-encoded relation loading specification
+      - name: update
+        method: PUT
+        description: Prisma Update a record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleterecord
+        method: DELETE
+        description: Prisma Delete a record
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: client-crud-rest
+    port: 8080
+    description: REST adapter for Prisma Client API — CRUD. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/{model}
+      name: model
+      description: REST surface for model.
+      operations:
+      - method: GET
+        name: findmany
+        description: Prisma Find multiple records
+        call: client-crud.findmany
+        with:
+          where: rest.where
+          orderBy: rest.orderBy
+          take: rest.take
+          skip: rest.skip
+          cursor: rest.cursor
+          select: rest.select
+          include: rest.include
+          distinct: rest.distinct
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: create
+        description: Prisma Create a new record
+        call: client-crud.create
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{model}/first
+      name: model-first
+      description: REST surface for model-first.
+      operations:
+      - method: GET
+        name: findfirst
+        description: Prisma Find the first matching record
+        call: client-crud.findfirst
+        with:
+          where: rest.where
+          orderBy: rest.orderBy
+          select: rest.select
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{model}/upsert
+      name: model-upsert
+      description: REST surface for model-upsert.
+      operations:
+      - method: POST
+        name: upsert
+        description: Prisma Upsert a record
+        call: client-crud.upsert
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/{model}/{id}
+      name: model-id
+      description: REST surface for model-id.
+      operations:
+      - method: GET
+        name: findunique
+        description: Prisma Find a unique record
+        call: client-crud.findunique
+        with:
+          select: rest.select
+          include: rest.include
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: update
+        description: Prisma Update a record
+        call: client-crud.update
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleterecord
+        description: Prisma Delete a record
+        call: client-crud.deleterecord
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: client-crud-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Client API — CRUD. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: prisma-find-multiple-records
+      description: Prisma Find multiple records
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: client-crud.findmany
+      with:
+        where: tools.where
+        orderBy: tools.orderBy
+        take: tools.take
+        skip: tools.skip
+        cursor: tools.cursor
+        select: tools.select
+        include: tools.include
+        distinct: tools.distinct
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-create-new-record
+      description: Prisma Create a new record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: client-crud.create
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-find-first-matching-record
+      description: Prisma Find the first matching record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: client-crud.findfirst
+      with:
+        where: tools.where
+        orderBy: tools.orderBy
+        select: tools.select
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-upsert-record
+      description: Prisma Upsert a record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: client-crud.upsert
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-find-unique-record
+      description: Prisma Find a unique record
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: client-crud.findunique
+      with:
+        select: tools.select
+        include: tools.include
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-update-record
+      description: Prisma Update a record
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: client-crud.update
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-delete-record
+      description: Prisma Delete a record
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: client-crud.deleterecord
+      outputParameters:
+      - type: object
+        mapping: $.

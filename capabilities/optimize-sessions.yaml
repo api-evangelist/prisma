@@ -1,0 +1,185 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Optimize API — Sessions
+  description: 'Prisma Optimize API — Sessions. 4 operations. Lead operation: Prisma Create a recording session. Self-contained
+    Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Sessions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: optimize-sessions
+    baseUri: https://optimize.prisma-data.net
+    description: Prisma Optimize API — Sessions business capability. Self-contained, no shared references.
+    resources:
+    - name: sessions
+      path: /sessions
+      operations:
+      - name: createsession
+        method: POST
+        description: Prisma Create a recording session
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: listsessions
+        method: GET
+        description: Prisma List recording sessions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter sessions by status
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of sessions to return
+        - name: offset
+          in: query
+          type: integer
+          description: Number of sessions to skip for pagination
+    - name: sessions-sessionId
+      path: /sessions/{sessionId}
+      operations:
+      - name: getsession
+        method: GET
+        description: Prisma Get a recording session
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: stopsession
+        method: DELETE
+        description: Prisma Stop a recording session
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PRISMA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: optimize-sessions-rest
+    port: 8080
+    description: REST adapter for Prisma Optimize API — Sessions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sessions
+      name: sessions
+      description: REST surface for sessions.
+      operations:
+      - method: POST
+        name: createsession
+        description: Prisma Create a recording session
+        call: optimize-sessions.createsession
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: GET
+        name: listsessions
+        description: Prisma List recording sessions
+        call: optimize-sessions.listsessions
+        with:
+          status: rest.status
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/sessions/{sessionid}
+      name: sessions-sessionid
+      description: REST surface for sessions-sessionId.
+      operations:
+      - method: GET
+        name: getsession
+        description: Prisma Get a recording session
+        call: optimize-sessions.getsession
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: stopsession
+        description: Prisma Stop a recording session
+        call: optimize-sessions.stopsession
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: optimize-sessions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Optimize API — Sessions. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: prisma-create-recording-session
+      description: Prisma Create a recording session
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: optimize-sessions.createsession
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-list-recording-sessions
+      description: Prisma List recording sessions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: optimize-sessions.listsessions
+      with:
+        status: tools.status
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-get-recording-session
+      description: Prisma Get a recording session
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: optimize-sessions.getsession
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: prisma-stop-recording-session
+      description: Prisma Stop a recording session
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: optimize-sessions.stopsession
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Pulse API — Health
+  description: 'Prisma Pulse API — Health. 1 operations. Lead operation: Prisma Check Pulse service health. Self-contained
+    Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Health
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pulse-health
+    baseUri: https://pulse.prisma-data.net
+    description: Prisma Pulse API — Health business capability. Self-contained, no shared references.
+    resources:
+    - name: health
+      path: /health
+      operations:
+      - name: gethealthstatus
+        method: GET
+        description: Prisma Check Pulse service health
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PRISMA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pulse-health-rest
+    port: 8080
+    description: REST adapter for Prisma Pulse API — Health. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/health
+      name: health
+      description: REST surface for health.
+      operations:
+      - method: GET
+        name: gethealthstatus
+        description: Prisma Check Pulse service health
+        call: pulse-health.gethealthstatus
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pulse-health-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Pulse API — Health. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: prisma-check-pulse-service-health
+      description: Prisma Check Pulse service health
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pulse-health.gethealthstatus
+      outputParameters:
+      - type: object
+        mapping: $.

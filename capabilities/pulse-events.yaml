@@ -1,0 +1,82 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Prisma Pulse API — Events
+  description: 'Prisma Pulse API — Events. 1 operations. Lead operation: Prisma Get a specific event by ID. Self-contained
+    Naftiko capability covering one Prisma business surface.'
+  tags:
+  - Prisma
+  - Events
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    PRISMA_API_KEY: PRISMA_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: pulse-events
+    baseUri: https://pulse.prisma-data.net
+    description: Prisma Pulse API — Events business capability. Self-contained, no shared references.
+    resources:
+    - name: events-eventId
+      path: /events/{eventId}
+      operations:
+      - name: getevent
+        method: GET
+        description: Prisma Get a specific event by ID
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: eventId
+          in: path
+          type: string
+          description: ULID identifier of the event
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.PRISMA_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: pulse-events-rest
+    port: 8080
+    description: REST adapter for Prisma Pulse API — Events. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/events/{eventid}
+      name: events-eventid
+      description: REST surface for events-eventId.
+      operations:
+      - method: GET
+        name: getevent
+        description: Prisma Get a specific event by ID
+        call: pulse-events.getevent
+        with:
+          eventId: rest.eventId
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: pulse-events-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Prisma Pulse API — Events. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: prisma-get-specific-event-id
+      description: Prisma Get a specific event by ID
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: pulse-events.getevent
+      with:
+        eventId: tools.eventId
+      outputParameters:
+      - type: object
+        mapping: $.
