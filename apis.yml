@@ -3,7 +3,7 @@ description: Prisma is a next-generation ORM that helps developers build applica
 image: https://www.prisma.io/images/prisma-logo.svg
 url: https://www.prisma.io
 created: '2024'
-modified: '2026-04-28'
+modified: '2026-05-19'
 specificationVersion: '0.18'
 apis:
   - name: Prisma Data Platform API
@@ -208,6 +208,12 @@ common:
     url: json-schema/prisma-query-recommendation-schema.json
   - type: Integrations
     url: https://www.prisma.io/partners
+  - name: MCP Server
+    url: https://github.com/prisma/mcp
+    type: MCPServer
+  - name: Agent Skills
+    url: https://github.com/prisma/skills
+    type: AgentSkill
 integrations:
   - name: Gatsby
   - name: Rapha
