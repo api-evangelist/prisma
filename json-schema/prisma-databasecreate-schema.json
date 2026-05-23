@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DatabaseCreate",
+  "title": "DatabaseCreate",
+  "type": "object",
+  "description": "Request body for creating a new database",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name for the database"
+    },
+    "region": {
+      "type": "string",
+      "description": "Region where the database should be provisioned",
+      "enum": [
+        "us-east-1",
+        "us-west-2",
+        "eu-west-1",
+        "eu-central-1",
+        "ap-southeast-1",
+        "ap-northeast-1"
+      ]
+    }
+  },
+  "required": [
+    "region"
+  ]
+}

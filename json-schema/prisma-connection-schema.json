@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Connection",
+  "title": "Connection",
+  "type": "object",
+  "description": "A database connection string configuration",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the connection"
+    },
+    "databaseId": {
+      "type": "string",
+      "description": "Identifier of the associated database"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of connection",
+      "enum": [
+        "prisma",
+        "direct"
+      ]
+    },
+    "connectionString": {
+      "type": "string",
+      "description": "The connection string with credentials masked"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the connection was created"
+    }
+  },
+  "required": [
+    "id",
+    "databaseId",
+    "type",
+    "createdAt"
+  ]
+}

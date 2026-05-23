@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StreamInfo",
+  "title": "StreamInfo",
+  "type": "object",
+  "description": "Information about a named event stream",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the stream"
+    },
+    "model": {
+      "type": "string",
+      "description": "Model being streamed"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the stream",
+      "enum": [
+        "active",
+        "paused",
+        "stopped"
+      ]
+    },
+    "cursor": {
+      "type": "string",
+      "description": "Current cursor position (ULID of last processed event)"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the stream was created"
+    }
+  },
+  "required": [
+    "name",
+    "model",
+    "status",
+    "createdAt"
+  ]
+}

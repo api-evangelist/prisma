@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PulseEvent",
+  "title": "PulseEvent",
+  "type": "object",
+  "description": "A database change event captured by Prisma Pulse. The structure varies depending on the action type.",
+  "discriminator": {
+    "propertyName": "action",
+    "mapping": {
+      "create": "#/components/schemas/PulseCreateEvent",
+      "update": "#/components/schemas/PulseUpdateEvent",
+      "delete": "#/components/schemas/PulseDeleteEvent"
+    }
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique ULID identifier for the event",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$"
+    },
+    "action": {
+      "type": "string",
+      "description": "The type of database operation that triggered the event",
+      "enum": [
+        "create",
+        "update",
+        "delete"
+      ]
+    },
+    "modelName": {
+      "type": "string",
+      "description": "Name of the Prisma model the event relates to"
+    }
+  },
+  "required": [
+    "id",
+    "action",
+    "modelName"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpsertInput",
+  "title": "UpsertInput",
+  "type": "object",
+  "description": "Input data for upserting a record",
+  "properties": {
+    "where": {
+      "type": "object",
+      "description": "Unique identifier to search for an existing record",
+      "additionalProperties": true
+    },
+    "create": {
+      "type": "object",
+      "description": "Data to use if creating a new record",
+      "additionalProperties": true
+    },
+    "update": {
+      "type": "object",
+      "description": "Data to use if updating an existing record",
+      "additionalProperties": true
+    },
+    "select": {
+      "type": "object",
+      "description": "Fields to include in the returned record",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "include": {
+      "type": "object",
+      "description": "Relations to eagerly load in the returned record",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    }
+  },
+  "required": [
+    "where",
+    "create",
+    "update"
+  ]
+}

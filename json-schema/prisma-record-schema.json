@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Record",
+  "title": "Record",
+  "type": "object",
+  "description": "A database record. The structure depends on the model schema and select/include options used in the query.",
+  "additionalProperties": true
+}

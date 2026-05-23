@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CacheStrategy",
+  "title": "CacheStrategy",
+  "type": "object",
+  "description": "Cache configuration for a specific query. Defines how long results should be cached and how stale data should be handled.",
+  "properties": {
+    "ttl": {
+      "type": "integer",
+      "description": "Time-to-live in seconds. Cached results are served directly for this duration without querying the database.",
+      "minimum": 1,
+      "examples": [
+        60
+      ]
+    },
+    "swr": {
+      "type": "integer",
+      "description": "Stale-while-revalidate time in seconds. After TTL expires, stale cached results are served while a background refresh occurs.",
+      "minimum": 1,
+      "examples": [
+        60
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "description": "Cache tags for targeted invalidation. Each tag must be alphanumeric with underscores, maximum 64 characters.",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_]{1,64}$"
+      },
+      "maxItems": 5,
+      "examples": [
+        [
+          "user_list",
+          "active_users"
+        ]
+      ]
+    }
+  }
+}

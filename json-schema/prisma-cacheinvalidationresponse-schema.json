@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CacheInvalidationResponse",
+  "title": "CacheInvalidationResponse",
+  "type": "object",
+  "description": "Confirmation of cache invalidation",
+  "properties": {
+    "success": {
+      "type": "boolean",
+      "description": "Whether the invalidation was successful"
+    },
+    "invalidatedTags": {
+      "type": "array",
+      "description": "Tags that were successfully invalidated",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

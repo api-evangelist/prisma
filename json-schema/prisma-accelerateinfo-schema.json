@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AccelerateInfo",
+  "title": "AccelerateInfo",
+  "type": "object",
+  "description": "Cache metadata returned alongside query results",
+  "properties": {
+    "cacheStatus": {
+      "type": "string",
+      "description": "Indicates how the response was served relative to the cache",
+      "enum": [
+        "ttl",
+        "swr",
+        "miss",
+        "none"
+      ]
+    },
+    "lastModified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the cached data was last refreshed from the database"
+    },
+    "region": {
+      "type": "string",
+      "description": "The edge region that processed the request",
+      "examples": [
+        "us-east-1"
+      ]
+    },
+    "requestId": {
+      "type": "string",
+      "description": "Unique identifier for request tracing"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Response signature for cache verification"
+    }
+  },
+  "required": [
+    "cacheStatus",
+    "requestId"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AggregateResult",
+  "title": "AggregateResult",
+  "type": "object",
+  "description": "Result of an aggregation operation",
+  "properties": {
+    "_count": {
+      "type": "object",
+      "description": "Count of records or field-level counts",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "_avg": {
+      "type": "object",
+      "description": "Average values for numeric fields",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "_sum": {
+      "type": "object",
+      "description": "Sum of numeric field values",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "_min": {
+      "type": "object",
+      "description": "Minimum values per field",
+      "additionalProperties": true
+    },
+    "_max": {
+      "type": "object",
+      "description": "Maximum values per field",
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EventFilter",
+  "title": "EventFilter",
+  "type": "object",
+  "description": "Filters to apply to event subscriptions. Filters can target specific event types and field values.",
+  "properties": {
+    "create": {
+      "type": "object",
+      "description": "Filter conditions for create events based on scalar fields",
+      "additionalProperties": true
+    },
+    "update": {
+      "type": "object",
+      "description": "Filter conditions for update events. Uses the after field to filter on post-update values.",
+      "properties": {
+        "after": {
+          "type": "object",
+          "description": "Filter on field values after the update",
+          "additionalProperties": true
+        }
+      }
+    },
+    "delete": {
+      "type": "object",
+      "description": "Filter conditions for delete events based on scalar fields",
+      "additionalProperties": true
+    }
+  }
+}

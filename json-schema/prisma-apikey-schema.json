@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiKey",
+  "title": "ApiKey",
+  "type": "object",
+  "description": "An API key used to authenticate Prisma Client requests to Data Platform resources. The key value is only available at creation time.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the API key"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the API key"
+    },
+    "hint": {
+      "type": "string",
+      "description": "Masked hint showing the last few characters of the key",
+      "examples": [
+        "****abc123"
+      ]
+    },
+    "environmentId": {
+      "type": "string",
+      "description": "Identifier of the associated environment"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the API key was created"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "hint",
+    "environmentId",
+    "createdAt"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WorkspaceMember",
+  "title": "WorkspaceMember",
+  "type": "object",
+  "description": "A member of a workspace with an assigned role",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the membership"
+    },
+    "userId": {
+      "type": "string",
+      "description": "Identifier of the user"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the member"
+    },
+    "role": {
+      "type": "string",
+      "description": "Role assigned to the member within the workspace",
+      "enum": [
+        "owner",
+        "admin",
+        "member",
+        "viewer"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the membership",
+      "enum": [
+        "active",
+        "invited",
+        "suspended"
+      ]
+    },
+    "joinedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the member joined the workspace"
+    }
+  },
+  "required": [
+    "id",
+    "userId",
+    "email",
+    "role",
+    "status"
+  ]
+}

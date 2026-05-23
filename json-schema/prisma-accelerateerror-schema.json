@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AccelerateError",
+  "title": "AccelerateError",
+  "type": "object",
+  "description": "Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Accelerate-specific error code (P6xxx format)",
+      "pattern": "^P6[0-9]{3}$",
+      "examples": [
+        "P6003"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error description"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional error context",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "code",
+    "message"
+  ]
+}

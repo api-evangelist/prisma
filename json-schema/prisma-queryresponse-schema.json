@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QueryResponse",
+  "title": "QueryResponse",
+  "type": "object",
+  "description": "Response from a proxied query through Accelerate",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "The query result data",
+      "additionalProperties": true
+    },
+    "errors": {
+      "type": "array",
+      "description": "Any errors that occurred during query execution",
+      "items": {
+        "$ref": "#/components/schemas/AccelerateError"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Response extensions including cache metadata",
+      "properties": {
+        "accelerateInfo": {
+          "$ref": "#/components/schemas/AccelerateInfo"
+        }
+      }
+    }
+  }
+}

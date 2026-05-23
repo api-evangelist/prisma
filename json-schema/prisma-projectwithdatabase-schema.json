@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProjectWithDatabase",
+  "title": "ProjectWithDatabase",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/Project"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "databases": {
+          "type": "array",
+          "description": "Databases associated with the project",
+          "items": {
+            "$ref": "#/components/schemas/Database"
+          }
+        }
+      }
+    }
+  ]
+}

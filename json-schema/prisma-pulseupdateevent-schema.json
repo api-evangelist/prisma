@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PulseUpdateEvent",
+  "title": "PulseUpdateEvent",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/PulseEvent"
+    },
+    {
+      "type": "object",
+      "description": "Event triggered when a record is updated. Contains the new values (after) and optionally the previous values (before) if the table has REPLICA IDENTITY FULL configured in PostgreSQL.",
+      "properties": {
+        "action": {
+          "type": "string",
+          "const": "update"
+        },
+        "after": {
+          "type": "object",
+          "description": "Record field values after the update",
+          "additionalProperties": true
+        },
+        "before": {
+          "type": "object",
+          "description": "Record field values before the update. Only populated when the PostgreSQL table has REPLICA IDENTITY FULL configured.",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "after"
+      ]
+    }
+  ]
+}

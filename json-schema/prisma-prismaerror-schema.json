@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PrismaError",
+  "title": "PrismaError",
+  "type": "object",
+  "description": "Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Prisma error code (e.g., P2002 for unique constraint violation)",
+      "pattern": "^P[0-9]{4}$",
+      "examples": [
+        "P2002",
+        "P2025"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable error description"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional error context",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "code",
+    "message"
+  ]
+}

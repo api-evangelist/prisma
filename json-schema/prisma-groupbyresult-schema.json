@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/GroupByResult",
+  "title": "GroupByResult",
+  "type": "object",
+  "description": "A single group result from a groupBy operation",
+  "additionalProperties": true
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DatabaseApiKey",
+  "title": "DatabaseApiKey",
+  "type": "object",
+  "description": "An API key for accessing the database",
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "description": "The API key value"
+    },
+    "connectionString": {
+      "type": "string",
+      "description": "Full connection string incorporating this API key"
+    }
+  },
+  "required": [
+    "apiKey",
+    "connectionString"
+  ]
+}

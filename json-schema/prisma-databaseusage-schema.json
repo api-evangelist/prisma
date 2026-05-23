@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DatabaseUsage",
+  "title": "DatabaseUsage",
+  "type": "object",
+  "description": "Usage metrics for a database over a specified period",
+  "properties": {
+    "databaseId": {
+      "type": "string",
+      "description": "Identifier of the database"
+    },
+    "period": {
+      "type": "object",
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the metrics period"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "End date of the metrics period"
+        }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "description": "Storage usage metrics",
+      "properties": {
+        "usedBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total storage consumed in bytes"
+        },
+        "limitBytes": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Storage limit for the current plan in bytes"
+        }
+      }
+    },
+    "queries": {
+      "type": "object",
+      "description": "Query execution metrics",
+      "properties": {
+        "totalCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Total number of queries executed"
+        },
+        "readCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of read queries executed"
+        },
+        "writeCount": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Number of write queries executed"
+        }
+      }
+    },
+    "connections": {
+      "type": "object",
+      "description": "Connection pool metrics",
+      "properties": {
+        "peakCount": {
+          "type": "integer",
+          "description": "Peak number of concurrent connections"
+        },
+        "averageCount": {
+          "type": "number",
+          "format": "float",
+          "description": "Average number of concurrent connections"
+        }
+      }
+    }
+  },
+  "required": [
+    "databaseId",
+    "period"
+  ]
+}

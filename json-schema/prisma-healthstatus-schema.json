@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/HealthStatus",
+  "title": "HealthStatus",
+  "type": "object",
+  "description": "Health status of the Accelerate service",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "unavailable"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "description": "Region of the health check responder"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the health check"
+    }
+  },
+  "required": [
+    "status",
+    "timestamp"
+  ]
+}

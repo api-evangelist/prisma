@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DatabaseBackup",
+  "title": "DatabaseBackup",
+  "type": "object",
+  "description": "A backup of a Prisma Postgres database",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the backup"
+    },
+    "databaseId": {
+      "type": "string",
+      "description": "Identifier of the source database"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of backup",
+      "enum": [
+        "automatic",
+        "manual"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the backup",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed"
+      ]
+    },
+    "sizeBytes": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Size of the backup in bytes"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the backup was created"
+    },
+    "completedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the backup completed"
+    }
+  },
+  "required": [
+    "id",
+    "databaseId",
+    "type",
+    "status",
+    "createdAt"
+  ]
+}

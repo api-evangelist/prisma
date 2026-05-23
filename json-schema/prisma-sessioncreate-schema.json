@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SessionCreate",
+  "title": "SessionCreate",
+  "type": "object",
+  "description": "Request body for creating a new recording session",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Optional display name for the session",
+      "examples": [
+        "Feature development session"
+      ]
+    },
+    "databaseProvider": {
+      "type": "string",
+      "description": "The database provider being used",
+      "enum": [
+        "postgresql",
+        "mysql",
+        "cockroachdb",
+        "sqlserver"
+      ]
+    }
+  },
+  "required": [
+    "databaseProvider"
+  ]
+}

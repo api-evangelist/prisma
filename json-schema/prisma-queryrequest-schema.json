@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QueryRequest",
+  "title": "QueryRequest",
+  "type": "object",
+  "description": "A Prisma query request routed through the Accelerate proxy",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "The Prisma query operation serialized as a GraphQL query string"
+    },
+    "variables": {
+      "type": "object",
+      "description": "Variables for the query operation",
+      "additionalProperties": true
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Query extensions including cache strategy configuration",
+      "properties": {
+        "cacheStrategy": {
+          "$ref": "#/components/schemas/CacheStrategy"
+        }
+      }
+    }
+  },
+  "required": [
+    "query"
+  ]
+}

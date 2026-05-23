@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApiKeyWithValue",
+  "title": "ApiKeyWithValue",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/ApiKey"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "apiKey": {
+          "type": "string",
+          "description": "The full API key value. This is only returned once during creation and cannot be retrieved later.",
+          "examples": [
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          ]
+        }
+      },
+      "required": [
+        "apiKey"
+      ]
+    }
+  ]
+}

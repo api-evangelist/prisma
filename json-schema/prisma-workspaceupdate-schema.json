@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/WorkspaceUpdate",
+  "title": "WorkspaceUpdate",
+  "type": "object",
+  "description": "Fields that can be updated on a workspace",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "New display name for the workspace"
+    }
+  }
+}

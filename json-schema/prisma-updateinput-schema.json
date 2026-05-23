@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateInput",
+  "title": "UpdateInput",
+  "type": "object",
+  "description": "Input data for updating a record",
+  "properties": {
+    "data": {
+      "type": "object",
+      "description": "The field values to update",
+      "additionalProperties": true
+    },
+    "select": {
+      "type": "object",
+      "description": "Fields to include in the returned record",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "include": {
+      "type": "object",
+      "description": "Relations to eagerly load in the returned record",
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    }
+  },
+  "required": [
+    "data"
+  ]
+}

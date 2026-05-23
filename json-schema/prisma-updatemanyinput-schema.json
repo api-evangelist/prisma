@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/UpdateManyInput",
+  "title": "UpdateManyInput",
+  "type": "object",
+  "description": "Input data for updating multiple records",
+  "properties": {
+    "where": {
+      "type": "object",
+      "description": "Filter conditions to select records to update",
+      "additionalProperties": true
+    },
+    "data": {
+      "type": "object",
+      "description": "Field values to update",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "data"
+  ]
+}

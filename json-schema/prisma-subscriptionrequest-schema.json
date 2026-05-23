@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SubscriptionRequest",
+  "title": "SubscriptionRequest",
+  "type": "object",
+  "description": "Request to create a transient event subscription",
+  "properties": {
+    "model": {
+      "type": "string",
+      "description": "The Prisma model name to subscribe to",
+      "examples": [
+        "User"
+      ]
+    },
+    "filter": {
+      "$ref": "#/components/schemas/EventFilter"
+    }
+  },
+  "required": [
+    "model"
+  ]
+}

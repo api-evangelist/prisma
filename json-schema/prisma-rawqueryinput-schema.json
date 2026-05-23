@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RawQueryInput",
+  "title": "RawQueryInput",
+  "type": "object",
+  "description": "Input for raw SQL query execution",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "The SQL query string with $1, $2 parameter placeholders",
+      "examples": [
+        "SELECT * FROM \"User\" WHERE email = $1"
+      ]
+    },
+    "parameters": {
+      "type": "array",
+      "description": "Parameter values for the query placeholders",
+      "items": {}
+    }
+  },
+  "required": [
+    "query"
+  ]
+}

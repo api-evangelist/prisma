@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BatchPayload",
+  "title": "BatchPayload",
+  "type": "object",
+  "description": "Result of a batch operation with the count of affected records",
+  "properties": {
+    "count": {
+      "type": "integer",
+      "description": "Number of records affected by the operation",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "count"
+  ]
+}

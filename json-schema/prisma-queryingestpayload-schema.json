@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/QueryIngestPayload",
+  "title": "QueryIngestPayload",
+  "type": "object",
+  "description": "Payload sent by the Optimize extension containing query execution data",
+  "properties": {
+    "sessionId": {
+      "type": "string",
+      "description": "Active session to associate the queries with"
+    },
+    "queries": {
+      "type": "array",
+      "description": "Array of query execution records",
+      "items": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "type": "string",
+            "description": "Prisma Client operation name"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model name"
+          },
+          "sql": {
+            "type": "string",
+            "description": "Generated SQL"
+          },
+          "duration": {
+            "type": "number",
+            "format": "float",
+            "description": "Execution duration in milliseconds"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Execution timestamp"
+          }
+        },
+        "required": [
+          "operation",
+          "duration",
+          "timestamp"
+        ]
+      }
+    }
+  },
+  "required": [
+    "sessionId",
+    "queries"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RecordedQuery",
+  "title": "RecordedQuery",
+  "type": "object",
+  "description": "A query captured during a recording session",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the recorded query"
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "Identifier of the parent session"
+    },
+    "operation": {
+      "type": "string",
+      "description": "The Prisma Client operation that was executed",
+      "enum": [
+        "findUnique",
+        "findFirst",
+        "findMany",
+        "create",
+        "createMany",
+        "update",
+        "updateMany",
+        "upsert",
+        "delete",
+        "deleteMany",
+        "count",
+        "aggregate",
+        "groupBy",
+        "queryRaw",
+        "executeRaw"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "description": "The Prisma model the query operates on",
+      "examples": [
+        "User",
+        "Post"
+      ]
+    },
+    "sql": {
+      "type": "string",
+      "description": "The generated SQL query"
+    },
+    "duration": {
+      "type": "number",
+      "format": "float",
+      "description": "Query execution time in milliseconds"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the query was executed"
+    },
+    "params": {
+      "type": "object",
+      "description": "Query parameters (sanitized)",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "id",
+    "sessionId",
+    "operation",
+    "duration",
+    "timestamp"
+  ]
+}

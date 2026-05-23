@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentCreate",
+  "title": "EnvironmentCreate",
+  "type": "object",
+  "description": "Request body for creating a new environment",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name for the new environment",
+      "examples": [
+        "Staging"
+      ]
+    },
+    "connectionString": {
+      "type": "string",
+      "description": "Database connection string for the environment"
+    }
+  },
+  "required": [
+    "name",
+    "connectionString"
+  ]
+}

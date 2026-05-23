@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Session",
+  "title": "Session",
+  "type": "object",
+  "description": "A query recording session for performance analysis",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the session"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the session"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the session",
+      "enum": [
+        "active",
+        "completed",
+        "expired"
+      ]
+    },
+    "databaseProvider": {
+      "type": "string",
+      "description": "Database provider used during the session",
+      "enum": [
+        "postgresql",
+        "mysql",
+        "cockroachdb",
+        "sqlserver"
+      ]
+    },
+    "queryCount": {
+      "type": "integer",
+      "description": "Total number of queries captured",
+      "minimum": 0
+    },
+    "totalDuration": {
+      "type": "number",
+      "format": "float",
+      "description": "Total query execution time in milliseconds"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the recording session started"
+    },
+    "endedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the recording session ended (null if active)"
+    }
+  },
+  "required": [
+    "id",
+    "status",
+    "databaseProvider",
+    "queryCount",
+    "startedAt"
+  ]
+}

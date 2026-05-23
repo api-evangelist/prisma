@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Integration",
+  "title": "Integration",
+  "type": "object",
+  "description": "A third-party integration configuration",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the integration"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the integration"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Integration provider identifier"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the integration",
+      "enum": [
+        "active",
+        "inactive",
+        "error"
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the integration was configured"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "provider",
+    "status",
+    "createdAt"
+  ]
+}

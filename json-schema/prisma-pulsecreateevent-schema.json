@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PulseCreateEvent",
+  "title": "PulseCreateEvent",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/PulseEvent"
+    },
+    {
+      "type": "object",
+      "description": "Event triggered when a new record is created in the database. Contains the complete data of the newly created record.",
+      "properties": {
+        "action": {
+          "type": "string",
+          "const": "create"
+        },
+        "created": {
+          "type": "object",
+          "description": "The full data of the newly created record",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "created"
+      ]
+    }
+  ]
+}

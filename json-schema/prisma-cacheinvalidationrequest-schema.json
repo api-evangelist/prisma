@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CacheInvalidationRequest",
+  "title": "CacheInvalidationRequest",
+  "type": "object",
+  "description": "Request to invalidate cache entries by their associated tags",
+  "properties": {
+    "tags": {
+      "type": "array",
+      "description": "Tags identifying which cache entries to invalidate",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9_]{1,64}$"
+      },
+      "minItems": 1,
+      "maxItems": 5
+    }
+  },
+  "required": [
+    "tags"
+  ]
+}

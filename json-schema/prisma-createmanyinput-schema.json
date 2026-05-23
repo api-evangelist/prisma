@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateManyInput",
+  "title": "CreateManyInput",
+  "type": "object",
+  "description": "Input data for creating multiple records",
+  "properties": {
+    "data": {
+      "type": "array",
+      "description": "Array of records to create",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "skipDuplicates": {
+      "type": "boolean",
+      "description": "Skip records that violate unique constraints",
+      "default": false
+    }
+  },
+  "required": [
+    "data"
+  ]
+}

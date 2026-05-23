@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StreamCreateRequest",
+  "title": "StreamCreateRequest",
+  "type": "object",
+  "description": "Request to create a new named event stream",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique name for the stream. Used for resumability; reconnecting with the same name resumes from the last acknowledged position.",
+      "examples": [
+        "all-user-events"
+      ]
+    },
+    "model": {
+      "type": "string",
+      "description": "The Prisma model name to stream events for",
+      "examples": [
+        "User"
+      ]
+    },
+    "filter": {
+      "$ref": "#/components/schemas/EventFilter"
+    }
+  },
+  "required": [
+    "name",
+    "model"
+  ]
+}

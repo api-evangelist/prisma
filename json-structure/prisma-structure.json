@@ -1,0 +1,317 @@
+{
+  "provider": "Prisma",
+  "providerId": "prisma",
+  "kind": "json-structure",
+  "description": "Structural overview of the Prisma API surface; extracted from openapi/.",
+  "schemaCount": 16,
+  "operationCount": 17,
+  "schemas": [
+    {
+      "name": "Workspace",
+      "type": "object",
+      "propertyCount": 6,
+      "required": [
+        "id",
+        "name",
+        "slug",
+        "plan",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "name": "Project",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "id",
+        "name",
+        "workspaceId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "name": "ProjectCreate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name",
+        "region"
+      ]
+    },
+    {
+      "name": "ProjectWithDatabase",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Database",
+      "type": "object",
+      "propertyCount": 10,
+      "required": [
+        "id",
+        "projectId",
+        "region",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    {
+      "name": "DatabaseCreate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "region"
+      ]
+    },
+    {
+      "name": "DatabaseApiKey",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "apiKey",
+        "connectionString"
+      ]
+    },
+    {
+      "name": "DirectConnection",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "host",
+        "port",
+        "username",
+        "password",
+        "database"
+      ]
+    },
+    {
+      "name": "DatabaseUsage",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "databaseId",
+        "period"
+      ]
+    },
+    {
+      "name": "DatabaseBackup",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "id",
+        "databaseId",
+        "type",
+        "status",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "BackupCreate",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "Connection",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "id",
+        "databaseId",
+        "type",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "ConnectionCreate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "type"
+      ]
+    },
+    {
+      "name": "ConnectionWithCredentials",
+      "type": null,
+      "propertyCount": 0,
+      "required": []
+    },
+    {
+      "name": "Integration",
+      "type": "object",
+      "propertyCount": 5,
+      "required": [
+        "id",
+        "name",
+        "provider",
+        "status",
+        "createdAt"
+      ]
+    },
+    {
+      "name": "Error",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/workspaces",
+      "operationId": "listWorkspaces",
+      "summary": "Prisma List all workspaces",
+      "tags": [
+        "Workspaces"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/workspaces/{workspaceId}",
+      "operationId": "getWorkspace",
+      "summary": "Prisma Get a workspace",
+      "tags": [
+        "Workspaces"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/workspaces/{workspaceId}/projects",
+      "operationId": "listProjects",
+      "summary": "Prisma List projects in a workspace",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/workspaces/{workspaceId}/projects",
+      "operationId": "createProject",
+      "summary": "Prisma Create a project with a database",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{projectId}",
+      "operationId": "getProject",
+      "summary": "Prisma Get a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{projectId}",
+      "operationId": "deleteProject",
+      "summary": "Prisma Delete a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{projectId}/databases",
+      "operationId": "createDatabase",
+      "summary": "Prisma Create a database in a project",
+      "tags": [
+        "Databases"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/databases/{databaseId}",
+      "operationId": "getDatabase",
+      "summary": "Prisma Get a database",
+      "tags": [
+        "Databases"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/databases/{databaseId}",
+      "operationId": "deleteDatabase",
+      "summary": "Prisma Delete a database",
+      "tags": [
+        "Databases"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/databases/{databaseId}/usage",
+      "operationId": "getDatabaseUsage",
+      "summary": "Prisma Get database usage metrics",
+      "tags": [
+        "Database Usage"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/databases/{databaseId}/backups",
+      "operationId": "listDatabaseBackups",
+      "summary": "Prisma List database backups",
+      "tags": [
+        "Database Backups"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/databases/{databaseId}/backups",
+      "operationId": "createDatabaseBackup",
+      "summary": "Prisma Create a manual database backup",
+      "tags": [
+        "Database Backups"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/databases/{databaseId}/backups/{backupId}/restore",
+      "operationId": "restoreDatabaseBackup",
+      "summary": "Prisma Restore a database from backup",
+      "tags": [
+        "Database Backups"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/databases/{databaseId}/connections",
+      "operationId": "listConnections",
+      "summary": "Prisma List database connection strings",
+      "tags": [
+        "Connections"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/databases/{databaseId}/connections",
+      "operationId": "createConnection",
+      "summary": "Prisma Create a database connection string",
+      "tags": [
+        "Connections"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/connections/{connectionId}",
+      "operationId": "deleteConnection",
+      "summary": "Prisma Delete a connection string",
+      "tags": [
+        "Connections"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/integrations",
+      "operationId": "listIntegrations",
+      "summary": "Prisma List configured integrations",
+      "tags": [
+        "Integrations"
+      ]
+    }
+  ]
+}

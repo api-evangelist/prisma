@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Recommendation",
+  "title": "Recommendation",
+  "type": "object",
+  "description": "An AI-powered optimization recommendation for a query pattern",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the recommendation"
+    },
+    "severity": {
+      "type": "string",
+      "description": "Severity level of the recommendation",
+      "enum": [
+        "critical",
+        "warning",
+        "info"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the optimization",
+      "enum": [
+        "indexing",
+        "query_structure",
+        "caching",
+        "select_optimization",
+        "n_plus_one",
+        "batch_operation",
+        "connection_management"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title summarizing the recommendation",
+      "examples": [
+        "Add index on User.email for faster lookups"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed explanation of the issue and recommended fix"
+    },
+    "affectedQueries": {
+      "type": "array",
+      "description": "Query IDs that this recommendation applies to",
+      "items": {
+        "type": "string"
+      }
+    },
+    "suggestedAction": {
+      "type": "string",
+      "description": "Specific code or schema change to implement"
+    },
+    "estimatedImpact": {
+      "type": "string",
+      "description": "Expected performance improvement",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "severity",
+    "category",
+    "title",
+    "description"
+  ]
+}

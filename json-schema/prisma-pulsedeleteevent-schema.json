@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PulseDeleteEvent",
+  "title": "PulseDeleteEvent",
+  "allOf": [
+    {
+      "$ref": "#/components/schemas/PulseEvent"
+    },
+    {
+      "type": "object",
+      "description": "Event triggered when a record is deleted. Contains the deleted record data. The completeness of the data depends on the PostgreSQL REPLICA IDENTITY configuration.",
+      "properties": {
+        "action": {
+          "type": "string",
+          "const": "delete"
+        },
+        "deleted": {
+          "type": "object",
+          "description": "Data of the deleted record. With default REPLICA IDENTITY, only the primary key is included. With REPLICA IDENTITY FULL, all column values are included.",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "deleted"
+      ]
+    }
+  ]
+}

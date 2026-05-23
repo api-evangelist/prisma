@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BackupCreate",
+  "title": "BackupCreate",
+  "type": "object",
+  "description": "Request body for creating a manual backup",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Optional label for the backup"
+    }
+  }
+}

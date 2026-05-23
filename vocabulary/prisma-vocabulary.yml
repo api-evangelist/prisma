@@ -1,0 +1,19 @@
+name: Prisma Domain Vocabulary
+provider: Prisma
+providerId: prisma
+description: Tag-derived vocabulary for the Prisma API surface; sourced from openapi/ tags.
+terms:
+- term: Connections
+  description: Operations for managing database connection strings
+- term: Database Backups
+  description: Operations for managing database backup and restore operations
+- term: Database Usage
+  description: Operations for retrieving database usage metrics and statistics
+- term: Databases
+  description: Operations for provisioning and managing Prisma Postgres databases
+- term: Integrations
+  description: Operations for managing third-party integrations
+- term: Projects
+  description: Operations for creating, managing, and deleting projects
+- term: Workspaces
+  description: Operations for managing Prisma workspaces
