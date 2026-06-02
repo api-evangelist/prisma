@@ -2,12 +2,20 @@
   "repo": "prisma",
   "feeds": [
     {
-      "source": "https://www.prisma.io/blog",
+      "source": "https://www.prisma.io/blog/rss.xml",
       "feed_url": "https://www.prisma.io/blog/rss.xml",
-      "title": "Prisma Blog",
-      "saved": 38
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    },
+    {
+      "source": "https://www.prisma.io/docs/management-api/authentication",
+      "feed_url": "https://www.prisma.io/docs/management-api/authentication",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "post_count": 52,
-  "fetched": "2026-05-17T20:20:35Z"
+  "post_count": 56,
+  "fetched": "2026-06-01T23:35:02Z"
 }
