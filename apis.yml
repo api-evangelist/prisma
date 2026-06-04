@@ -217,6 +217,45 @@ apis:
     email: support@prisma.io
     url: https://www.prisma.io/support
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/prisma-accelerate-query-and-invalidate-workflow.yml
+    name: Prisma Accelerate Cached Query then Invalidate
+    summary: Run a cached query through the Accelerate proxy, then invalidate the cache entries tagged by that query.
+  - url: arazzo/prisma-client-list-and-count-records-workflow.yml
+    name: Prisma Client List and Count Records
+    summary: Count records matching a filter, then fetch the first page of matching records ordered and paginated.
+  - url: arazzo/prisma-client-upsert-record-workflow.yml
+    name: Prisma Client Upsert a Record
+    summary: Look up a record by its unique key, then upsert it so it is created when missing or updated when present.
+  - url: arazzo/prisma-optimize-record-and-analyze-workflow.yml
+    name: Prisma Optimize Record and Analyze a Session
+    summary: Open a query recording session, pull the slowest captured queries and recommendations, then stop the session.
+  - url: arazzo/prisma-platform-bootstrap-environment-workflow.yml
+    name: Prisma Data Platform Bootstrap a Project Environment
+    summary: Create a project, add an environment, and mint an API key for it in the Data Platform.
+  - url: arazzo/prisma-platform-rotate-api-key-workflow.yml
+    name: Prisma Data Platform Rotate an Environment API Key
+    summary: Mint a fresh API key for an environment and revoke the previous one in a single zero-gap rotation.
+  - url: arazzo/prisma-postgres-add-database-to-project-workflow.yml
+    name: Prisma Postgres Add a Database to a Project
+    summary: Confirm a project exists, provision an additional Postgres database in it, and mint a connection string.
+  - url: arazzo/prisma-postgres-backup-and-restore-workflow.yml
+    name: Prisma Postgres Backup and Restore
+    summary: Take a manual database backup, poll until it completes, then restore the database from it.
+  - url: arazzo/prisma-postgres-find-and-delete-project-workflow.yml
+    name: Prisma Postgres Find and Delete a Project
+    summary: Locate a project by name within a workspace and permanently delete it when found.
+  - url: arazzo/prisma-postgres-provision-project-workflow.yml
+    name: Prisma Postgres Provision a Project
+    summary: Create a project with a managed Postgres database, take a first backup, and mint a connection string.
+  - url: arazzo/prisma-postgres-rotate-connection-workflow.yml
+    name: Prisma Postgres Rotate a Database Connection String
+    summary: Confirm a database is active, mint a fresh connection string, then revoke the previous one.
+  - url: arazzo/prisma-pulse-named-stream-resume-workflow.yml
+    name: Prisma Pulse Create and Resume a Named Stream
+    summary: Create a resumable named event stream, read its cursor position, and fetch the last persisted event by ULID.
 - type: LinkedIn
   url: https://www.linkedin.com/company/prisma-io
 - type: Portal

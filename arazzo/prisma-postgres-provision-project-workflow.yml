@@ -1,0 +1,133 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Postgres Provision a Project
+  summary: Create a project with a managed Postgres database, take a first backup, and mint a connection string.
+  description: >-
+    Stands up a brand new Prisma Postgres project end to end. The workflow
+    lists workspaces to resolve a target workspace, creates a project which
+    automatically provisions a Postgres database in the chosen region, takes a
+    first manual backup of the new database, and finally mints a fresh
+    connection string for application access. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: postgresManagementApi
+  url: ../openapi/prisma-postgres-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-postgres-project
+  summary: Provision a project with a Postgres database, back it up, and create a connection string.
+  description: >-
+    Resolves a workspace, creates a project that auto-provisions a Postgres
+    database in the requested region, kicks off a first manual backup, and
+    mints a connection string the application can use immediately.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - projectName
+    - region
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Management API, sent as a Bearer token.
+      workspaceId:
+        type: string
+        description: Optional workspace id to create the project in. When omitted the first workspace is used.
+      projectName:
+        type: string
+        description: Display name for the new project.
+      region:
+        type: string
+        description: Region to provision the database in (e.g. us-east-1, eu-west-1).
+      backupLabel:
+        type: string
+        description: Optional label for the first manual backup.
+  steps:
+  - stepId: resolveWorkspace
+    description: >-
+      List the workspaces available to the token so the first one can be used
+      as a fallback when no workspaceId input is supplied.
+    operationId: listWorkspaces
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstWorkspaceId: $response.body#/data/0/id
+  - stepId: createProject
+    description: >-
+      Create the project in the target workspace. A Prisma Postgres database is
+      automatically provisioned in the requested region and returned in the
+      response.
+    operationId: createProject
+    parameters:
+    - name: workspaceId
+      in: path
+      value: $steps.resolveWorkspace.outputs.firstWorkspaceId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.projectName
+        region: $inputs.region
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      projectId: $response.body#/id
+      databaseId: $response.body#/databases/0/id
+      connectionString: $response.body#/databases/0/connectionString
+  - stepId: backupDatabase
+    description: >-
+      Kick off a first manual backup of the freshly provisioned database. The
+      backup runs asynchronously and is accepted with a 202 status.
+    operationId: createDatabaseBackup
+    parameters:
+    - name: databaseId
+      in: path
+      value: $steps.createProject.outputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        label: $inputs.backupLabel
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      backupId: $response.body#/id
+      backupStatus: $response.body#/status
+  - stepId: createConnection
+    description: >-
+      Mint a new Prisma connection string for the database so the application
+      can connect immediately.
+    operationId: createConnection
+    parameters:
+    - name: databaseId
+      in: path
+      value: $steps.createProject.outputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.projectName
+        type: prisma
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      connectionId: $response.body#/id
+      newConnectionString: $response.body#/connectionString
+  outputs:
+    projectId: $steps.createProject.outputs.projectId
+    databaseId: $steps.createProject.outputs.databaseId
+    backupId: $steps.backupDatabase.outputs.backupId
+    connectionId: $steps.createConnection.outputs.connectionId
+    connectionString: $steps.createConnection.outputs.newConnectionString

@@ -1,0 +1,117 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Postgres Rotate a Database Connection String
+  summary: Confirm a database is active, mint a fresh connection string, then revoke the previous one.
+  description: >-
+    Rotates a Prisma Postgres connection string without an access gap. The
+    workflow reads the database to confirm it is active, lists the existing
+    connection strings to capture the one being replaced, mints a new connection
+    string (whose full value is only returned once), and then deletes the old
+    connection so any leaked credential is revoked. Creating the replacement
+    before deleting the old one keeps applications continuously connectable.
+    Every step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: postgresManagementApi
+  url: ../openapi/prisma-postgres-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: rotate-connection-string
+  summary: Confirm a database, mint a new connection string, and revoke the previous one.
+  description: >-
+    Reads the database, lists its connections, mints a replacement connection
+    string, and deletes the old connection.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - databaseId
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Management API, sent as a Bearer token.
+      databaseId:
+        type: string
+        description: Identifier of the database whose connection string is being rotated.
+      connectionName:
+        type: string
+        description: Optional display name for the replacement connection string.
+  steps:
+  - stepId: confirmDatabase
+    description: >-
+      Read the database to confirm it is active before rotating its connection
+      string.
+    operationId: getDatabase
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.status == "active"
+      type: jsonpath
+    outputs:
+      status: $response.body#/status
+  - stepId: listConnections
+    description: >-
+      List the database connection strings so the currently active one can be
+      identified for later revocation.
+    operationId: listConnections
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      oldConnectionId: $response.body#/data/0/id
+  - stepId: createConnection
+    description: >-
+      Mint a replacement Prisma connection string before revoking the old one
+      so applications stay connectable throughout the rotation.
+    operationId: createConnection
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.connectionName
+        type: prisma
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      newConnectionId: $response.body#/id
+      newConnectionString: $response.body#/connectionString
+  - stepId: revokeOldConnection
+    description: >-
+      Permanently revoke and delete the previously active connection string now
+      that the replacement is in place. Returns 204 No Content on success.
+    operationId: deleteConnection
+    parameters:
+    - name: connectionId
+      in: path
+      value: $steps.listConnections.outputs.oldConnectionId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      revokedConnectionId: $steps.listConnections.outputs.oldConnectionId
+  outputs:
+    newConnectionId: $steps.createConnection.outputs.newConnectionId
+    newConnectionString: $steps.createConnection.outputs.newConnectionString
+    revokedConnectionId: $steps.revokeOldConnection.outputs.revokedConnectionId

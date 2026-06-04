@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Accelerate Cached Query then Invalidate
+  summary: Run a cached query through the Accelerate proxy, then invalidate the cache entries tagged by that query.
+  description: >-
+    Demonstrates the Accelerate caching lifecycle. The workflow executes a
+    Prisma query through the Accelerate proxy with a cache strategy that tags
+    the result, then invalidates those same cache tags so subsequent reads
+    refetch fresh data from the database. The first call returns from cache or
+    database depending on the cache status, and the invalidation guarantees the
+    next read is fresh. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: accelerateApi
+  url: ../openapi/prisma-accelerate-openapi.yml
+  type: openapi
+workflows:
+- workflowId: query-and-invalidate
+  summary: Execute a tagged cached query through Accelerate and then invalidate its cache tags.
+  description: >-
+    Runs a proxied query with a cache strategy carrying cache tags, then
+    invalidates those tags so future reads bypass the cache.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - apiVersion
+    - engineHash
+    - query
+    - cacheTags
+    properties:
+      apiKey:
+        type: string
+        description: Accelerate API key, sent as a Bearer token in the Authorization header.
+      apiVersion:
+        type: string
+        description: Prisma engine API version path segment (e.g. 2024).
+      engineHash:
+        type: string
+        description: Prisma engine version hash path segment for protocol compatibility.
+      query:
+        type: string
+        description: The Prisma query serialized as a GraphQL query string.
+      ttl:
+        type: integer
+        description: Cache time-to-live in seconds for the query result.
+      cacheTags:
+        type: array
+        description: Cache tags applied to the result and later invalidated (max 5).
+        items:
+          type: string
+  steps:
+  - stepId: executeQuery
+    description: >-
+      Execute the Prisma query through the Accelerate proxy with a cache
+      strategy that applies the supplied TTL and cache tags.
+    operationId: executeQuery
+    parameters:
+    - name: apiVersion
+      in: path
+      value: $inputs.apiVersion
+    - name: engineHash
+      in: path
+      value: $inputs.engineHash
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        query: $inputs.query
+        extensions:
+          cacheStrategy:
+            ttl: $inputs.ttl
+            tags: $inputs.cacheTags
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      data: $response.body#/data
+      cacheStatus: $response.body#/extensions/accelerateInfo/cacheStatus
+      requestId: $response.body#/extensions/accelerateInfo/requestId
+  - stepId: invalidateTags
+    description: >-
+      Invalidate the cache entries tagged by the query so subsequent reads
+      refetch fresh data from the database.
+    operationId: invalidateCacheByTags
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        tags: $inputs.cacheTags
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      success: $response.body#/success
+      invalidatedTags: $response.body#/invalidatedTags
+  outputs:
+    cacheStatus: $steps.executeQuery.outputs.cacheStatus
+    invalidatedTags: $steps.invalidateTags.outputs.invalidatedTags

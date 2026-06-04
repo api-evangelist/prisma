@@ -1,0 +1,110 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Postgres Backup and Restore
+  summary: Take a manual database backup, poll until it completes, then restore the database from it.
+  description: >-
+    A safe point-in-time recovery flow for a Prisma Postgres database. The
+    workflow triggers a manual backup, polls the backup list until the new
+    backup reaches a completed status, and then restores the database from that
+    backup. Polling and branching handle the asynchronous backup lifecycle so
+    the restore only runs against a finished backup. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: postgresManagementApi
+  url: ../openapi/prisma-postgres-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: backup-and-restore-database
+  summary: Create a manual backup, wait for completion, and restore the database from it.
+  description: >-
+    Initiates a manual backup, polls the backup list until the backup status is
+    completed, then restores the database to the captured state.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - databaseId
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Management API, sent as a Bearer token.
+      databaseId:
+        type: string
+        description: Identifier of the database to back up and restore.
+      backupLabel:
+        type: string
+        description: Optional label for the manual backup.
+  steps:
+  - stepId: createBackup
+    description: >-
+      Trigger a manual backup of the database. The backup runs asynchronously
+      and is accepted with a 202 status.
+    operationId: createDatabaseBackup
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        label: $inputs.backupLabel
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      backupId: $response.body#/id
+      status: $response.body#/status
+  - stepId: pollBackup
+    description: >-
+      List the backups for the database and confirm the most recent backup has
+      reached the completed status before attempting a restore.
+    operationId: listDatabaseBackups
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.data[0].status == "completed"
+      type: jsonpath
+    outputs:
+      latestStatus: $response.body#/data/0/status
+    onSuccess:
+    - name: backupReady
+      type: goto
+      stepId: restoreBackup
+      criteria:
+      - context: $response.body
+        condition: $.data[0].status == "completed"
+        type: jsonpath
+  - stepId: restoreBackup
+    description: >-
+      Restore the database to the state captured in the completed backup. The
+      restore runs asynchronously and is accepted with a 202 status.
+    operationId: restoreDatabaseBackup
+    parameters:
+    - name: databaseId
+      in: path
+      value: $inputs.databaseId
+    - name: backupId
+      in: path
+      value: $steps.createBackup.outputs.backupId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      restoreStatus: $response.body#/status
+      message: $response.body#/message
+  outputs:
+    backupId: $steps.createBackup.outputs.backupId
+    restoreStatus: $steps.restoreBackup.outputs.restoreStatus

@@ -1,0 +1,130 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Data Platform Bootstrap a Project Environment
+  summary: Create a project, add an environment, and mint an API key for it in the Data Platform.
+  description: >-
+    Bootstraps a complete Prisma Data Platform project hierarchy. The workflow
+    resolves a workspace, creates a project inside it, adds an environment with
+    its connection string, and finally mints an API key for that environment so
+    Prisma Client can authenticate. The full API key value is only returned once
+    at creation, so it is captured as a workflow output. Every step spells out
+    its request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dataPlatformApi
+  url: ../openapi/prisma-data-platform-openapi.yml
+  type: openapi
+workflows:
+- workflowId: bootstrap-project-environment
+  summary: Create a project, an environment, and an API key in the Data Platform.
+  description: >-
+    Resolves a workspace, creates a project, adds an environment with a
+    connection string, and mints an API key for the environment.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - projectName
+    - environmentName
+    - connectionString
+    - apiKeyName
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Data Platform API, sent as a Bearer token.
+      workspaceId:
+        type: string
+        description: Optional workspace id. When omitted the first workspace is used.
+      projectName:
+        type: string
+        description: Display name for the new project.
+      environmentName:
+        type: string
+        description: Display name for the new environment (e.g. Production, Staging).
+      connectionString:
+        type: string
+        description: Database connection string for the new environment.
+      apiKeyName:
+        type: string
+        description: Display name for the API key minted for the environment.
+  steps:
+  - stepId: resolveWorkspace
+    description: >-
+      List the workspaces available to the token so the first one can be used
+      as a fallback when no workspaceId input is supplied.
+    operationId: listWorkspaces
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstWorkspaceId: $response.body#/data/0/id
+  - stepId: createProject
+    description: >-
+      Create a project inside the resolved workspace.
+    operationId: createProject
+    parameters:
+    - name: workspaceId
+      in: path
+      value: $steps.resolveWorkspace.outputs.firstWorkspaceId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.projectName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      projectId: $response.body#/id
+  - stepId: createEnvironment
+    description: >-
+      Add an environment to the project with its own database connection
+      string.
+    operationId: createEnvironment
+    parameters:
+    - name: projectId
+      in: path
+      value: $steps.createProject.outputs.projectId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.environmentName
+        connectionString: $inputs.connectionString
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      environmentId: $response.body#/id
+  - stepId: createApiKey
+    description: >-
+      Mint an API key for the new environment. The full key value is only
+      returned once during creation and is captured here.
+    operationId: createApiKey
+    parameters:
+    - name: environmentId
+      in: path
+      value: $steps.createEnvironment.outputs.environmentId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.apiKeyName
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      apiKeyId: $response.body#/id
+      apiKeyValue: $response.body#/apiKey
+  outputs:
+    projectId: $steps.createProject.outputs.projectId
+    environmentId: $steps.createEnvironment.outputs.environmentId
+    apiKeyId: $steps.createApiKey.outputs.apiKeyId
+    apiKeyValue: $steps.createApiKey.outputs.apiKeyValue

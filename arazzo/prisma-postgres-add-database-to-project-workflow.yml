@@ -1,0 +1,108 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Postgres Add a Database to a Project
+  summary: Confirm a project exists, provision an additional Postgres database in it, and mint a connection string.
+  description: >-
+    Adds a second Prisma Postgres database to an existing project. The workflow
+    first reads the project to confirm it exists and resolve its region context,
+    provisions a new database in the requested region, and then mints a Prisma
+    connection string for the new database. Every step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: postgresManagementApi
+  url: ../openapi/prisma-postgres-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: add-database-to-project
+  summary: Provision an additional Postgres database within an existing project and mint a connection string.
+  description: >-
+    Reads the target project, creates a new database in the requested region,
+    and mints a connection string for the new database.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - projectId
+    - region
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Management API, sent as a Bearer token.
+      projectId:
+        type: string
+        description: Identifier of the project to add a database to.
+      databaseName:
+        type: string
+        description: Optional display name for the new database.
+      region:
+        type: string
+        description: Region to provision the database in (e.g. us-east-1, eu-west-1).
+  steps:
+  - stepId: getProject
+    description: >-
+      Read the project to confirm it exists before provisioning an additional
+      database against it.
+    operationId: getProject
+    parameters:
+    - name: projectId
+      in: path
+      value: $inputs.projectId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectId: $response.body#/id
+      workspaceId: $response.body#/workspaceId
+  - stepId: createDatabase
+    description: >-
+      Provision a new Prisma Postgres database in the requested region within
+      the confirmed project.
+    operationId: createDatabase
+    parameters:
+    - name: projectId
+      in: path
+      value: $steps.getProject.outputs.projectId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.databaseName
+        region: $inputs.region
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      databaseId: $response.body#/id
+      status: $response.body#/status
+      connectionString: $response.body#/connectionString
+  - stepId: createConnection
+    description: >-
+      Mint a Prisma connection string for the new database so applications can
+      connect to it.
+    operationId: createConnection
+    parameters:
+    - name: databaseId
+      in: path
+      value: $steps.createDatabase.outputs.databaseId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.databaseName
+        type: prisma
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      connectionId: $response.body#/id
+      newConnectionString: $response.body#/connectionString
+  outputs:
+    databaseId: $steps.createDatabase.outputs.databaseId
+    connectionId: $steps.createConnection.outputs.connectionId
+    connectionString: $steps.createConnection.outputs.newConnectionString

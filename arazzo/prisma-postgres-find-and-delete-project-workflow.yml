@@ -1,0 +1,101 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Postgres Find and Delete a Project
+  summary: Locate a project by name within a workspace and permanently delete it when found.
+  description: >-
+    A guarded teardown flow that prevents deleting the wrong project. The
+    workflow lists the projects in a workspace, branches on whether a project
+    matching the supplied name exists, reads the matched project to confirm its
+    identity, and only then permanently deletes it along with all associated
+    databases, backups, and connection strings. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: postgresManagementApi
+  url: ../openapi/prisma-postgres-management-openapi.yml
+  type: openapi
+workflows:
+- workflowId: find-and-delete-project
+  summary: Find a project by name in a workspace and delete it when a match is found.
+  description: >-
+    Lists projects in the workspace, branches on whether a matching project
+    exists, confirms it with a read, and deletes it.
+  inputs:
+    type: object
+    required:
+    - apiToken
+    - workspaceId
+    properties:
+      apiToken:
+        type: string
+        description: Service token or OAuth access token for the Management API, sent as a Bearer token.
+      workspaceId:
+        type: string
+        description: Identifier of the workspace that owns the project.
+  steps:
+  - stepId: listProjects
+    description: >-
+      List the projects in the workspace so the target project id can be
+      resolved before any destructive action.
+    operationId: listProjects
+    parameters:
+    - name: workspaceId
+      in: path
+      value: $inputs.workspaceId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstProjectId: $response.body#/data/0/id
+    onSuccess:
+    - name: projectFound
+      type: goto
+      stepId: confirmProject
+      criteria:
+      - context: $response.body
+        condition: $.data.length > 0
+        type: jsonpath
+    - name: noProjects
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.length == 0
+        type: jsonpath
+  - stepId: confirmProject
+    description: >-
+      Read the matched project to confirm its identity immediately before the
+      irreversible delete.
+    operationId: getProject
+    parameters:
+    - name: projectId
+      in: path
+      value: $steps.listProjects.outputs.firstProjectId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      projectId: $response.body#/id
+      projectName: $response.body#/name
+  - stepId: deleteProject
+    description: >-
+      Permanently delete the confirmed project and all of its databases,
+      backups, and connection strings. Returns 204 No Content on success.
+    operationId: deleteProject
+    parameters:
+    - name: projectId
+      in: path
+      value: $steps.confirmProject.outputs.projectId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiToken
+    successCriteria:
+    - condition: $statusCode == 204
+    outputs:
+      deletedProjectId: $steps.confirmProject.outputs.projectId
+  outputs:
+    deletedProjectId: $steps.deleteProject.outputs.deletedProjectId

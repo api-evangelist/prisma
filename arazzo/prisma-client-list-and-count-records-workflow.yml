@@ -1,0 +1,85 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Client List and Count Records
+  summary: Count records matching a filter, then fetch the first page of matching records ordered and paginated.
+  description: >-
+    A reporting pattern over the Prisma Client REST facade. The workflow first
+    counts how many records match a filter so a caller can size pagination, then
+    fetches the first page of matching records using the same filter with
+    ordering and a take limit. Counting before listing avoids over-fetching and
+    lets the caller decide how many pages to request. The Client API is a local
+    library facade and does not require an Authorization header. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: clientApi
+  url: ../openapi/prisma-client-openapi.yml
+  type: openapi
+workflows:
+- workflowId: list-and-count-records
+  summary: Count records matching a filter and then list the first page of matches.
+  description: >-
+    Counts records matching a filter, then lists the first page of matching
+    records ordered and limited by a take value.
+  inputs:
+    type: object
+    required:
+    - model
+    - where
+    properties:
+      model:
+        type: string
+        description: The Prisma model name to query (e.g. user, post).
+      where:
+        type: string
+        description: JSON-encoded filter conditions using Prisma query operators.
+      orderBy:
+        type: string
+        description: JSON-encoded sort specification with field names and asc/desc.
+      take:
+        type: integer
+        description: Number of records to return in the first page.
+  steps:
+  - stepId: countRecords
+    description: >-
+      Count how many records match the supplied filter so pagination can be
+      sized before fetching any rows.
+    operationId: count
+    parameters:
+    - name: model
+      in: path
+      value: $inputs.model
+    - name: where
+      in: query
+      value: $inputs.where
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      total: $response.body
+  - stepId: listRecords
+    description: >-
+      Fetch the first page of records matching the same filter, ordered and
+      limited by the supplied take value.
+    operationId: findMany
+    parameters:
+    - name: model
+      in: path
+      value: $inputs.model
+    - name: where
+      in: query
+      value: $inputs.where
+    - name: orderBy
+      in: query
+      value: $inputs.orderBy
+    - name: take
+      in: query
+      value: $inputs.take
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstRecordId: $response.body#/0/id
+      records: $response.body
+  outputs:
+    total: $steps.countRecords.outputs.total
+    records: $steps.listRecords.outputs.records

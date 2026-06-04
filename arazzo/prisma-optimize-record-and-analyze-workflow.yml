@@ -1,0 +1,117 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Optimize Record and Analyze a Session
+  summary: Open a query recording session, pull the slowest captured queries and recommendations, then stop the session.
+  description: >-
+    Drives a full Prisma Optimize analysis loop. The workflow opens a recording
+    session for a database provider, lists the captured queries ordered by
+    duration to surface the slowest ones, pulls the AI-powered optimization
+    recommendations for the session, and finally stops the session to finalize
+    the captured data. Every step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: optimizeApi
+  url: ../openapi/prisma-optimize-openapi.yml
+  type: openapi
+workflows:
+- workflowId: record-and-analyze-session
+  summary: Create a recording session, fetch its slowest queries and recommendations, and stop it.
+  description: >-
+    Opens a recording session, lists captured queries sorted by duration, pulls
+    optimization recommendations, then stops the session.
+  inputs:
+    type: object
+    required:
+    - apiKey
+    - databaseProvider
+    properties:
+      apiKey:
+        type: string
+        description: Optimize API key, sent as a Bearer token in the Authorization header.
+      sessionName:
+        type: string
+        description: Optional display name for the recording session.
+      databaseProvider:
+        type: string
+        description: Database provider being recorded (postgresql, mysql, cockroachdb, or sqlserver).
+  steps:
+  - stepId: createSession
+    description: >-
+      Open a new query recording session for the supplied database provider.
+    operationId: createSession
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.sessionName
+        databaseProvider: $inputs.databaseProvider
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      sessionId: $response.body#/id
+      status: $response.body#/status
+  - stepId: listSlowestQueries
+    description: >-
+      List the queries captured during the session ordered by duration
+      descending so the slowest queries surface first.
+    operationId: listSessionQueries
+    parameters:
+    - name: sessionId
+      in: path
+      value: $steps.createSession.outputs.sessionId
+    - name: orderBy
+      in: query
+      value: duration
+    - name: order
+      in: query
+      value: desc
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      queryCount: $response.body#/total
+      slowestQueryId: $response.body#/data/0/id
+  - stepId: listRecommendations
+    description: >-
+      Pull the AI-powered optimization recommendations generated for the
+      captured queries in the session.
+    operationId: listRecommendations
+    parameters:
+    - name: sessionId
+      in: path
+      value: $steps.createSession.outputs.sessionId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      recommendationCount: $response.body#/total
+      recommendations: $response.body#/data
+  - stepId: stopSession
+    description: >-
+      Stop the recording session to finalize the captured query data for
+      analysis. No further queries are captured after this.
+    operationId: stopSession
+    parameters:
+    - name: sessionId
+      in: path
+      value: $steps.createSession.outputs.sessionId
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.apiKey
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      finalStatus: $response.body#/status
+  outputs:
+    sessionId: $steps.createSession.outputs.sessionId
+    queryCount: $steps.listSlowestQueries.outputs.queryCount
+    recommendationCount: $steps.listRecommendations.outputs.recommendationCount
+    finalStatus: $steps.stopSession.outputs.finalStatus

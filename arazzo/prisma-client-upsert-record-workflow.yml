@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Prisma Client Upsert a Record
+  summary: Look up a record by its unique key, then upsert it so it is created when missing or updated when present.
+  description: >-
+    A common Prisma Client data pattern expressed against the REST facade. The
+    workflow first attempts to read a record by its unique id, branches on
+    whether it was found, and then issues an upsert that creates the record when
+    no match exists or updates it when it does. The upsert carries both the
+    create and update payloads alongside the where condition so a single call
+    handles both branches. The Client API is a local library facade and does not
+    require an Authorization header. Every step spells out its request inline so
+    the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: clientApi
+  url: ../openapi/prisma-client-openapi.yml
+  type: openapi
+workflows:
+- workflowId: upsert-record
+  summary: Find a record by id and upsert it, creating when absent or updating when present.
+  description: >-
+    Reads a record by its unique id, branches on whether it exists, and upserts
+    it with create and update payloads.
+  inputs:
+    type: object
+    required:
+    - model
+    - id
+    - where
+    - createData
+    - updateData
+    properties:
+      model:
+        type: string
+        description: The Prisma model name (e.g. user, post).
+      id:
+        type: string
+        description: Unique identifier of the record to look up.
+      where:
+        type: object
+        description: Unique condition used by the upsert to match an existing record.
+      createData:
+        type: object
+        description: Field values to use when creating a new record.
+      updateData:
+        type: object
+        description: Field values to use when updating an existing record.
+  steps:
+  - stepId: findRecord
+    description: >-
+      Attempt to read the record by its unique id, branching on whether it
+      already exists.
+    operationId: findUnique
+    parameters:
+    - name: model
+      in: path
+      value: $inputs.model
+    - name: id
+      in: path
+      value: $inputs.id
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      existingId: $response.body#/id
+    onSuccess:
+    - name: recordExists
+      type: goto
+      stepId: upsertRecord
+      criteria:
+      - condition: $statusCode == 200
+    onFailure:
+    - name: recordMissing
+      type: goto
+      stepId: upsertRecord
+      criteria:
+      - condition: $statusCode == 404
+  - stepId: upsertRecord
+    description: >-
+      Upsert the record using the where condition. When a matching record
+      exists the update payload is applied; otherwise the create payload is used
+      to insert a new record.
+    operationId: upsert
+    parameters:
+    - name: model
+      in: path
+      value: $inputs.model
+    requestBody:
+      contentType: application/json
+      payload:
+        where: $inputs.where
+        create: $inputs.createData
+        update: $inputs.updateData
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      record: $response.body
+  outputs:
+    record: $steps.upsertRecord.outputs.record
