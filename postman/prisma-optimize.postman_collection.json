@@ -1,0 +1,2499 @@
+{
+  "info": {
+    "_postman_id": "8ee01ed9-f09e-4da2-b4ed-11f348648565",
+    "name": "Prisma Optimize API",
+    "description": "API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development. Optimize captures query execution data from Prisma Client via the @prisma/extension-optimize extension, analyzes query patterns, and provides AI-powered recommendations to reduce database load and improve application responsiveness. The service records queries during development sessions and provides performance insights through the Prisma Data Platform Console. Supports PostgreSQL, MySQL/MariaDB, CockroachDB, and MS SQL Server.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:14:30.000Z",
+    "updatedAt": "2026-06-05T15:14:30.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8ee01ed9-f09e-4da2-b4ed-11f348648565"
+  },
+  "item": [
+    {
+      "name": "sessions",
+      "item": [
+        {
+          "name": "{sessionId}",
+          "item": [
+            {
+              "name": "queries",
+              "item": [
+                {
+                  "name": "{queryId}",
+                  "item": [
+                    {
+                      "name": "Prisma Get query details",
+                      "id": "2812a7ef-64f0-4dec-8873-1ae0380f0165",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/queries/:queryId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "queries",
+                            ":queryId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "cf287248-63fa-4381-baa1-ddf56f7bdefc",
+                              "key": "sessionId",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the recording session"
+                            },
+                            {
+                              "id": "52de9824-a91a-4999-bf11-53b3c486cd9b",
+                              "key": "queryId",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the recorded query"
+                            }
+                          ]
+                        },
+                        "description": "Retrieves detailed information about a specific recorded query including the full SQL, execution plan, and performance metrics."
+                      },
+                      "response": [
+                        {
+                          "id": "d8e1ab62-da01-4332-857a-a311b39e3738",
+                          "name": "Successfully retrieved query details",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sessions/:sessionId/queries/:queryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sessions",
+                                ":sessionId",
+                                "queries",
+                                ":queryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sessionId"
+                                },
+                                {
+                                  "key": "queryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<string>\",\n  \"sessionId\": \"<string>\",\n  \"operation\": \"aggregate\",\n  \"duration\": \"<float>\",\n  \"timestamp\": \"<dateTime>\",\n  \"model\": \"<string>\",\n  \"sql\": \"<string>\",\n  \"params\": {\n    \"ead\": -30431156,\n    \"ullamco_37\": false,\n    \"tempor_dc\": false\n  }\n}",
+                          "createdAt": "2026-06-05T15:14:31.000Z",
+                          "updatedAt": "2026-06-05T15:14:31.000Z",
+                          "uid": "35240-d8e1ab62-da01-4332-857a-a311b39e3738"
+                        },
+                        {
+                          "id": "2f082361-777e-4ede-af21-3ca0f94af916",
+                          "name": "Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sessions/:sessionId/queries/:queryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sessions",
+                                ":sessionId",
+                                "queries",
+                                ":queryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sessionId"
+                                },
+                                {
+                                  "key": "queryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T15:14:31.000Z",
+                          "updatedAt": "2026-06-05T15:14:31.000Z",
+                          "uid": "35240-2f082361-777e-4ede-af21-3ca0f94af916"
+                        },
+                        {
+                          "id": "b4c3d0be-e433-45d5-b4db-eff4c875a94d",
+                          "name": "The requested resource was not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sessions/:sessionId/queries/:queryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sessions",
+                                ":sessionId",
+                                "queries",
+                                ":queryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sessionId"
+                                },
+                                {
+                                  "key": "queryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T15:14:31.000Z",
+                          "updatedAt": "2026-06-05T15:14:31.000Z",
+                          "uid": "35240-b4c3d0be-e433-45d5-b4db-eff4c875a94d"
+                        },
+                        {
+                          "id": "a827878a-56d6-40ad-92fd-53b79ddc22bb",
+                          "name": "An unexpected error occurred",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/sessions/:sessionId/queries/:queryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "sessions",
+                                ":sessionId",
+                                "queries",
+                                ":queryId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "sessionId"
+                                },
+                                {
+                                  "key": "queryId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T15:14:31.000Z",
+                          "updatedAt": "2026-06-05T15:14:31.000Z",
+                          "uid": "35240-a827878a-56d6-40ad-92fd-53b79ddc22bb"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-2812a7ef-64f0-4dec-8873-1ae0380f0165"
+                    }
+                  ],
+                  "id": "66e98ddd-e417-4fc8-9c3b-131eefff3ede",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-66e98ddd-e417-4fc8-9c3b-131eefff3ede"
+                },
+                {
+                  "name": "Prisma List queries from a session",
+                  "id": "be2798f4-3961-4bb1-8184-a9ce0bbeff1a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId/queries?orderBy=timestamp&order=desc",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId",
+                        "queries"
+                      ],
+                      "query": [
+                        {
+                          "description": "Sort queries by the specified field",
+                          "key": "orderBy",
+                          "value": "timestamp"
+                        },
+                        {
+                          "description": "Sort direction",
+                          "key": "order",
+                          "value": "desc"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "4e35faac-3eab-4ea5-bb9d-9fad1011e36d",
+                          "key": "sessionId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the recording session"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves all queries captured during a specific recording session. Queries include the operation type, execution time, affected model, and generated SQL."
+                  },
+                  "response": [
+                    {
+                      "id": "e796918c-b220-4c45-b823-27ffced972f5",
+                      "name": "Successfully retrieved session queries",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/queries?orderBy=timestamp&order=desc",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "queries"
+                          ],
+                          "query": [
+                            {
+                              "description": "Sort queries by the specified field",
+                              "key": "orderBy",
+                              "value": "timestamp"
+                            },
+                            {
+                              "description": "Sort direction",
+                              "key": "order",
+                              "value": "desc"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"sessionId\": \"<string>\",\n      \"operation\": \"executeRaw\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\",\n      \"params\": {\n        \"culpa_5\": 40674329,\n        \"sunt_4ff\": false,\n        \"nostrudc66\": -99215757.06410307\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"sessionId\": \"<string>\",\n      \"operation\": \"groupBy\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\",\n      \"params\": {\n        \"temporc1\": false\n      }\n    }\n  ],\n  \"total\": \"<integer>\"\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-e796918c-b220-4c45-b823-27ffced972f5"
+                    },
+                    {
+                      "id": "ddc3825a-8cd5-449d-9bc1-a9a941143661",
+                      "name": "Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/queries?orderBy=timestamp&order=desc",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "queries"
+                          ],
+                          "query": [
+                            {
+                              "description": "Sort queries by the specified field",
+                              "key": "orderBy",
+                              "value": "timestamp"
+                            },
+                            {
+                              "description": "Sort direction",
+                              "key": "order",
+                              "value": "desc"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-ddc3825a-8cd5-449d-9bc1-a9a941143661"
+                    },
+                    {
+                      "id": "15254e60-c27f-4cb5-af90-2c0170367ee6",
+                      "name": "The requested resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/queries?orderBy=timestamp&order=desc",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "queries"
+                          ],
+                          "query": [
+                            {
+                              "description": "Sort queries by the specified field",
+                              "key": "orderBy",
+                              "value": "timestamp"
+                            },
+                            {
+                              "description": "Sort direction",
+                              "key": "order",
+                              "value": "desc"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-15254e60-c27f-4cb5-af90-2c0170367ee6"
+                    },
+                    {
+                      "id": "c5a032a0-9088-47f0-8161-90ff32b3137d",
+                      "name": "An unexpected error occurred",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/queries?orderBy=timestamp&order=desc",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "queries"
+                          ],
+                          "query": [
+                            {
+                              "description": "Sort queries by the specified field",
+                              "key": "orderBy",
+                              "value": "timestamp"
+                            },
+                            {
+                              "description": "Sort direction",
+                              "key": "order",
+                              "value": "desc"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-c5a032a0-9088-47f0-8161-90ff32b3137d"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-be2798f4-3961-4bb1-8184-a9ce0bbeff1a"
+                }
+              ],
+              "id": "e75fb5c1-0e4c-4b4d-89c0-06e146ea9eec",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-e75fb5c1-0e4c-4b4d-89c0-06e146ea9eec"
+            },
+            {
+              "name": "recommendations",
+              "item": [
+                {
+                  "name": "Prisma List optimization recommendations",
+                  "id": "eaddaa1f-1383-45a4-8272-8dd3a80f5246",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId/recommendations?severity=critical",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId",
+                        "recommendations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter recommendations by severity level",
+                          "key": "severity",
+                          "value": "critical"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "73f90b75-1439-434e-97ad-9e1882646a10",
+                          "key": "sessionId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the recording session"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves AI-powered optimization recommendations for queries captured in the session. Recommendations include suggestions for adding indexes, restructuring queries, implementing caching strategies, and using Prisma features like select and include more efficiently."
+                  },
+                  "response": [
+                    {
+                      "id": "4adc2bc5-f048-4634-b993-a1f9fd60191e",
+                      "name": "Successfully retrieved recommendations",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/recommendations?severity=critical",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "recommendations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter recommendations by severity level",
+                              "key": "severity",
+                              "value": "critical"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"severity\": \"info\",\n      \"category\": \"caching\",\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"affectedQueries\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"suggestedAction\": \"<string>\",\n      \"estimatedImpact\": \"low\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"severity\": \"warning\",\n      \"category\": \"indexing\",\n      \"title\": \"<string>\",\n      \"description\": \"<string>\",\n      \"affectedQueries\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"suggestedAction\": \"<string>\",\n      \"estimatedImpact\": \"high\"\n    }\n  ],\n  \"total\": \"<integer>\"\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-4adc2bc5-f048-4634-b993-a1f9fd60191e"
+                    },
+                    {
+                      "id": "ac2bff54-5ad8-46d3-9dbd-f5eddaad98f2",
+                      "name": "Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/recommendations?severity=critical",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "recommendations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter recommendations by severity level",
+                              "key": "severity",
+                              "value": "critical"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-ac2bff54-5ad8-46d3-9dbd-f5eddaad98f2"
+                    },
+                    {
+                      "id": "9b1b3d17-a16c-4629-ae3c-e712080e7233",
+                      "name": "The requested resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/recommendations?severity=critical",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "recommendations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter recommendations by severity level",
+                              "key": "severity",
+                              "value": "critical"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-9b1b3d17-a16c-4629-ae3c-e712080e7233"
+                    },
+                    {
+                      "id": "c8e6f4bb-541e-4b21-a19a-a6b3dde59ea8",
+                      "name": "An unexpected error occurred",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/recommendations?severity=critical",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "recommendations"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter recommendations by severity level",
+                              "key": "severity",
+                              "value": "critical"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-c8e6f4bb-541e-4b21-a19a-a6b3dde59ea8"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-eaddaa1f-1383-45a4-8272-8dd3a80f5246"
+                }
+              ],
+              "id": "1854cef0-a2dd-4989-98c8-27ff4922030c",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-1854cef0-a2dd-4989-98c8-27ff4922030c"
+            },
+            {
+              "name": "metrics",
+              "item": [
+                {
+                  "name": "Prisma Get session performance metrics",
+                  "id": "51556bdb-d35e-4205-88ce-d3d27a603c76",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId/metrics",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId",
+                        "metrics"
+                      ],
+                      "variable": [
+                        {
+                          "id": "e72606a9-eac7-444b-8981-9206d5197415",
+                          "key": "sessionId",
+                          "value": "<string>",
+                          "description": "(Required) Unique identifier of the recording session"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves aggregated performance metrics for all queries in a session including total execution time, average query duration, slowest queries, and query type distribution."
+                  },
+                  "response": [
+                    {
+                      "id": "1b37c8cd-8d23-42d2-af5d-30ea80fd15d8",
+                      "name": "Successfully retrieved session metrics",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/metrics",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "metrics"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sessionId\": \"<string>\",\n  \"totalQueries\": \"<integer>\",\n  \"totalDuration\": \"<float>\",\n  \"averageDuration\": \"<float>\",\n  \"maxDuration\": \"<float>\",\n  \"minDuration\": \"<float>\",\n  \"queryTypeDistribution\": {\n    \"in_5\": \"<integer>\"\n  },\n  \"modelDistribution\": {\n    \"cupidatat051\": \"<integer>\",\n    \"ad_7_4\": \"<integer>\",\n    \"laborum_7\": \"<integer>\"\n  },\n  \"slowestQueries\": [\n    {\n      \"id\": \"<string>\",\n      \"sessionId\": \"<string>\",\n      \"operation\": \"findUnique\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\",\n      \"params\": {\n        \"non_6\": -96976202\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"sessionId\": \"<string>\",\n      \"operation\": \"groupBy\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\",\n      \"params\": {\n        \"pariaturcaa\": true,\n        \"aliquada\": \"enim ipsum\",\n        \"enim2\": true,\n        \"officiaf2c\": true\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-1b37c8cd-8d23-42d2-af5d-30ea80fd15d8"
+                    },
+                    {
+                      "id": "a9f5afe3-bb68-4a62-b56b-c77d96c2bb0f",
+                      "name": "Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/metrics",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "metrics"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-a9f5afe3-bb68-4a62-b56b-c77d96c2bb0f"
+                    },
+                    {
+                      "id": "bed2beca-ec5f-4e3b-a8d7-b475b3434165",
+                      "name": "The requested resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/metrics",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "metrics"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-bed2beca-ec5f-4e3b-a8d7-b475b3434165"
+                    },
+                    {
+                      "id": "a7a5d2ea-1f43-4e40-b1eb-992d07c23c41",
+                      "name": "An unexpected error occurred",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/sessions/:sessionId/metrics",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "sessions",
+                            ":sessionId",
+                            "metrics"
+                          ],
+                          "variable": [
+                            {
+                              "key": "sessionId"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:31.000Z",
+                      "updatedAt": "2026-06-05T15:14:31.000Z",
+                      "uid": "35240-a7a5d2ea-1f43-4e40-b1eb-992d07c23c41"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-51556bdb-d35e-4205-88ce-d3d27a603c76"
+                }
+              ],
+              "id": "ba35fd8c-c39c-4d33-a4b4-ad6afe4d9939",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-ba35fd8c-c39c-4d33-a4b4-ad6afe4d9939"
+            },
+            {
+              "name": "Prisma Get a recording session",
+              "id": "479f0d39-a2b4-47a1-a221-b5903166de4a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sessions/:sessionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions",
+                    ":sessionId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "32eec8f4-030b-4b74-8a66-981632ad2fae",
+                      "key": "sessionId",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the recording session"
+                    }
+                  ]
+                },
+                "description": "Retrieves detailed information about a specific recording session including query statistics and analysis status."
+              },
+              "response": [
+                {
+                  "id": "43a6e478-bb6e-441d-b65a-2eb9816262e7",
+                  "name": "Successfully retrieved session details",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"status\": \"expired\",\n  \"databaseProvider\": \"sqlserver\",\n  \"queryCount\": \"<integer>\",\n  \"startedAt\": \"<dateTime>\",\n  \"name\": \"<string>\",\n  \"totalDuration\": \"<float>\",\n  \"endedAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-43a6e478-bb6e-441d-b65a-2eb9816262e7"
+                },
+                {
+                  "id": "db456177-eaa1-4629-93cc-db1599e29017",
+                  "name": "Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-db456177-eaa1-4629-93cc-db1599e29017"
+                },
+                {
+                  "id": "6e7315e3-8935-4c5b-ab25-dd092cc70bcd",
+                  "name": "The requested resource was not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-6e7315e3-8935-4c5b-ab25-dd092cc70bcd"
+                },
+                {
+                  "id": "e283beca-d911-40af-9a14-6d01d3c60fb3",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-e283beca-d911-40af-9a14-6d01d3c60fb3"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-479f0d39-a2b4-47a1-a221-b5903166de4a"
+            },
+            {
+              "name": "Prisma Stop a recording session",
+              "id": "ff2adaa4-006a-48a1-938d-7eeec92a7eac",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sessions/:sessionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions",
+                    ":sessionId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "05ea8a15-94e0-41b8-90bc-1da8198c1990",
+                      "key": "sessionId",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the recording session"
+                    }
+                  ]
+                },
+                "description": "Stops an active recording session and finalizes the captured query data for analysis. Once stopped, no new queries will be captured for this session."
+              },
+              "response": [
+                {
+                  "id": "6fd70199-07cf-40d2-b43e-78cee65b813e",
+                  "name": "Session stopped successfully",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<string>\",\n  \"status\": \"expired\",\n  \"databaseProvider\": \"sqlserver\",\n  \"queryCount\": \"<integer>\",\n  \"startedAt\": \"<dateTime>\",\n  \"name\": \"<string>\",\n  \"totalDuration\": \"<float>\",\n  \"endedAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-6fd70199-07cf-40d2-b43e-78cee65b813e"
+                },
+                {
+                  "id": "99263070-092a-4603-aa47-8ba5161e47a1",
+                  "name": "Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-99263070-092a-4603-aa47-8ba5161e47a1"
+                },
+                {
+                  "id": "63fe934a-0b5b-47e4-80df-ca88f39de49f",
+                  "name": "The requested resource was not found",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-63fe934a-0b5b-47e4-80df-ca88f39de49f"
+                },
+                {
+                  "id": "8777c190-6b99-46c2-93fe-563c6dbeaa57",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/sessions/:sessionId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "sessions",
+                        ":sessionId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "sessionId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:31.000Z",
+                  "updatedAt": "2026-06-05T15:14:31.000Z",
+                  "uid": "35240-8777c190-6b99-46c2-93fe-563c6dbeaa57"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-ff2adaa4-006a-48a1-938d-7eeec92a7eac"
+            }
+          ],
+          "id": "ad529602-037d-4f98-8a19-a0df4cc1f805",
+          "createdAt": "2026-06-05T15:14:31.000Z",
+          "updatedAt": "2026-06-05T15:14:31.000Z",
+          "uid": "35240-ad529602-037d-4f98-8a19-a0df4cc1f805"
+        },
+        {
+          "name": "Prisma Create a recording session",
+          "id": "abed2673-a2e9-45c3-a845-7f676ef1f390",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sessions"
+              ]
+            },
+            "description": "Creates a new query recording session. The Optimize extension captures all Prisma Client queries executed during an active session and sends them to the Optimize service for analysis. Sessions are intended for use in local development environments only."
+          },
+          "response": [
+            {
+              "id": "74e963b1-c36e-431d-aef2-8ac302cc52c0",
+              "name": "Recording session created successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"<string>\",\n  \"status\": \"expired\",\n  \"databaseProvider\": \"sqlserver\",\n  \"queryCount\": \"<integer>\",\n  \"startedAt\": \"<dateTime>\",\n  \"name\": \"<string>\",\n  \"totalDuration\": \"<float>\",\n  \"endedAt\": \"<dateTime>\"\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-74e963b1-c36e-431d-aef2-8ac302cc52c0"
+            },
+            {
+              "id": "8665f67c-e9e3-4549-9905-6a77a3ee4ccd",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-8665f67c-e9e3-4549-9905-6a77a3ee4ccd"
+            },
+            {
+              "id": "b4abf11c-b932-47e5-be79-f20cbfc0fc7f",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-b4abf11c-b932-47e5-be79-f20cbfc0fc7f"
+            },
+            {
+              "id": "1c543e3b-754c-4154-8ee1-b08107f42564",
+              "name": "Too many requests - rate limit exceeded",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-1c543e3b-754c-4154-8ee1-b08107f42564"
+            },
+            {
+              "id": "e84e8398-76e9-4dc4-9974-9d2202dce129",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"databaseProvider\": \"sqlserver\",\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/sessions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-e84e8398-76e9-4dc4-9974-9d2202dce129"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:31.000Z",
+          "updatedAt": "2026-06-05T15:14:31.000Z",
+          "uid": "35240-abed2673-a2e9-45c3-a845-7f676ef1f390"
+        },
+        {
+          "name": "Prisma List recording sessions",
+          "id": "ca837abb-017c-4e87-9c26-3a3bce9d924b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sessions?status=active&limit=20&offset=0",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "sessions"
+              ],
+              "query": [
+                {
+                  "description": "Filter sessions by status",
+                  "key": "status",
+                  "value": "active"
+                },
+                {
+                  "description": "Maximum number of sessions to return",
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "description": "Number of sessions to skip for pagination",
+                  "key": "offset",
+                  "value": "0"
+                }
+              ]
+            },
+            "description": "Retrieves a list of all recording sessions for the current environment, including their status, duration, and query counts."
+          },
+          "response": [
+            {
+              "id": "ca1a0e5f-b135-4528-9c60-573549c9a079",
+              "name": "Successfully retrieved list of sessions",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sessions?status=active&limit=20&offset=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter sessions by status",
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "description": "Maximum number of sessions to return",
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "description": "Number of sessions to skip for pagination",
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"status\": \"expired\",\n      \"databaseProvider\": \"sqlserver\",\n      \"queryCount\": \"<integer>\",\n      \"startedAt\": \"<dateTime>\",\n      \"name\": \"<string>\",\n      \"totalDuration\": \"<float>\",\n      \"endedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"status\": \"active\",\n      \"databaseProvider\": \"mysql\",\n      \"queryCount\": \"<integer>\",\n      \"startedAt\": \"<dateTime>\",\n      \"name\": \"<string>\",\n      \"totalDuration\": \"<float>\",\n      \"endedAt\": \"<dateTime>\"\n    }\n  ],\n  \"total\": \"<integer>\"\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-ca1a0e5f-b135-4528-9c60-573549c9a079"
+            },
+            {
+              "id": "1a655c17-a019-42ac-a8bc-32bef35adf95",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sessions?status=active&limit=20&offset=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter sessions by status",
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "description": "Maximum number of sessions to return",
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "description": "Number of sessions to skip for pagination",
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-1a655c17-a019-42ac-a8bc-32bef35adf95"
+            },
+            {
+              "id": "85ac30ed-a466-413a-80a9-6023cb8f3c6f",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/sessions?status=active&limit=20&offset=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "sessions"
+                  ],
+                  "query": [
+                    {
+                      "description": "Filter sessions by status",
+                      "key": "status",
+                      "value": "active"
+                    },
+                    {
+                      "description": "Maximum number of sessions to return",
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "description": "Number of sessions to skip for pagination",
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-85ac30ed-a466-413a-80a9-6023cb8f3c6f"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:31.000Z",
+          "updatedAt": "2026-06-05T15:14:31.000Z",
+          "uid": "35240-ca837abb-017c-4e87-9c26-3a3bce9d924b"
+        }
+      ],
+      "id": "65ae7c64-fd90-4f4f-9783-2ab4f4c52d55",
+      "createdAt": "2026-06-05T15:14:31.000Z",
+      "updatedAt": "2026-06-05T15:14:31.000Z",
+      "uid": "35240-65ae7c64-fd90-4f4f-9783-2ab4f4c52d55"
+    },
+    {
+      "name": "ingest",
+      "item": [
+        {
+          "name": "Prisma Ingest query execution data",
+          "id": "6e46c02a-0fa1-46e1-8270-e01e3df2596f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ingest",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ingest"
+              ]
+            },
+            "description": "Receives query execution data from the Prisma Optimize extension running in development. This endpoint is called automatically by the extension and is not typically invoked directly."
+          },
+          "response": [
+            {
+              "id": "a934dd4a-4d67-48a1-92d1-142214906145",
+              "name": "Query data accepted for processing",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-a934dd4a-4d67-48a1-92d1-142214906145"
+            },
+            {
+              "id": "4174e685-772f-4772-ab85-3e8b18a14e79",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-4174e685-772f-4772-ab85-3e8b18a14e79"
+            },
+            {
+              "id": "44ce4bc1-e044-4742-99e8-bb8f96b8e4c8",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-44ce4bc1-e044-4742-99e8-bb8f96b8e4c8"
+            },
+            {
+              "id": "de92b391-a218-4905-aa77-e780698fdd10",
+              "name": "Too many requests - rate limit exceeded",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-de92b391-a218-4905-aa77-e780698fdd10"
+            },
+            {
+              "id": "348389f6-9a09-4bae-983e-935ff92bd008",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<string>\",\n  \"queries\": [\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    },\n    {\n      \"operation\": \"<string>\",\n      \"duration\": \"<float>\",\n      \"timestamp\": \"<dateTime>\",\n      \"model\": \"<string>\",\n      \"sql\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/ingest",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "ingest"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:31.000Z",
+              "updatedAt": "2026-06-05T15:14:31.000Z",
+              "uid": "35240-348389f6-9a09-4bae-983e-935ff92bd008"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:31.000Z",
+          "updatedAt": "2026-06-05T15:14:31.000Z",
+          "uid": "35240-6e46c02a-0fa1-46e1-8270-e01e3df2596f"
+        }
+      ],
+      "id": "02c19f2f-ca93-4760-be68-b2dd892c32ad",
+      "createdAt": "2026-06-05T15:14:31.000Z",
+      "updatedAt": "2026-06-05T15:14:31.000Z",
+      "uid": "35240-02c19f2f-ca93-4760-be68-b2dd892c32ad"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://optimize.prisma-data.net"
+    }
+  ]
+}

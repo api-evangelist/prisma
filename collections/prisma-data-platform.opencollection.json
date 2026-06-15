@@ -1,0 +1,349 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Data Platform API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workspaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List all workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/workspaces"
+          },
+          "docs": "Retrieves a list of all workspaces accessible to the authenticated user. Each workspace contains projects, environments, and associated resources."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/workspaces/:workspaceId",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific workspace including its configuration, billing status, and associated projects."
+        },
+        {
+          "info": {
+            "name": "Prisma Update a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.cloud.prisma.io/workspaces/:workspaceId",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of a specific workspace, such as its name or settings."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List projects in a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves all projects within a specified workspace. Each project contains environments and database configurations."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cloud.prisma.io/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the specified workspace with the given name and configuration settings."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific project including its environments and database connections."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cloud.prisma.io/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a project and all associated environments and resources. This action cannot be undone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List environments for a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/projects/:projectId/environments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Retrieves all environments configured for a specific project. Environments represent different deployment stages such as development, staging, and production."
+        },
+        {
+          "info": {
+            "name": "Prisma Create an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cloud.prisma.io/projects/:projectId/environments",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new environment within a project for a specific deployment stage with its own database connection and API key."
+        },
+        {
+          "info": {
+            "name": "Prisma Get an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/environments/:environmentId",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the environment"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific environment including its connection configuration and API key status."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cloud.prisma.io/environments/:environmentId",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the environment"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an environment and its associated API keys. This action cannot be undone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List API keys for an environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/environments/:environmentId/apikeys",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the environment"
+              }
+            ]
+          },
+          "docs": "Retrieves all API keys associated with a specific environment. API keys are used to authenticate Prisma Client requests to platform resources."
+        },
+        {
+          "info": {
+            "name": "Prisma Create an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.cloud.prisma.io/environments/:environmentId/apikeys",
+            "params": [
+              {
+                "name": "environmentId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the environment"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new API key for the specified environment. The full API key value is only returned once during creation and cannot be retrieved later."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete an API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.cloud.prisma.io/apikeys/:apiKeyId",
+            "params": [
+              {
+                "name": "apiKeyId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the API key"
+              }
+            ]
+          },
+          "docs": "Permanently revokes and deletes an API key. Any clients using this key will immediately lose access."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List workspace members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.cloud.prisma.io/workspaces/:workspaceId/members",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves all members of a workspace including their roles and invitation status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

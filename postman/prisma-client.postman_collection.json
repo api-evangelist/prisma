@@ -1,0 +1,3757 @@
+{
+  "info": {
+    "_postman_id": "a4655d7b-d39d-49f1-8f5b-eb192debb578",
+    "name": "Prisma Client API",
+    "description": "Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:14:29.000Z",
+    "updatedAt": "2026-06-05T15:14:29.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-a4655d7b-d39d-49f1-8f5b-eb192debb578"
+  },
+  "item": [
+    {
+      "name": "{model}",
+      "item": [
+        {
+          "name": "{id}",
+          "item": [
+            {
+              "name": "Prisma Find a unique record",
+              "id": "931577cf-19ba-4f46-a39a-25290332fef7",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/:id?select=<string>&include=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded field selection",
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded relation loading specification",
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "40db0296-759c-4970-b1ba-7c1018044fc3",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "id": "00777c7a-9bfd-4a2d-9d4a-9dc62f08bb05",
+                      "key": "id",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "description": "Retrieves a single record by its unique identifier or compound unique constraint. Returns null if no record matches. Use select to specify which fields to return and include for eager-loading relations."
+              },
+              "response": [
+                {
+                  "id": "21507821-aef1-4498-993f-aad73d2d33f3",
+                  "name": "Successfully retrieved record",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id?select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"elit_2\": true\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-21507821-aef1-4498-993f-aad73d2d33f3"
+                },
+                {
+                  "id": "c6264e2d-cc13-4316-ab93-7c25555f8e66",
+                  "name": "The requested record was not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id?select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-c6264e2d-cc13-4316-ab93-7c25555f8e66"
+                },
+                {
+                  "id": "c8c94b76-bcab-4f2a-899a-d67468536090",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id?select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-c8c94b76-bcab-4f2a-899a-d67468536090"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-931577cf-19ba-4f46-a39a-25290332fef7"
+            },
+            {
+              "name": "Prisma Update a record",
+              "id": "6a08cc20-d907-4f25-8eb3-55b8ada92d4a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"deserunt_5\": \"ea qui est \",\n    \"in5\": 12817322.119686067,\n    \"velit_44\": 32720111.37529108,\n    \"Ut_1\": true\n  },\n  \"select\": {\n    \"velit_a\": \"<boolean>\"\n  },\n  \"include\": {\n    \"labore_382\": \"<boolean>\",\n    \"aute_8\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "792d9d43-56f2-44d5-ac17-668948074af1",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "id": "d5c603f3-744e-4966-a12e-7bec5462645b",
+                      "key": "id",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "description": "Updates an existing record identified by its unique identifier. Supports atomic number operations (increment, decrement, multiply, divide), nested relation updates (create, connect, disconnect, delete, update, upsert, set), and conditional updates."
+              },
+              "response": [
+                {
+                  "id": "7b67c9cc-eeb9-40b3-9c77-6d5340e1989f",
+                  "name": "Successfully updated record",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"deserunt_5\": \"ea qui est \",\n    \"in5\": 12817322.119686067,\n    \"velit_44\": 32720111.37529108,\n    \"Ut_1\": true\n  },\n  \"select\": {\n    \"velit_a\": \"<boolean>\"\n  },\n  \"include\": {\n    \"labore_382\": \"<boolean>\",\n    \"aute_8\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"elit_2\": true\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-7b67c9cc-eeb9-40b3-9c77-6d5340e1989f"
+                },
+                {
+                  "id": "968b5185-9626-4042-bd7a-091adcdffc9f",
+                  "name": "The requested record was not found",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"deserunt_5\": \"ea qui est \",\n    \"in5\": 12817322.119686067,\n    \"velit_44\": 32720111.37529108,\n    \"Ut_1\": true\n  },\n  \"select\": {\n    \"velit_a\": \"<boolean>\"\n  },\n  \"include\": {\n    \"labore_382\": \"<boolean>\",\n    \"aute_8\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-968b5185-9626-4042-bd7a-091adcdffc9f"
+                },
+                {
+                  "id": "3bf56bb1-5951-490d-a927-a729d8c2e7a6",
+                  "name": "Unique constraint violation",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"deserunt_5\": \"ea qui est \",\n    \"in5\": 12817322.119686067,\n    \"velit_44\": 32720111.37529108,\n    \"Ut_1\": true\n  },\n  \"select\": {\n    \"velit_a\": \"<boolean>\"\n  },\n  \"include\": {\n    \"labore_382\": \"<boolean>\",\n    \"aute_8\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Conflict",
+                  "code": 409,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-3bf56bb1-5951-490d-a927-a729d8c2e7a6"
+                },
+                {
+                  "id": "3aedea43-250f-4f6c-b73d-ff658654e412",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"deserunt_5\": \"ea qui est \",\n    \"in5\": 12817322.119686067,\n    \"velit_44\": 32720111.37529108,\n    \"Ut_1\": true\n  },\n  \"select\": {\n    \"velit_a\": \"<boolean>\"\n  },\n  \"include\": {\n    \"labore_382\": \"<boolean>\",\n    \"aute_8\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-3aedea43-250f-4f6c-b73d-ff658654e412"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-6a08cc20-d907-4f25-8eb3-55b8ada92d4a"
+            },
+            {
+              "name": "Prisma Delete a record",
+              "id": "d93adcb4-cac2-495f-afb5-b856929dc6ef",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/:id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "0b7f7bb4-4efd-429b-8e61-05b724ee4f0f",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "id": "4344301b-ba59-4a52-99ee-5f6f133ee1ef",
+                      "key": "id",
+                      "value": "<string>",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "description": "Permanently deletes a single record identified by its unique identifier. Returns the deleted record data. Cascading deletes may apply based on the Prisma schema relation configuration."
+              },
+              "response": [
+                {
+                  "id": "8b33d4d6-2d40-4bed-98ee-6f44b98b61cf",
+                  "name": "Successfully deleted record, returns the deleted data",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"elit_2\": true\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-8b33d4d6-2d40-4bed-98ee-6f44b98b61cf"
+                },
+                {
+                  "id": "2e396d52-76e0-4396-955e-bcdd7f33090d",
+                  "name": "The requested record was not found",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-2e396d52-76e0-4396-955e-bcdd7f33090d"
+                },
+                {
+                  "id": "bad23fbe-2d5e-4996-9dbb-40dd1c13f035",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        },
+                        {
+                          "key": "id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-bad23fbe-2d5e-4996-9dbb-40dd1c13f035"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-d93adcb4-cac2-495f-afb5-b856929dc6ef"
+            }
+          ],
+          "id": "c3119030-30e9-41ee-9777-b5a120623ecb",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-c3119030-30e9-41ee-9777-b5a120623ecb"
+        },
+        {
+          "name": "upsert",
+          "item": [
+            {
+              "name": "Prisma Upsert a record",
+              "id": "17417d22-199c-4491-a493-aa5612c7fbd6",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"where\": {\n    \"enim_45\": \"laboris sed magna\",\n    \"id7\": -79675955,\n    \"proident_99\": -804176\n  },\n  \"create\": {\n    \"sint058\": -77101315.89361851\n  },\n  \"update\": {\n    \"consequat__a\": 12236131.695889845,\n    \"reprehenderit_3\": \"Duis commodo\"\n  },\n  \"select\": {\n    \"veniam_83\": \"<boolean>\"\n  },\n  \"include\": {\n    \"incididunta37\": \"<boolean>\",\n    \"commodo_86\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model/upsert",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "upsert"
+                  ],
+                  "variable": [
+                    {
+                      "id": "2d703254-59e4-4fed-b069-f3c77efc408c",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Updates a record if it exists matching the where condition, or creates a new record if no match is found. Requires both create and update data to be provided along with the where condition."
+              },
+              "response": [
+                {
+                  "id": "21a6531f-e5cd-49c3-8e28-44d4b5faa4ab",
+                  "name": "Successfully upserted record",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"where\": {\n    \"enim_45\": \"laboris sed magna\",\n    \"id7\": -79675955,\n    \"proident_99\": -804176\n  },\n  \"create\": {\n    \"sint058\": -77101315.89361851\n  },\n  \"update\": {\n    \"consequat__a\": 12236131.695889845,\n    \"reprehenderit_3\": \"Duis commodo\"\n  },\n  \"select\": {\n    \"veniam_83\": \"<boolean>\"\n  },\n  \"include\": {\n    \"incididunta37\": \"<boolean>\",\n    \"commodo_86\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/upsert",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "upsert"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"elit_2\": true\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-21a6531f-e5cd-49c3-8e28-44d4b5faa4ab"
+                },
+                {
+                  "id": "5cf22ee3-0766-4112-a4fb-a2977db9ce8a",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"where\": {\n    \"enim_45\": \"laboris sed magna\",\n    \"id7\": -79675955,\n    \"proident_99\": -804176\n  },\n  \"create\": {\n    \"sint058\": -77101315.89361851\n  },\n  \"update\": {\n    \"consequat__a\": 12236131.695889845,\n    \"reprehenderit_3\": \"Duis commodo\"\n  },\n  \"select\": {\n    \"veniam_83\": \"<boolean>\"\n  },\n  \"include\": {\n    \"incididunta37\": \"<boolean>\",\n    \"commodo_86\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/upsert",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "upsert"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-5cf22ee3-0766-4112-a4fb-a2977db9ce8a"
+                },
+                {
+                  "id": "1c96b476-c4d2-4566-b918-4d02046d3b8b",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"where\": {\n    \"enim_45\": \"laboris sed magna\",\n    \"id7\": -79675955,\n    \"proident_99\": -804176\n  },\n  \"create\": {\n    \"sint058\": -77101315.89361851\n  },\n  \"update\": {\n    \"consequat__a\": 12236131.695889845,\n    \"reprehenderit_3\": \"Duis commodo\"\n  },\n  \"select\": {\n    \"veniam_83\": \"<boolean>\"\n  },\n  \"include\": {\n    \"incididunta37\": \"<boolean>\",\n    \"commodo_86\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/upsert",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "upsert"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-1c96b476-c4d2-4566-b918-4d02046d3b8b"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-17417d22-199c-4491-a493-aa5612c7fbd6"
+            }
+          ],
+          "id": "2f21daa0-fd1a-4df6-99fb-83d4e21e7a4b",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-2f21daa0-fd1a-4df6-99fb-83d4e21e7a4b"
+        },
+        {
+          "name": "first",
+          "item": [
+            {
+              "name": "Prisma Find the first matching record",
+              "id": "bef100f8-98a9-4a47-bdd0-029b50279271",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/first?where=<string>&orderBy=<string>&select=<string>&include=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "first"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded sort specification",
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded field selection",
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded relation loading specification",
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "9499e269-70d3-4dce-90da-ffa249b71c94",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Returns the first record that matches the filter criteria. Supports the same filtering and ordering options as findMany. Returns null if no records match."
+              },
+              "response": [
+                {
+                  "id": "ceef33b1-2320-4b13-8987-b8d43e8bc2e9",
+                  "name": "Successfully retrieved the first matching record",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/first?where=<string>&orderBy=<string>&select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "first"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"elit_2\": true\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-ceef33b1-2320-4b13-8987-b8d43e8bc2e9"
+                },
+                {
+                  "id": "fa7b9d12-4662-4e52-93c7-07b57eca0cd6",
+                  "name": "No matching record found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/first?where=<string>&orderBy=<string>&select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "first"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-fa7b9d12-4662-4e52-93c7-07b57eca0cd6"
+                },
+                {
+                  "id": "f467eda8-d99b-42d6-ac56-3e67e761747d",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/first?where=<string>&orderBy=<string>&select=<string>&include=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "first"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection",
+                          "key": "select",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded relation loading specification",
+                          "key": "include",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-f467eda8-d99b-42d6-ac56-3e67e761747d"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-bef100f8-98a9-4a47-bdd0-029b50279271"
+            }
+          ],
+          "id": "4822dbdd-b980-46d6-91cf-182201fb6b1b",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-4822dbdd-b980-46d6-91cf-182201fb6b1b"
+        },
+        {
+          "name": "count",
+          "item": [
+            {
+              "name": "Prisma Count matching records",
+              "id": "323ebbda-c6a5-40c0-8345-267db594718d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/count?where=<string>&select=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "count"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded field selection for field-level counts",
+                      "key": "select",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "858b6763-a63e-4c42-bd65-cd22cc81a77c",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Returns the count of records matching the filter criteria. Optionally provides field-level counts showing how many non-null values exist for each specified field."
+              },
+              "response": [
+                {
+                  "id": "06ff85b5-5b42-47ae-8599-60066def2bbf",
+                  "name": "Successfully retrieved count",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/count?where=<string>&select=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "count"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection for field-level counts",
+                          "key": "select",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "<integer>",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-06ff85b5-5b42-47ae-8599-60066def2bbf"
+                },
+                {
+                  "id": "68b13183-e019-48c9-a1ea-5392bab8454f",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/count?where=<string>&select=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "count"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection for field-level counts",
+                          "key": "select",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-68b13183-e019-48c9-a1ea-5392bab8454f"
+                },
+                {
+                  "id": "f0ae3047-2992-4854-81dd-f526a71df42f",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/count?where=<string>&select=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "count"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded field selection for field-level counts",
+                          "key": "select",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-f0ae3047-2992-4854-81dd-f526a71df42f"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-323ebbda-c6a5-40c0-8345-267db594718d"
+            }
+          ],
+          "id": "95665c5e-ae95-4c94-afcc-ca2237fa54c3",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-95665c5e-ae95-4c94-afcc-ca2237fa54c3"
+        },
+        {
+          "name": "aggregate",
+          "item": [
+            {
+              "name": "Prisma Aggregate records",
+              "id": "28c82da4-1836-4d02-ac4d-1c84d5f71634",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/aggregate?where=<string>&_count=<string>&_avg=<string>&_sum=<string>&_min=<string>&_max=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "aggregate"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Fields to count or true for total count",
+                      "key": "_count",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded specification of fields to average",
+                      "key": "_avg",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded specification of fields to sum",
+                      "key": "_sum",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded specification of fields to find minimum",
+                      "key": "_min",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded specification of fields to find maximum",
+                      "key": "_max",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "1e5cb328-e903-4d4e-9242-93652caa6c40",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Performs aggregate calculations on matching records. Supports _count, _avg, _sum, _min, and _max operations on numeric fields with optional filtering and ordering."
+              },
+              "response": [
+                {
+                  "id": "ab8b3424-789d-4a51-b9db-4adf6d010081",
+                  "name": "Successfully performed aggregation",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/aggregate?where=<string>&_count=<string>&_avg=<string>&_sum=<string>&_min=<string>&_max=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "aggregate"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Fields to count or true for total count",
+                          "key": "_count",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to average",
+                          "key": "_avg",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to sum",
+                          "key": "_sum",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find minimum",
+                          "key": "_min",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find maximum",
+                          "key": "_max",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"_count\": {\n    \"eiusmodb\": \"<integer>\",\n    \"ipsum_0\": \"<integer>\"\n  },\n  \"_avg\": {\n    \"reprehenderit695\": \"<number>\"\n  },\n  \"_sum\": {\n    \"auteee\": \"<number>\",\n    \"pariaturb8c\": \"<number>\",\n    \"proident_5\": \"<number>\",\n    \"sed__9\": \"<number>\"\n  },\n  \"_min\": {\n    \"quia43\": 68386851\n  },\n  \"_max\": {\n    \"dolore1\": 58355117.75294736\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-ab8b3424-789d-4a51-b9db-4adf6d010081"
+                },
+                {
+                  "id": "95177c11-4ebc-4f3d-bc28-e0b73298c9db",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/aggregate?where=<string>&_count=<string>&_avg=<string>&_sum=<string>&_min=<string>&_max=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "aggregate"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Fields to count or true for total count",
+                          "key": "_count",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to average",
+                          "key": "_avg",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to sum",
+                          "key": "_sum",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find minimum",
+                          "key": "_min",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find maximum",
+                          "key": "_max",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-95177c11-4ebc-4f3d-bc28-e0b73298c9db"
+                },
+                {
+                  "id": "0d725996-cdcc-46ff-b932-cbc9e4a61670",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/aggregate?where=<string>&_count=<string>&_avg=<string>&_sum=<string>&_min=<string>&_max=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "aggregate"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Fields to count or true for total count",
+                          "key": "_count",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to average",
+                          "key": "_avg",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to sum",
+                          "key": "_sum",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find minimum",
+                          "key": "_min",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded specification of fields to find maximum",
+                          "key": "_max",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-0d725996-cdcc-46ff-b932-cbc9e4a61670"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-28c82da4-1836-4d02-ac4d-1c84d5f71634"
+            }
+          ],
+          "id": "2088e3f1-b038-4b85-8f8c-01f7210e854b",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-2088e3f1-b038-4b85-8f8c-01f7210e854b"
+        },
+        {
+          "name": "groupBy",
+          "item": [
+            {
+              "name": "Prisma Group records and aggregate",
+              "id": "53d1dd09-f0f8-466c-a84d-9657d39669a9",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/groupBy?by=<string>&where=<string>&having=<string>&orderBy=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "groupBy"
+                  ],
+                  "query": [
+                    {
+                      "description": "(Required) JSON-encoded list of fields to group by",
+                      "key": "by",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded filter conditions applied before grouping",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded filter conditions applied after grouping",
+                      "key": "having",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded sort specification for groups",
+                      "key": "orderBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "eb743be2-dafc-4d98-8166-ae49c7e39117",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Groups records by one or more fields and applies aggregate functions within each group. Supports filtering groups with having conditions and ordering groups by field values or aggregate results."
+              },
+              "response": [
+                {
+                  "id": "725bad75-e091-4276-af0d-07289e53cd47",
+                  "name": "Successfully grouped and aggregated records",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/groupBy?by=<string>&where=<string>&having=<string>&orderBy=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "groupBy"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) JSON-encoded list of fields to group by",
+                          "key": "by",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied before grouping",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied after grouping",
+                          "key": "having",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification for groups",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"aliquip8\": false,\n    \"voluptate8\": \"est\"\n  },\n  {\n    \"sint92\": \"dolore Duis aliquip\",\n    \"Lorem_891\": \"adipisicing\"\n  }\n]",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-725bad75-e091-4276-af0d-07289e53cd47"
+                },
+                {
+                  "id": "bc0ca424-dc73-4fec-9380-20b3a218a018",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/groupBy?by=<string>&where=<string>&having=<string>&orderBy=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "groupBy"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) JSON-encoded list of fields to group by",
+                          "key": "by",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied before grouping",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied after grouping",
+                          "key": "having",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification for groups",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-bc0ca424-dc73-4fec-9380-20b3a218a018"
+                },
+                {
+                  "id": "ab95afb4-1a66-4b38-a601-2c017f5c78c2",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/groupBy?by=<string>&where=<string>&having=<string>&orderBy=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "groupBy"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) JSON-encoded list of fields to group by",
+                          "key": "by",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied before grouping",
+                          "key": "where",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded filter conditions applied after grouping",
+                          "key": "having",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "JSON-encoded sort specification for groups",
+                          "key": "orderBy",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-ab95afb4-1a66-4b38-a601-2c017f5c78c2"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-53d1dd09-f0f8-466c-a84d-9657d39669a9"
+            }
+          ],
+          "id": "6526d267-57dc-41f6-a040-7d53556e7aff",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-6526d267-57dc-41f6-a040-7d53556e7aff"
+        },
+        {
+          "name": "createMany",
+          "item": [
+            {
+              "name": "Prisma Create multiple records",
+              "id": "e4f54cae-2a17-4f33-bab9-8c7c5848f629",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"dolorec8\": -80662299,\n      \"ex_89a\": 90855928.3539677\n    },\n    {\n      \"ut_9\": \"Except\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model/createMany",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "createMany"
+                  ],
+                  "variable": [
+                    {
+                      "id": "a5b60268-8c9b-4a36-b5a6-5b89423500b1",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Inserts multiple records in a single transaction. Optionally skips records that would violate unique constraints. Returns a count of created records. On PostgreSQL, CockroachDB, and SQLite, use createManyAndReturn to also retrieve the created records."
+              },
+              "response": [
+                {
+                  "id": "9ee7b94f-da4b-4490-bc52-ed501ba6e957",
+                  "name": "Successfully created records",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": [\n    {\n      \"dolorec8\": -80662299,\n      \"ex_89a\": 90855928.3539677\n    },\n    {\n      \"ut_9\": \"Except\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/createMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "createMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"count\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-9ee7b94f-da4b-4490-bc52-ed501ba6e957"
+                },
+                {
+                  "id": "acc979a0-babd-4c11-8cb8-d7a306cea5c1",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": [\n    {\n      \"dolorec8\": -80662299,\n      \"ex_89a\": 90855928.3539677\n    },\n    {\n      \"ut_9\": \"Except\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/createMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "createMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-acc979a0-babd-4c11-8cb8-d7a306cea5c1"
+                },
+                {
+                  "id": "8386a0bd-ddf6-4a32-81a8-234c20e2877f",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": [\n    {\n      \"dolorec8\": -80662299,\n      \"ex_89a\": 90855928.3539677\n    },\n    {\n      \"ut_9\": \"Except\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/createMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "createMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-8386a0bd-ddf6-4a32-81a8-234c20e2877f"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-e4f54cae-2a17-4f33-bab9-8c7c5848f629"
+            }
+          ],
+          "id": "803bada5-9c34-4013-a111-c052bfba693b",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-803bada5-9c34-4013-a111-c052bfba693b"
+        },
+        {
+          "name": "updateMany",
+          "item": [
+            {
+              "name": "Prisma Update multiple records",
+              "id": "66789c7e-27e6-43f1-b70c-f5acf5920b0a",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"cupidatat2\": false,\n    \"consequat8ce\": \"quis\"\n  },\n  \"where\": {\n    \"pariatur_ff8\": false,\n    \"occaecat_1\": -95097871.3511478\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model/updateMany",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "updateMany"
+                  ],
+                  "variable": [
+                    {
+                      "id": "e79101fc-8219-419d-bea6-f307871f6273",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Updates all records matching the filter criteria with the provided data. Returns a count of the number of records updated. Does not return the updated records themselves."
+              },
+              "response": [
+                {
+                  "id": "21d08953-7525-439f-ba4f-1cc95301a543",
+                  "name": "Successfully updated records",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"cupidatat2\": false,\n    \"consequat8ce\": \"quis\"\n  },\n  \"where\": {\n    \"pariatur_ff8\": false,\n    \"occaecat_1\": -95097871.3511478\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/updateMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "updateMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"count\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-21d08953-7525-439f-ba4f-1cc95301a543"
+                },
+                {
+                  "id": "c4e5414a-1894-41d4-b22d-71f47b7b8708",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"cupidatat2\": false,\n    \"consequat8ce\": \"quis\"\n  },\n  \"where\": {\n    \"pariatur_ff8\": false,\n    \"occaecat_1\": -95097871.3511478\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/updateMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "updateMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-c4e5414a-1894-41d4-b22d-71f47b7b8708"
+                },
+                {
+                  "id": "e50aa070-d25c-41ea-ad2e-364c8f2353c8",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"data\": {\n    \"cupidatat2\": false,\n    \"consequat8ce\": \"quis\"\n  },\n  \"where\": {\n    \"pariatur_ff8\": false,\n    \"occaecat_1\": -95097871.3511478\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/updateMany",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "updateMany"
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-e50aa070-d25c-41ea-ad2e-364c8f2353c8"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-66789c7e-27e6-43f1-b70c-f5acf5920b0a"
+            }
+          ],
+          "id": "eaa997c7-27f5-499b-ab6d-e1a0dffe61b2",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-eaa997c7-27f5-499b-ab6d-e1a0dffe61b2"
+        },
+        {
+          "name": "deleteMany",
+          "item": [
+            {
+              "name": "Prisma Delete multiple records",
+              "id": "8bfcda73-8a1e-419f-82bb-5cf241d7f338",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model/deleteMany?where=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model",
+                    "deleteMany"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions",
+                      "key": "where",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "id": "5ee4d028-f9dc-4bba-a23d-c5c139ceb016",
+                      "key": "model",
+                      "value": "<string>",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "description": "Deletes all records matching the filter criteria. Returns a count of the number of records deleted. If no filter is provided, all records in the model are deleted."
+              },
+              "response": [
+                {
+                  "id": "59ea16a1-94a8-401b-8c86-77c65b872c1a",
+                  "name": "Successfully deleted records",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/deleteMany?where=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "deleteMany"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"count\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-59ea16a1-94a8-401b-8c86-77c65b872c1a"
+                },
+                {
+                  "id": "69814928-6566-4c53-a191-53ea473b10ed",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/deleteMany?where=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "deleteMany"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-69814928-6566-4c53-a191-53ea473b10ed"
+                },
+                {
+                  "id": "f0998f53-8f46-4905-bd2f-9037e0c0db17",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/:model/deleteMany?where=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":model",
+                        "deleteMany"
+                      ],
+                      "query": [
+                        {
+                          "description": "JSON-encoded filter conditions",
+                          "key": "where",
+                          "value": "<string>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "key": "model"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-f0998f53-8f46-4905-bd2f-9037e0c0db17"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-8bfcda73-8a1e-419f-82bb-5cf241d7f338"
+            }
+          ],
+          "id": "ecd7486b-abe8-46ed-8ca4-80452da6a641",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-ecd7486b-abe8-46ed-8ca4-80452da6a641"
+        },
+        {
+          "name": "Prisma Find multiple records",
+          "id": "021c6f6f-b542-4728-8097-adf3d3a62f95",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/:model?where=<string>&orderBy=<string>&take=<integer>&skip=<integer>&cursor=<string>&select=<string>&include=<string>&distinct=<string>",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ":model"
+              ],
+              "query": [
+                {
+                  "description": "JSON-encoded filter conditions using Prisma query operators",
+                  "key": "where",
+                  "value": "<string>"
+                },
+                {
+                  "description": "JSON-encoded sort specification with field names and asc/desc",
+                  "key": "orderBy",
+                  "value": "<string>"
+                },
+                {
+                  "description": "Number of records to return. Negative values reverse the order.",
+                  "key": "take",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "Number of records to skip for offset pagination",
+                  "key": "skip",
+                  "value": "<integer>"
+                },
+                {
+                  "description": "JSON-encoded cursor position for cursor-based pagination",
+                  "key": "cursor",
+                  "value": "<string>"
+                },
+                {
+                  "description": "JSON-encoded field selection specifying which properties to include",
+                  "key": "select",
+                  "value": "<string>"
+                },
+                {
+                  "description": "JSON-encoded relation loading specification for eager loading",
+                  "key": "include",
+                  "value": "<string>"
+                },
+                {
+                  "description": "JSON-encoded list of fields to deduplicate results by",
+                  "key": "distinct",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "id": "2df7cb59-4fb7-41e4-bf46-3cf641b6dacd",
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "description": "Retrieves multiple records from the specified model with optional filtering, ordering, pagination, and relation loading. Supports where conditions with operators (equals, contains, startsWith, endsWith, gt, gte, lt, lte, in, notIn), orderBy on any field, cursor-based and offset pagination via take/skip, and distinct filtering."
+          },
+          "response": [
+            {
+              "id": "315950ec-c059-415e-a684-072d18843904",
+              "name": "Successfully retrieved records",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model?where=<string>&orderBy=<string>&take=<integer>&skip=<integer>&cursor=<string>&select=<string>&include=<string>&distinct=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions using Prisma query operators",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded sort specification with field names and asc/desc",
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Number of records to return. Negative values reverse the order.",
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Number of records to skip for offset pagination",
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "JSON-encoded cursor position for cursor-based pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded field selection specifying which properties to include",
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded relation loading specification for eager loading",
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded list of fields to deduplicate results by",
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"esse_8\": \"eu dolor ullamco\",\n    \"reprehenderit_\": -26249955\n  },\n  {\n    \"mollit394\": 73206864,\n    \"ullamco20\": true,\n    \"Excepteur_e\": \"eiusmod Excepteur culpa enim Duis\"\n  }\n]",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-315950ec-c059-415e-a684-072d18843904"
+            },
+            {
+              "id": "90d03d5f-b4a9-42b7-a879-96dd818cbc8f",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model?where=<string>&orderBy=<string>&take=<integer>&skip=<integer>&cursor=<string>&select=<string>&include=<string>&distinct=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions using Prisma query operators",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded sort specification with field names and asc/desc",
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Number of records to return. Negative values reverse the order.",
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Number of records to skip for offset pagination",
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "JSON-encoded cursor position for cursor-based pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded field selection specifying which properties to include",
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded relation loading specification for eager loading",
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded list of fields to deduplicate results by",
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-90d03d5f-b4a9-42b7-a879-96dd818cbc8f"
+            },
+            {
+              "id": "e25e595b-8722-409e-b5aa-d8b2fbdc22ba",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/:model?where=<string>&orderBy=<string>&take=<integer>&skip=<integer>&cursor=<string>&select=<string>&include=<string>&distinct=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "query": [
+                    {
+                      "description": "JSON-encoded filter conditions using Prisma query operators",
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded sort specification with field names and asc/desc",
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Number of records to return. Negative values reverse the order.",
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Number of records to skip for offset pagination",
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "JSON-encoded cursor position for cursor-based pagination",
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded field selection specifying which properties to include",
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded relation loading specification for eager loading",
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "JSON-encoded list of fields to deduplicate results by",
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-e25e595b-8722-409e-b5aa-d8b2fbdc22ba"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-021c6f6f-b542-4728-8097-adf3d3a62f95"
+        },
+        {
+          "name": "Prisma Create a new record",
+          "id": "e6b27bf3-92ce-4218-8df0-f5433102a855",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"voluptate_3\": \"ipsum dolor aliqua ex\",\n    \"tempor5d\": true\n  },\n  \"select\": {\n    \"et_5\": \"<boolean>\",\n    \"proident_3\": \"<boolean>\"\n  },\n  \"include\": {\n    \"Duis_504\": \"<boolean>\",\n    \"inb\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/:model",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ":model"
+              ],
+              "variable": [
+                {
+                  "id": "e6670d70-ff57-44b9-a86d-3d70ace36f79",
+                  "key": "model",
+                  "value": "<string>",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "description": "Creates a new record in the specified model with the provided data. Supports nested creation of related records via create and connectOrCreate operations, and connecting to existing related records via connect."
+          },
+          "response": [
+            {
+              "id": "6c8b0d8e-8673-42af-9283-812e2692f6f5",
+              "name": "Successfully created record",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"voluptate_3\": \"ipsum dolor aliqua ex\",\n    \"tempor5d\": true\n  },\n  \"select\": {\n    \"et_5\": \"<boolean>\",\n    \"proident_3\": \"<boolean>\"\n  },\n  \"include\": {\n    \"Duis_504\": \"<boolean>\",\n    \"inb\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"elit_2\": true\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-6c8b0d8e-8673-42af-9283-812e2692f6f5"
+            },
+            {
+              "id": "a5766cbe-4fb2-41bd-a248-50aba1f736ec",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"voluptate_3\": \"ipsum dolor aliqua ex\",\n    \"tempor5d\": true\n  },\n  \"select\": {\n    \"et_5\": \"<boolean>\",\n    \"proident_3\": \"<boolean>\"\n  },\n  \"include\": {\n    \"Duis_504\": \"<boolean>\",\n    \"inb\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-a5766cbe-4fb2-41bd-a248-50aba1f736ec"
+            },
+            {
+              "id": "d2b8497d-d835-4d3a-bf62-6d91b0e887df",
+              "name": "Unique constraint violation",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"voluptate_3\": \"ipsum dolor aliqua ex\",\n    \"tempor5d\": true\n  },\n  \"select\": {\n    \"et_5\": \"<boolean>\",\n    \"proident_3\": \"<boolean>\"\n  },\n  \"include\": {\n    \"Duis_504\": \"<boolean>\",\n    \"inb\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-d2b8497d-d835-4d3a-bf62-6d91b0e887df"
+            },
+            {
+              "id": "33a06885-ea19-4289-b0e0-a19a6955cb06",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"voluptate_3\": \"ipsum dolor aliqua ex\",\n    \"tempor5d\": true\n  },\n  \"select\": {\n    \"et_5\": \"<boolean>\",\n    \"proident_3\": \"<boolean>\"\n  },\n  \"include\": {\n    \"Duis_504\": \"<boolean>\",\n    \"inb\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/:model",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ":model"
+                  ],
+                  "variable": [
+                    {
+                      "key": "model"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-33a06885-ea19-4289-b0e0-a19a6955cb06"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-e6b27bf3-92ce-4218-8df0-f5433102a855"
+        }
+      ],
+      "id": "fb0e773d-069e-4a82-a62d-1b7c22b40726",
+      "createdAt": "2026-06-05T15:14:29.000Z",
+      "updatedAt": "2026-06-05T15:14:29.000Z",
+      "uid": "35240-fb0e773d-069e-4a82-a62d-1b7c22b40726"
+    },
+    {
+      "name": "raw",
+      "item": [
+        {
+          "name": "query",
+          "item": [
+            {
+              "name": "Prisma Execute a raw SQL query",
+              "id": "bef61933-bcd8-46a4-a594-72014c720d51",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/raw/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "raw",
+                    "query"
+                  ]
+                },
+                "description": "Executes a raw SQL SELECT query against the database and returns the result set. Use parameterized queries to prevent SQL injection."
+              },
+              "response": [
+                {
+                  "id": "2c218676-c2e3-49c6-bc42-ab64ab061160",
+                  "name": "Successfully executed query",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "[\n  {\n    \"labore261\": true,\n    \"enim_a9\": 80579868,\n    \"mollit_9\": -79204916.67232877\n  },\n  {\n    \"occaecat_8\": -10319835,\n    \"adipisicing_a5\": -37985929.76562039,\n    \"proident_4c\": \"sunt cupidatat dolore\"\n  }\n]",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-2c218676-c2e3-49c6-bc42-ab64ab061160"
+                },
+                {
+                  "id": "7ed5a431-ec10-48a2-9c59-1146f288a2f0",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-7ed5a431-ec10-48a2-9c59-1146f288a2f0"
+                },
+                {
+                  "id": "7aaf3485-911f-4e6e-abf4-d1ac1ebf23ae",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-7aaf3485-911f-4e6e-abf4-d1ac1ebf23ae"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-bef61933-bcd8-46a4-a594-72014c720d51"
+            }
+          ],
+          "id": "1d17ef06-e9a4-485b-975a-d10e3308fc92",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-1d17ef06-e9a4-485b-975a-d10e3308fc92"
+        },
+        {
+          "name": "execute",
+          "item": [
+            {
+              "name": "Prisma Execute a raw SQL statement",
+              "id": "6fa205b9-fb91-47a4-93b7-6cc9dcc06104",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/raw/execute",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "raw",
+                    "execute"
+                  ]
+                },
+                "description": "Executes a raw SQL statement (INSERT, UPDATE, DELETE, DDL) against the database and returns the number of affected rows."
+              },
+              "response": [
+                {
+                  "id": "f7a80939-97b8-4648-8ece-01eef50dd2dd",
+                  "name": "Successfully executed statement",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/execute",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "execute"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"count\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-f7a80939-97b8-4648-8ece-01eef50dd2dd"
+                },
+                {
+                  "id": "8b2cddc1-b1ad-4bd5-90ec-31c854d8b7e7",
+                  "name": "The request was invalid or malformed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/execute",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "execute"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-8b2cddc1-b1ad-4bd5-90ec-31c854d8b7e7"
+                },
+                {
+                  "id": "c8a59bd3-27ed-45c0-959b-c815b9fdbb50",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/raw/execute",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "raw",
+                        "execute"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"P6783\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"in47f\": \"tempor non\"\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:29.000Z",
+                  "updatedAt": "2026-06-05T15:14:29.000Z",
+                  "uid": "35240-c8a59bd3-27ed-45c0-959b-c815b9fdbb50"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:29.000Z",
+              "updatedAt": "2026-06-05T15:14:29.000Z",
+              "uid": "35240-6fa205b9-fb91-47a4-93b7-6cc9dcc06104"
+            }
+          ],
+          "id": "022b7b4c-b949-4061-a3bb-e7907b467129",
+          "createdAt": "2026-06-05T15:14:29.000Z",
+          "updatedAt": "2026-06-05T15:14:29.000Z",
+          "uid": "35240-022b7b4c-b949-4061-a3bb-e7907b467129"
+        }
+      ],
+      "id": "8caeaa70-6040-4e17-a09d-c244030c0218",
+      "createdAt": "2026-06-05T15:14:29.000Z",
+      "updatedAt": "2026-06-05T15:14:29.000Z",
+      "uid": "35240-8caeaa70-6040-4e17-a09d-c244030c0218"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:3000/api"
+    }
+  ]
+}

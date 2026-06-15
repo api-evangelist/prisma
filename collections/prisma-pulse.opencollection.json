@@ -1,0 +1,159 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Pulse API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Streams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List active event streams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pulse.prisma-data.net/streams"
+          },
+          "docs": "Retrieves a list of all active named streams for the current environment, including their status and cursor positions."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a named event stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pulse.prisma-data.net/streams",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new named event stream for a specific database model. Named streams are resumable, meaning that if the consumer disconnects and reconnects with the same stream name, it will resume from where it left off. Requires event persistence to be enabled on the environment. The stream() API provides at-least-once delivery with correct ordering guarantees."
+        },
+        {
+          "info": {
+            "name": "Prisma Consume events from a named stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pulse.prisma-data.net/streams/:streamName/events",
+            "params": [
+              {
+                "name": "streamName",
+                "value": "",
+                "type": "path",
+                "description": "Name of the stream to consume events from"
+              }
+            ]
+          },
+          "docs": "Opens a long-lived connection to receive events from a named stream. Events are delivered in order with at-least-once delivery guarantees when event persistence is enabled. The connection uses server-sent events (SSE) for real-time delivery. If the stream was previously consumed and has a saved cursor position, events resume from that position."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a named stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://pulse.prisma-data.net/streams/:streamName",
+            "params": [
+              {
+                "name": "streamName",
+                "value": "",
+                "type": "path",
+                "description": "Name of the stream to delete"
+              }
+            ]
+          },
+          "docs": "Permanently removes a named stream and its associated cursor position. Any active consumers will be disconnected. The stream name can be reused after deletion."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create a transient event subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://pulse.prisma-data.net/subscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a transient subscription to database change events for a specific model. The subscribe() method provides at-most-once delivery with no ordering guarantees. Events that occur while the subscriber is disconnected are not recovered. For guaranteed delivery, use the stream() API instead."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Get a specific event by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pulse.prisma-data.net/events/:eventId",
+            "params": [
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path",
+                "description": "ULID identifier of the event"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific database change event by its unique ULID identifier. Only available when event persistence is enabled."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Check Pulse service health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://pulse.prisma-data.net/health"
+          },
+          "docs": "Returns the current health status of the Pulse service and its connection to the configured database for change data capture."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

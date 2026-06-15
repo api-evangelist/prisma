@@ -1,0 +1,519 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Client API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CRUD",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Find multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions using Prisma query operators"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification with field names and asc/desc"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Negative values reverse the order."
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for offset pagination"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded cursor position for cursor-based pagination"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection specifying which properties to include"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification for eager loading"
+              },
+              {
+                "name": "distinct",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded list of fields to deduplicate results by"
+              }
+            ]
+          },
+          "docs": "Retrieves multiple records from the specified model with optional filtering, ordering, pagination, and relation loading. Supports where conditions with operators (equals, contains, startsWith, endsWith, gt, gte, lt, lte, in, notIn), orderBy on any field, cursor-based and offset pagination via take/skip, and distinct filtering."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a new record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:3000/api/:model",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new record in the specified model with the provided data. Supports nested creation of related records via create and connectOrCreate operations, and connecting to existing related records via connect."
+        },
+        {
+          "info": {
+            "name": "Prisma Find a unique record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification"
+              }
+            ]
+          },
+          "docs": "Retrieves a single record by its unique identifier or compound unique constraint. Returns null if no record matches. Use select to specify which fields to return and include for eager-loading relations."
+        },
+        {
+          "info": {
+            "name": "Prisma Update a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://localhost:3000/api/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing record identified by its unique identifier. Supports atomic number operations (increment, decrement, multiply, divide), nested relation updates (create, connect, disconnect, delete, update, upsert, set), and conditional updates."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://localhost:3000/api/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a single record identified by its unique identifier. Returns the deleted record data. Cascading deletes may apply based on the Prisma schema relation configuration."
+        },
+        {
+          "info": {
+            "name": "Prisma Upsert a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:3000/api/:model/upsert",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a record if it exists matching the where condition, or creates a new record if no match is found. Requires both create and update data to be provided along with the where condition."
+        },
+        {
+          "info": {
+            "name": "Prisma Find the first matching record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model/first",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification"
+              }
+            ]
+          },
+          "docs": "Returns the first record that matches the filter criteria. Supports the same filtering and ordering options as findMany. Returns null if no records match."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Aggregation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Count matching records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model/count",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection for field-level counts"
+              }
+            ]
+          },
+          "docs": "Returns the count of records matching the filter criteria. Optionally provides field-level counts showing how many non-null values exist for each specified field."
+        },
+        {
+          "info": {
+            "name": "Prisma Aggregate records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model/aggregate",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Fields to count or true for total count"
+              },
+              {
+                "name": "_avg",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to average"
+              },
+              {
+                "name": "_sum",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to sum"
+              },
+              {
+                "name": "_min",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to find minimum"
+              },
+              {
+                "name": "_max",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to find maximum"
+              }
+            ]
+          },
+          "docs": "Performs aggregate calculations on matching records. Supports _count, _avg, _sum, _min, and _max operations on numeric fields with optional filtering and ordering."
+        },
+        {
+          "info": {
+            "name": "Prisma Group records and aggregate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://localhost:3000/api/:model/groupBy",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "by",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded list of fields to group by"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions applied before grouping"
+              },
+              {
+                "name": "having",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions applied after grouping"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification for groups"
+              }
+            ]
+          },
+          "docs": "Groups records by one or more fields and applies aggregate functions within each group. Supports filtering groups with having conditions and ordering groups by field values or aggregate results."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Batch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:3000/api/:model/createMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Inserts multiple records in a single transaction. Optionally skips records that would violate unique constraints. Returns a count of created records. On PostgreSQL, CockroachDB, and SQLite, use createManyAndReturn to also retrieve the created records."
+        },
+        {
+          "info": {
+            "name": "Prisma Update multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://localhost:3000/api/:model/updateMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates all records matching the filter criteria with the provided data. Returns a count of the number of records updated. Does not return the updated records themselves."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://localhost:3000/api/:model/deleteMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              }
+            ]
+          },
+          "docs": "Deletes all records matching the filter criteria. Returns a count of the number of records deleted. If no filter is provided, all records in the model are deleted."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Raw",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Execute a raw SQL query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:3000/api/raw/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a raw SQL SELECT query against the database and returns the result set. Use parameterized queries to prevent SQL injection."
+        },
+        {
+          "info": {
+            "name": "Prisma Execute a raw SQL statement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://localhost:3000/api/raw/execute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a raw SQL statement (INSERT, UPDATE, DELETE, DDL) against the database and returns the number of affected rows."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

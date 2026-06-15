@@ -1,0 +1,1661 @@
+{
+  "info": {
+    "_postman_id": "e38a2968-a587-46dd-a7ea-7903c29c9cce",
+    "name": "Prisma Pulse API",
+    "description": "API for Prisma Pulse, a managed Change Data Capture (CDC) service that enables real-time database change events and type-safe subscriptions via Prisma Client. Pulse captures PostgreSQL logical replication events and delivers them through stream() and subscribe() methods. The stream() API provides at-least-once delivery with ordering guarantees and resumability, while subscribe() provides at-most-once delivery for simpler use cases. Events include create, update, and delete operations with full or partial record data depending on PostgreSQL REPLICA IDENTITY configuration.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:14:26.000Z",
+    "updatedAt": "2026-06-05T15:14:27.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e38a2968-a587-46dd-a7ea-7903c29c9cce"
+  },
+  "item": [
+    {
+      "name": "streams",
+      "item": [
+        {
+          "name": "{streamName}",
+          "item": [
+            {
+              "name": "events",
+              "item": [
+                {
+                  "name": "Prisma Consume events from a named stream",
+                  "id": "96a67555-8a55-488e-962d-6c6b4b85f919",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "text/event-stream"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/streams/:streamName/events",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "streams",
+                        ":streamName",
+                        "events"
+                      ],
+                      "variable": [
+                        {
+                          "id": "36eb5dcd-dfc8-40d5-89f1-530a290f8ac4",
+                          "key": "streamName",
+                          "value": "<string>",
+                          "description": "(Required) Name of the stream to consume events from"
+                        }
+                      ]
+                    },
+                    "description": "Opens a long-lived connection to receive events from a named stream. Events are delivered in order with at-least-once delivery guarantees when event persistence is enabled. The connection uses server-sent events (SSE) for real-time delivery. If the stream was previously consumed and has a saved cursor position, events resume from that position."
+                  },
+                  "response": [
+                    {
+                      "id": "a7b0dfa3-633e-4f1b-b95b-b60977d89cb3",
+                      "name": "Event stream opened successfully. Events are delivered as server-sent events.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "text/event-stream"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/streams/:streamName/events",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "streams",
+                            ":streamName",
+                            "events"
+                          ],
+                          "variable": [
+                            {
+                              "key": "streamName"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "text/event-stream"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"EEBRHA6DYZNNG9RTJXE9YKR6WM\",\n  \"action\": \"update\",\n  \"modelName\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T15:14:27.000Z",
+                      "updatedAt": "2026-06-05T15:14:27.000Z",
+                      "uid": "35240-a7b0dfa3-633e-4f1b-b95b-b60977d89cb3"
+                    },
+                    {
+                      "id": "b799718b-18e2-415e-8670-6e578bb8e1fe",
+                      "name": "Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/streams/:streamName/events",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "streams",
+                            ":streamName",
+                            "events"
+                          ],
+                          "variable": [
+                            {
+                              "key": "streamName"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:27.000Z",
+                      "updatedAt": "2026-06-05T15:14:27.000Z",
+                      "uid": "35240-b799718b-18e2-415e-8670-6e578bb8e1fe"
+                    },
+                    {
+                      "id": "c874901a-1e54-48d5-8afc-ab035c9ff32c",
+                      "name": "The requested resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/streams/:streamName/events",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "streams",
+                            ":streamName",
+                            "events"
+                          ],
+                          "variable": [
+                            {
+                              "key": "streamName"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:27.000Z",
+                      "updatedAt": "2026-06-05T15:14:27.000Z",
+                      "uid": "35240-c874901a-1e54-48d5-8afc-ab035c9ff32c"
+                    },
+                    {
+                      "id": "9bf80f9b-7f69-40fd-95e7-fff0853c4576",
+                      "name": "An unexpected error occurred",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/streams/:streamName/events",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "streams",
+                            ":streamName",
+                            "events"
+                          ],
+                          "variable": [
+                            {
+                              "key": "streamName"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:27.000Z",
+                      "updatedAt": "2026-06-05T15:14:27.000Z",
+                      "uid": "35240-9bf80f9b-7f69-40fd-95e7-fff0853c4576"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-96a67555-8a55-488e-962d-6c6b4b85f919"
+                }
+              ],
+              "id": "a80e5621-25d8-414c-8fab-f1666b70e21a",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-a80e5621-25d8-414c-8fab-f1666b70e21a"
+            },
+            {
+              "name": "Prisma Delete a named stream",
+              "id": "f94c49f4-94e7-4b2c-bd44-e2e1cc56493d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/streams/:streamName",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams",
+                    ":streamName"
+                  ],
+                  "variable": [
+                    {
+                      "id": "e4f5edcc-ba47-4dc6-adfc-855c9264f167",
+                      "key": "streamName",
+                      "value": "<string>",
+                      "description": "(Required) Name of the stream to delete"
+                    }
+                  ]
+                },
+                "description": "Permanently removes a named stream and its associated cursor position. Any active consumers will be disconnected. The stream name can be reused after deletion."
+              },
+              "response": [
+                {
+                  "id": "32021ac3-6793-4f65-a335-3f0fdfe85d93",
+                  "name": "Stream deleted successfully",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/streams/:streamName",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "streams",
+                        ":streamName"
+                      ],
+                      "variable": [
+                        {
+                          "key": "streamName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "No Content",
+                  "code": 204,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-32021ac3-6793-4f65-a335-3f0fdfe85d93"
+                },
+                {
+                  "id": "04e2ef02-b775-465f-9fbf-7c3b60cc6eac",
+                  "name": "Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/streams/:streamName",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "streams",
+                        ":streamName"
+                      ],
+                      "variable": [
+                        {
+                          "key": "streamName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-04e2ef02-b775-465f-9fbf-7c3b60cc6eac"
+                },
+                {
+                  "id": "14f7ca8c-6fe6-43e5-baa2-ca2e2776c265",
+                  "name": "The requested resource was not found",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/streams/:streamName",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "streams",
+                        ":streamName"
+                      ],
+                      "variable": [
+                        {
+                          "key": "streamName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-14f7ca8c-6fe6-43e5-baa2-ca2e2776c265"
+                },
+                {
+                  "id": "495f5061-1257-4d71-9f8f-4c1820ab5a65",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/streams/:streamName",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "streams",
+                        ":streamName"
+                      ],
+                      "variable": [
+                        {
+                          "key": "streamName"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-495f5061-1257-4d71-9f8f-4c1820ab5a65"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-f94c49f4-94e7-4b2c-bd44-e2e1cc56493d"
+            }
+          ],
+          "id": "c64ae484-5962-45b1-8375-c141dd550f02",
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-c64ae484-5962-45b1-8375-c141dd550f02"
+        },
+        {
+          "name": "Prisma Create a named event stream",
+          "id": "c7a7fdf5-d4ae-4811-9635-796e3dbe8b0b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/streams",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "streams"
+              ]
+            },
+            "description": "Creates a new named event stream for a specific database model. Named streams are resumable, meaning that if the consumer disconnects and reconnects with the same stream name, it will resume from where it left off. Requires event persistence to be enabled on the environment. The stream() API provides at-least-once delivery with correct ordering guarantees."
+          },
+          "response": [
+            {
+              "id": "4e18f6c8-8b2a-4675-a5af-e771b29a0cdc",
+              "name": "Stream created successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"status\": \"stopped\",\n  \"createdAt\": \"<dateTime>\",\n  \"cursor\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-4e18f6c8-8b2a-4675-a5af-e771b29a0cdc"
+            },
+            {
+              "id": "7e25a7ec-14f9-427c-b5f3-8258f4e5d3c1",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-7e25a7ec-14f9-427c-b5f3-8258f4e5d3c1"
+            },
+            {
+              "id": "0ad97c69-b72a-4cc3-982b-e063c9b424e6",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-0ad97c69-b72a-4cc3-982b-e063c9b424e6"
+            },
+            {
+              "id": "cf9eaabe-27fe-4809-be5d-3bbcc56c6def",
+              "name": "A stream with this name already exists",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-cf9eaabe-27fe-4809-be5d-3bbcc56c6def"
+            },
+            {
+              "id": "a3fef644-654c-4fc8-8de2-d1168175197a",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"dolore37e\": -47728276\n    },\n    \"update\": {\n      \"after\": {\n        \"veniamb9b\": false\n      }\n    },\n    \"delete\": {\n      \"consecteturf5\": -70090571,\n      \"minim17\": -82745058.88457444\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-a3fef644-654c-4fc8-8de2-d1168175197a"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-c7a7fdf5-d4ae-4811-9635-796e3dbe8b0b"
+        },
+        {
+          "name": "Prisma List active event streams",
+          "id": "096078d0-5a5c-4170-a964-683ee11d7b83",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/streams",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "streams"
+              ]
+            },
+            "description": "Retrieves a list of all active named streams for the current environment, including their status and cursor positions."
+          },
+          "response": [
+            {
+              "id": "a3e965c9-8376-4d16-a9d5-e1ecac550698",
+              "name": "Successfully retrieved list of streams",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"<string>\",\n      \"model\": \"<string>\",\n      \"status\": \"stopped\",\n      \"createdAt\": \"<dateTime>\",\n      \"cursor\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"model\": \"<string>\",\n      \"status\": \"stopped\",\n      \"createdAt\": \"<dateTime>\",\n      \"cursor\": \"<string>\"\n    }\n  ]\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-a3e965c9-8376-4d16-a9d5-e1ecac550698"
+            },
+            {
+              "id": "828ad7be-c132-4b33-9bc7-5d687098886f",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-828ad7be-c132-4b33-9bc7-5d687098886f"
+            },
+            {
+              "id": "a1a0e088-c88e-46d9-b57b-e95a02da12dd",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/streams",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "streams"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-a1a0e088-c88e-46d9-b57b-e95a02da12dd"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-096078d0-5a5c-4170-a964-683ee11d7b83"
+        }
+      ],
+      "id": "d4ab93ae-c980-4dac-b8b1-1c4c09216679",
+      "createdAt": "2026-06-05T15:14:27.000Z",
+      "updatedAt": "2026-06-05T15:14:27.000Z",
+      "uid": "35240-d4ab93ae-c980-4dac-b8b1-1c4c09216679"
+    },
+    {
+      "name": "subscribe",
+      "item": [
+        {
+          "name": "Prisma Create a transient event subscription",
+          "id": "f6b98213-da2c-413b-9e6f-e97deb81fbeb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"esse_030\": -44680819,\n      \"in_\": 23192212.438668087\n    },\n    \"update\": {\n      \"after\": {\n        \"sita\": -67284734,\n        \"sint_17\": 63712051.760697395\n      }\n    },\n    \"delete\": {\n      \"fugiat_504\": -24965844,\n      \"idda\": -66572778.21724334\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/subscribe",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "subscribe"
+              ]
+            },
+            "description": "Creates a transient subscription to database change events for a specific model. The subscribe() method provides at-most-once delivery with no ordering guarantees. Events that occur while the subscriber is disconnected are not recovered. For guaranteed delivery, use the stream() API instead."
+          },
+          "response": [
+            {
+              "id": "01492d86-085d-4b19-bebf-f784c83d9ca3",
+              "name": "Subscription opened successfully. Events are delivered as server-sent events.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"esse_030\": -44680819,\n      \"in_\": 23192212.438668087\n    },\n    \"update\": {\n      \"after\": {\n        \"sita\": -67284734,\n        \"sint_17\": 63712051.760697395\n      }\n    },\n    \"delete\": {\n      \"fugiat_504\": -24965844,\n      \"idda\": -66572778.21724334\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/subscribe",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "subscribe"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"id\": \"EEBRHA6DYZNNG9RTJXE9YKR6WM\",\n  \"action\": \"update\",\n  \"modelName\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-01492d86-085d-4b19-bebf-f784c83d9ca3"
+            },
+            {
+              "id": "a38e9e67-a59b-49b1-9341-bb243d7ef620",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"esse_030\": -44680819,\n      \"in_\": 23192212.438668087\n    },\n    \"update\": {\n      \"after\": {\n        \"sita\": -67284734,\n        \"sint_17\": 63712051.760697395\n      }\n    },\n    \"delete\": {\n      \"fugiat_504\": -24965844,\n      \"idda\": -66572778.21724334\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/subscribe",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "subscribe"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-a38e9e67-a59b-49b1-9341-bb243d7ef620"
+            },
+            {
+              "id": "66ee1163-fd02-4074-a1f2-a5f2225b279d",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"esse_030\": -44680819,\n      \"in_\": 23192212.438668087\n    },\n    \"update\": {\n      \"after\": {\n        \"sita\": -67284734,\n        \"sint_17\": 63712051.760697395\n      }\n    },\n    \"delete\": {\n      \"fugiat_504\": -24965844,\n      \"idda\": -66572778.21724334\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/subscribe",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "subscribe"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-66ee1163-fd02-4074-a1f2-a5f2225b279d"
+            },
+            {
+              "id": "6e2ecbf9-d499-4962-b2c9-1a938ab3104e",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"esse_030\": -44680819,\n      \"in_\": 23192212.438668087\n    },\n    \"update\": {\n      \"after\": {\n        \"sita\": -67284734,\n        \"sint_17\": 63712051.760697395\n      }\n    },\n    \"delete\": {\n      \"fugiat_504\": -24965844,\n      \"idda\": -66572778.21724334\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/subscribe",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "subscribe"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-6e2ecbf9-d499-4962-b2c9-1a938ab3104e"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-f6b98213-da2c-413b-9e6f-e97deb81fbeb"
+        }
+      ],
+      "id": "c5525a02-b230-4810-bda6-bf3c1d2928e4",
+      "createdAt": "2026-06-05T15:14:27.000Z",
+      "updatedAt": "2026-06-05T15:14:27.000Z",
+      "uid": "35240-c5525a02-b230-4810-bda6-bf3c1d2928e4"
+    },
+    {
+      "name": "events",
+      "item": [
+        {
+          "name": "{eventId}",
+          "item": [
+            {
+              "name": "Prisma Get a specific event by ID",
+              "id": "9fa24b37-23a4-4c53-9986-1d28e7384db7",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/events/:eventId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "events",
+                    ":eventId"
+                  ],
+                  "variable": [
+                    {
+                      "id": "19e6f97b-382d-4b96-ad09-d4f310c7b296",
+                      "key": "eventId",
+                      "value": "RMVT7JJCBSY570AK5XMGNP6B7V",
+                      "description": "(Required) ULID identifier of the event"
+                    }
+                  ]
+                },
+                "description": "Retrieves a specific database change event by its unique ULID identifier. Only available when event persistence is enabled."
+              },
+              "response": [
+                {
+                  "id": "d0f99d8f-d1bf-407c-a3e6-54a92e557d66",
+                  "name": "Event retrieved successfully",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:eventId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":eventId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "eventId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"EEBRHA6DYZNNG9RTJXE9YKR6WM\",\n  \"action\": \"update\",\n  \"modelName\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-d0f99d8f-d1bf-407c-a3e6-54a92e557d66"
+                },
+                {
+                  "id": "b597ee5c-a53e-4dd8-beb0-04cdef5c7a28",
+                  "name": "Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:eventId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":eventId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "eventId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-b597ee5c-a53e-4dd8-beb0-04cdef5c7a28"
+                },
+                {
+                  "id": "7c446689-706f-4b6e-b8ea-bec0f2b063fd",
+                  "name": "The requested resource was not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:eventId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":eventId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "eventId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-7c446689-706f-4b6e-b8ea-bec0f2b063fd"
+                },
+                {
+                  "id": "9f2107fd-acdc-4b71-b5df-4325cc7a4931",
+                  "name": "An unexpected error occurred",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/events/:eventId",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "events",
+                        ":eventId"
+                      ],
+                      "variable": [
+                        {
+                          "key": "eventId"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"anim_9\": false,\n    \"cillum_c\": 40025400,\n    \"Ut1\": -67934405.61179213\n  }\n}",
+                  "createdAt": "2026-06-05T15:14:27.000Z",
+                  "updatedAt": "2026-06-05T15:14:27.000Z",
+                  "uid": "35240-9f2107fd-acdc-4b71-b5df-4325cc7a4931"
+                }
+              ],
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-9fa24b37-23a4-4c53-9986-1d28e7384db7"
+            }
+          ],
+          "id": "ae3a5dc0-e553-4859-8fad-1f7760c6787c",
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-ae3a5dc0-e553-4859-8fad-1f7760c6787c"
+        }
+      ],
+      "id": "5b4c8bbb-8f75-41c0-9dad-578d2ad4d709",
+      "createdAt": "2026-06-05T15:14:27.000Z",
+      "updatedAt": "2026-06-05T15:14:27.000Z",
+      "uid": "35240-5b4c8bbb-8f75-41c0-9dad-578d2ad4d709"
+    },
+    {
+      "name": "health",
+      "item": [
+        {
+          "name": "Prisma Check Pulse service health",
+          "id": "259dc67f-431b-40f9-ba14-97a9a5ec9be9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Returns the current health status of the Pulse service and its connection to the configured database for change data capture."
+          },
+          "response": [
+            {
+              "id": "8f8a89a7-3046-4c2e-8a7f-62912cf7cc1a",
+              "name": "Service is healthy",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"<dateTime>\",\n  \"replicationStatus\": \"disconnected\"\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-8f8a89a7-3046-4c2e-8a7f-62912cf7cc1a"
+            },
+            {
+              "id": "34526992-6206-4c13-966a-ca4ae800855d",
+              "name": "Service is unavailable",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"<dateTime>\",\n  \"replicationStatus\": \"disconnected\"\n}",
+              "createdAt": "2026-06-05T15:14:27.000Z",
+              "updatedAt": "2026-06-05T15:14:27.000Z",
+              "uid": "35240-34526992-6206-4c13-966a-ca4ae800855d"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:27.000Z",
+          "updatedAt": "2026-06-05T15:14:27.000Z",
+          "uid": "35240-259dc67f-431b-40f9-ba14-97a9a5ec9be9"
+        }
+      ],
+      "id": "093ca751-0b28-4141-b25e-f1a131a2ee18",
+      "createdAt": "2026-06-05T15:14:27.000Z",
+      "updatedAt": "2026-06-05T15:14:27.000Z",
+      "uid": "35240-093ca751-0b28-4141-b25e-f1a131a2ee18"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://pulse.prisma-data.net"
+    }
+  ]
+}

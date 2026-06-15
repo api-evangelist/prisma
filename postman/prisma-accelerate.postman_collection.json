@@ -1,0 +1,1112 @@
+{
+  "info": {
+    "_postman_id": "44364737-ca3f-418a-a971-8a804b34245f",
+    "name": "Prisma Accelerate API",
+    "description": "API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:14:14.000Z",
+    "updatedAt": "2026-06-05T15:14:14.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-44364737-ca3f-418a-a971-8a804b34245f"
+  },
+  "item": [
+    {
+      "name": "{apiVersion}",
+      "item": [
+        {
+          "name": "{engineHash}",
+          "item": [
+            {
+              "name": "graphql",
+              "item": [
+                {
+                  "name": "Prisma Execute a proxied database query",
+                  "id": "ae9f3544-701c-473c-a10b-5ef9a4e909d9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"id0\": true,\n    \"esse_a4\": \"sit qui quis\"\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"9UVSKNpPH8Z7B21Nogv8rFeJFEBkUpk\",\n        \"Dmj_89QGO4emaTORn3p1\"\n      ]\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/:apiVersion/:engineHash/graphql",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        ":apiVersion",
+                        ":engineHash",
+                        "graphql"
+                      ],
+                      "variable": [
+                        {
+                          "id": "3bc26f9b-1113-44c2-be73-14a73a3c5084",
+                          "key": "apiVersion",
+                          "value": "<string>",
+                          "description": "(Required) Prisma engine API version"
+                        },
+                        {
+                          "id": "579eb40d-9a5b-404a-afdd-c9afc31ef51e",
+                          "key": "engineHash",
+                          "value": "<string>",
+                          "description": "(Required) Prisma engine version hash for protocol compatibility"
+                        }
+                      ]
+                    },
+                    "description": "Executes a Prisma Client query through the Accelerate proxy. The proxy manages connection pooling, applies caching strategies based on the cacheStrategy parameters, and returns results from cache when available. Cache behavior is controlled by TTL (time-to-live) and SWR (stale-while-revalidate) headers or query parameters."
+                  },
+                  "response": [
+                    {
+                      "id": "032dfdbe-d7ee-42cc-ad6a-a977e55d5957",
+                      "name": "Query executed successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"id0\": true,\n    \"esse_a4\": \"sit qui quis\"\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"9UVSKNpPH8Z7B21Nogv8rFeJFEBkUpk\",\n        \"Dmj_89QGO4emaTORn3p1\"\n      ]\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/:apiVersion/:engineHash/graphql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            ":apiVersion",
+                            ":engineHash",
+                            "graphql"
+                          ],
+                          "variable": [
+                            {
+                              "key": "apiVersion"
+                            },
+                            {
+                              "key": "engineHash"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Indicates the cache status of the response. Values include ttl (served from cache within TTL), swr (served stale while revalidating), miss (cache miss, fetched from database), or none (caching not configured for this query).",
+                            "type": "text/plain"
+                          },
+                          "key": "x-accelerate-cache-status",
+                          "value": "none"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Timestamp when the cached entry was last updated",
+                            "type": "text/plain"
+                          },
+                          "key": "x-accelerate-last-modified",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Edge region that processed the request",
+                            "type": "text/plain"
+                          },
+                          "key": "x-accelerate-region",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Unique identifier for the request for debugging",
+                            "type": "text/plain"
+                          },
+                          "key": "x-accelerate-request-id",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Response signature for verification",
+                            "type": "text/plain"
+                          },
+                          "key": "x-accelerate-signature",
+                          "value": "<string>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"labore_3\": \"nisi Duis\"\n  },\n  \"errors\": [\n    {\n      \"code\": \"P6528\",\n      \"message\": \"<string>\",\n      \"meta\": {\n        \"sunt34\": true,\n        \"est43\": true,\n        \"nisi_5e\": 63016000.55933067\n      }\n    },\n    {\n      \"code\": \"P6064\",\n      \"message\": \"<string>\",\n      \"meta\": {\n        \"incididuntedc\": 43876024,\n        \"in_9\": false\n      }\n    }\n  ],\n  \"extensions\": {\n    \"accelerateInfo\": {\n      \"cacheStatus\": \"none\",\n      \"requestId\": \"<string>\",\n      \"lastModified\": \"<dateTime>\",\n      \"region\": \"<string>\",\n      \"signature\": \"<string>\"\n    }\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:15.000Z",
+                      "updatedAt": "2026-06-05T15:14:15.000Z",
+                      "uid": "35240-032dfdbe-d7ee-42cc-ad6a-a977e55d5957"
+                    },
+                    {
+                      "id": "71b0ef04-4d25-4e83-be87-bb11d3608da3",
+                      "name": "The request was invalid or malformed",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"id0\": true,\n    \"esse_a4\": \"sit qui quis\"\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"9UVSKNpPH8Z7B21Nogv8rFeJFEBkUpk\",\n        \"Dmj_89QGO4emaTORn3p1\"\n      ]\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/:apiVersion/:engineHash/graphql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            ":apiVersion",
+                            ":engineHash",
+                            "graphql"
+                          ],
+                          "variable": [
+                            {
+                              "key": "apiVersion"
+                            },
+                            {
+                              "key": "engineHash"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:15.000Z",
+                      "updatedAt": "2026-06-05T15:14:15.000Z",
+                      "uid": "35240-71b0ef04-4d25-4e83-be87-bb11d3608da3"
+                    },
+                    {
+                      "id": "ff25075f-43fa-4dfa-a1d9-ee3376bd4c38",
+                      "name": "Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"id0\": true,\n    \"esse_a4\": \"sit qui quis\"\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"9UVSKNpPH8Z7B21Nogv8rFeJFEBkUpk\",\n        \"Dmj_89QGO4emaTORn3p1\"\n      ]\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/:apiVersion/:engineHash/graphql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            ":apiVersion",
+                            ":engineHash",
+                            "graphql"
+                          ],
+                          "variable": [
+                            {
+                              "key": "apiVersion"
+                            },
+                            {
+                              "key": "engineHash"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:15.000Z",
+                      "updatedAt": "2026-06-05T15:14:15.000Z",
+                      "uid": "35240-ff25075f-43fa-4dfa-a1d9-ee3376bd4c38"
+                    },
+                    {
+                      "id": "134e44e8-2654-4c86-a842-f335791d5058",
+                      "name": "An unexpected error occurred",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"id0\": true,\n    \"esse_a4\": \"sit qui quis\"\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"9UVSKNpPH8Z7B21Nogv8rFeJFEBkUpk\",\n        \"Dmj_89QGO4emaTORn3p1\"\n      ]\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/:apiVersion/:engineHash/graphql",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            ":apiVersion",
+                            ":engineHash",
+                            "graphql"
+                          ],
+                          "variable": [
+                            {
+                              "key": "apiVersion"
+                            },
+                            {
+                              "key": "engineHash"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+                      "createdAt": "2026-06-05T15:14:15.000Z",
+                      "updatedAt": "2026-06-05T15:14:15.000Z",
+                      "uid": "35240-134e44e8-2654-4c86-a842-f335791d5058"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:14:15.000Z",
+                  "updatedAt": "2026-06-05T15:14:15.000Z",
+                  "uid": "35240-ae9f3544-701c-473c-a10b-5ef9a4e909d9"
+                }
+              ],
+              "id": "f736c1ad-9636-443f-9fa1-63bc09d56997",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-f736c1ad-9636-443f-9fa1-63bc09d56997"
+            }
+          ],
+          "id": "abc0e183-d2b7-4fbb-a422-a6f7d36fd082",
+          "createdAt": "2026-06-05T15:14:15.000Z",
+          "updatedAt": "2026-06-05T15:14:15.000Z",
+          "uid": "35240-abc0e183-d2b7-4fbb-a422-a6f7d36fd082"
+        }
+      ],
+      "id": "cbf05fa4-ea04-464b-bfc3-d8705f54db9b",
+      "createdAt": "2026-06-05T15:14:15.000Z",
+      "updatedAt": "2026-06-05T15:14:15.000Z",
+      "uid": "35240-cbf05fa4-ea04-464b-bfc3-d8705f54db9b"
+    },
+    {
+      "name": "invalidate",
+      "item": [
+        {
+          "name": "Prisma Invalidate cache entries by tags",
+          "id": "6165140d-6397-44ad-9f18-1c23cbee312c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/invalidate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "invalidate"
+              ]
+            },
+            "description": "Invalidates cached query results that were tagged with the specified cache tags. Up to 5 tags can be specified per request. Tags are alphanumeric strings with underscores, maximum 64 characters each. This endpoint is available on paid plans only."
+          },
+          "response": [
+            {
+              "id": "70bda9ba-83c8-4a2b-a6fe-5fd8d068e029",
+              "name": "Cache entries successfully invalidated",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"success\": \"<boolean>\",\n  \"invalidatedTags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-70bda9ba-83c8-4a2b-a6fe-5fd8d068e029"
+            },
+            {
+              "id": "c37ae12c-0469-4392-bba6-9ce51c38fe6b",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-c37ae12c-0469-4392-bba6-9ce51c38fe6b"
+            },
+            {
+              "id": "770f6f88-9f34-4d65-b637-5513288651ff",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-770f6f88-9f34-4d65-b637-5513288651ff"
+            },
+            {
+              "id": "e4f953cb-f266-4355-90e3-269bc7f128c2",
+              "name": "Rate limit exceeded for cache invalidation (error code P6003). Retry after the indicated time.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "disabled": false,
+                  "description": {
+                    "content": "Seconds to wait before retrying",
+                    "type": "text/plain"
+                  },
+                  "key": "retry-after",
+                  "value": "<integer>"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-e4f953cb-f266-4355-90e3-269bc7f128c2"
+            },
+            {
+              "id": "3b65e5d2-a5f2-4d6a-8cbe-f622599c2b74",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"zTcJNVc7om7iYXgxN_PDf\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-3b65e5d2-a5f2-4d6a-8cbe-f622599c2b74"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:15.000Z",
+          "updatedAt": "2026-06-05T15:14:15.000Z",
+          "uid": "35240-6165140d-6397-44ad-9f18-1c23cbee312c"
+        }
+      ],
+      "id": "429bdeb6-0375-4d55-98f0-258b83847e7b",
+      "createdAt": "2026-06-05T15:14:15.000Z",
+      "updatedAt": "2026-06-05T15:14:15.000Z",
+      "uid": "35240-429bdeb6-0375-4d55-98f0-258b83847e7b"
+    },
+    {
+      "name": "invalidate-all",
+      "item": [
+        {
+          "name": "Prisma Invalidate all cache entries",
+          "id": "b5ddff5c-c617-4903-bb81-6fa94697a460",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/invalidate-all",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "invalidate-all"
+              ]
+            },
+            "description": "Clears the entire cache for the current environment. Use with caution as this affects all cached queries in the environment and may cause a temporary increase in database load as the cache repopulates."
+          },
+          "response": [
+            {
+              "id": "68cb1da9-c074-4ec7-9764-34d0defb03c5",
+              "name": "All cache entries successfully invalidated",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate-all",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate-all"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"success\": \"<boolean>\",\n  \"invalidatedTags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-68cb1da9-c074-4ec7-9764-34d0defb03c5"
+            },
+            {
+              "id": "b69c58d7-ed55-429e-9a4a-848232e0ecdb",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate-all",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate-all"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-b69c58d7-ed55-429e-9a4a-848232e0ecdb"
+            },
+            {
+              "id": "b9d9482a-87b4-4424-8bb4-d1be43ce972e",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate-all",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate-all"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-b9d9482a-87b4-4424-8bb4-d1be43ce972e"
+            },
+            {
+              "id": "f37797a6-108e-4264-a838-6b1b1bffa655",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/invalidate-all",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "invalidate-all"
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"code\": \"P6351\",\n  \"message\": \"<string>\",\n  \"meta\": {\n    \"deserunt_9\": false\n  }\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-f37797a6-108e-4264-a838-6b1b1bffa655"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:15.000Z",
+          "updatedAt": "2026-06-05T15:14:15.000Z",
+          "uid": "35240-b5ddff5c-c617-4903-bb81-6fa94697a460"
+        }
+      ],
+      "id": "7bc6a862-ca83-47b4-827b-786218c31037",
+      "createdAt": "2026-06-05T15:14:15.000Z",
+      "updatedAt": "2026-06-05T15:14:15.000Z",
+      "uid": "35240-7bc6a862-ca83-47b4-827b-786218c31037"
+    },
+    {
+      "name": "health",
+      "item": [
+        {
+          "name": "Prisma Check Accelerate service health",
+          "id": "7e52325f-80f8-4b69-b2cb-0aa729cd46f0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Returns the current health status of the Accelerate proxy service including regional availability information."
+          },
+          "response": [
+            {
+              "id": "1aba5706-990c-4824-b913-74016dc3214c",
+              "name": "Service is healthy",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"<dateTime>\",\n  \"region\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-1aba5706-990c-4824-b913-74016dc3214c"
+            },
+            {
+              "id": "17596661-36c6-4d4a-9abb-5a4c7965460e",
+              "name": "Service is unavailable",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"status\": \"healthy\",\n  \"timestamp\": \"<dateTime>\",\n  \"region\": \"<string>\"\n}",
+              "createdAt": "2026-06-05T15:14:15.000Z",
+              "updatedAt": "2026-06-05T15:14:15.000Z",
+              "uid": "35240-17596661-36c6-4d4a-9abb-5a4c7965460e"
+            }
+          ],
+          "createdAt": "2026-06-05T15:14:15.000Z",
+          "updatedAt": "2026-06-05T15:14:15.000Z",
+          "uid": "35240-7e52325f-80f8-4b69-b2cb-0aa729cd46f0"
+        }
+      ],
+      "id": "dc08f85d-a470-416f-81db-56db8e819986",
+      "createdAt": "2026-06-05T15:14:15.000Z",
+      "updatedAt": "2026-06-05T15:14:15.000Z",
+      "uid": "35240-dc08f85d-a470-416f-81db-56db8e819986"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://accelerate.prisma-data.net"
+    }
+  ]
+}

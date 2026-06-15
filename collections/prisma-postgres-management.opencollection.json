@@ -1,0 +1,413 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Postgres Management API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workspaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List all workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/workspaces"
+          },
+          "docs": "Retrieves a list of all workspaces accessible to the authenticated user or service token. Workspaces are the top-level organizational unit containing projects and databases."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/workspaces/:workspaceId",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific workspace including its configuration and billing status."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List projects in a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves all projects within a specified workspace. Projects contain databases and their associated configuration."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a project with a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prisma.io/v1/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the specified workspace. A Prisma Postgres database is automatically provisioned in the specified region. The response includes the database connection string, API keys, and direct TCP connection details."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific project including its associated databases."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prisma.io/v1/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a project and all associated databases, backups, and connection strings. This action cannot be undone."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Databases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create a database in a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prisma.io/v1/projects/:projectId/databases",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions a new Prisma Postgres database within an existing project. The database runs on PostgreSQL v17 using unikernel-based infrastructure for performance and security isolation."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/databases/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific Prisma Postgres database including its status, region, and connection details."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prisma.io/v1/databases/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a Prisma Postgres database and all its data. This action cannot be undone. All associated backups and connection strings are also removed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Database Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Get database usage metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/usage",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Start date for the usage metrics period (ISO 8601 format)"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "End date for the usage metrics period (ISO 8601 format)"
+              }
+            ]
+          },
+          "docs": "Retrieves usage metrics for a specific database including storage consumption, query counts, connection counts, and compute utilization over a specified time range."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Database Backups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List database backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/backups",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all backups for a specific database, including automatic and manual backups with their status and size."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a manual database backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/backups",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates a manual backup of the specified database. The backup process runs asynchronously. Use the backup ID to check status."
+        },
+        {
+          "info": {
+            "name": "Prisma Restore a database from backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/backups/:backupId/restore",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              },
+              {
+                "name": "backupId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the backup to restore"
+              }
+            ]
+          },
+          "docs": "Restores a database to the state captured in a specific backup. This operation replaces the current database content with the backup data."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List database connection strings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/connections",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves all connection strings for a specific database, including the Prisma Postgres connection string and direct TCP connection details."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a database connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.prisma.io/v1/databases/:databaseId/connections",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new connection string for the specified database with optional configuration for connection pooling and access restrictions."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.prisma.io/v1/connections/:connectionId",
+            "params": [
+              {
+                "name": "connectionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the connection string"
+              }
+            ]
+          },
+          "docs": "Permanently revokes and deletes a connection string. Any clients using this connection will immediately lose database access."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List configured integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.prisma.io/v1/integrations"
+          },
+          "docs": "Retrieves all third-party integrations configured for the current workspace or project."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,3594 @@
+{
+  "item": [
+    {
+      "id": "c45e5f4b-f416-4c4c-8996-cbe0f8193f70",
+      "name": "Aggregation",
+      "description": {
+        "content": "Count, aggregate, and groupBy operations for analytics",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eeaf123c-128d-4a10-ac95-79ef55feddb9",
+          "name": "Prisma Count matching records",
+          "request": {
+            "name": "Prisma Count matching records",
+            "description": {
+              "content": "Returns the count of records matching the filter criteria. Optionally provides field-level counts showing how many non-null values exist for each specified field.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "count"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions"
+                },
+                {
+                  "disabled": false,
+                  "key": "select",
+                  "value": "<string>",
+                  "description": "JSON-encoded field selection for field-level counts"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "24b0aa3a-bd4e-40d8-9ea6-1372ac09c59e",
+              "name": "Successfully retrieved count",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "9211",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "028ae146-0c1d-4830-9417-506a3e28570b",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a8fa13f-45c7-4f3e-971c-f41e49d54f3f",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "count"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c15703cc-c77a-41e2-885f-26f222821a4d",
+          "name": "Prisma Aggregate records",
+          "request": {
+            "name": "Prisma Aggregate records",
+            "description": {
+              "content": "Performs aggregate calculations on matching records. Supports _count, _avg, _sum, _min, and _max operations on numeric fields with optional filtering and ordering.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "aggregate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions"
+                },
+                {
+                  "disabled": false,
+                  "key": "_count",
+                  "value": "<string>",
+                  "description": "Fields to count or true for total count"
+                },
+                {
+                  "disabled": false,
+                  "key": "_avg",
+                  "value": "<string>",
+                  "description": "JSON-encoded specification of fields to average"
+                },
+                {
+                  "disabled": false,
+                  "key": "_sum",
+                  "value": "<string>",
+                  "description": "JSON-encoded specification of fields to sum"
+                },
+                {
+                  "disabled": false,
+                  "key": "_min",
+                  "value": "<string>",
+                  "description": "JSON-encoded specification of fields to find minimum"
+                },
+                {
+                  "disabled": false,
+                  "key": "_max",
+                  "value": "<string>",
+                  "description": "JSON-encoded specification of fields to find maximum"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2d0e6f2f-0594-4536-9618-656209d6b6f7",
+              "name": "Successfully performed aggregation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "aggregate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_avg",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_sum",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_min",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_max",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"_count\": {\n    \"key_0\": 4060,\n    \"key_1\": 9737,\n    \"key_2\": 3729,\n    \"key_3\": 4515\n  },\n  \"_avg\": {\n    \"key_0\": 576.739528559771,\n    \"key_1\": 772.2387478136517,\n    \"key_2\": 3307.6289401242243\n  },\n  \"_sum\": {\n    \"key_0\": 9250.351987480011\n  },\n  \"_min\": {\n    \"key_0\": \"string\",\n    \"key_1\": 467\n  },\n  \"_max\": {\n    \"key_0\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb4118ec-8707-43ed-a101-ab68a77a7674",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "aggregate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_avg",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_sum",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_min",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_max",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6084f0ba-3ad1-4d8b-bf38-53daa37f5e9d",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "aggregate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_count",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_avg",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_sum",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_min",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_max",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "16752de7-1c92-4f89-8f38-e0d9d560a1ad",
+          "name": "Prisma Group records and aggregate",
+          "request": {
+            "name": "Prisma Group records and aggregate",
+            "description": {
+              "content": "Groups records by one or more fields and applies aggregate functions within each group. Supports filtering groups with having conditions and ordering groups by field values or aggregate results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "groupBy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "by",
+                  "value": "<string>",
+                  "description": "(Required) JSON-encoded list of fields to group by"
+                },
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions applied before grouping"
+                },
+                {
+                  "disabled": false,
+                  "key": "having",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions applied after grouping"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "<string>",
+                  "description": "JSON-encoded sort specification for groups"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff93ce87-b216-43a4-b4d7-434b615aa403",
+              "name": "Successfully grouped and aggregated records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "groupBy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "having",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key_0\": 5174,\n    \"key_1\": \"string\",\n    \"key_2\": 7929,\n    \"key_3\": 2641\n  },\n  {\n    \"key_0\": 2589,\n    \"key_1\": 2554\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "03af23a0-9e12-4ffe-8bb1-b70340f08936",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "groupBy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "having",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "20ed3fb3-f549-4ebf-95a1-10ea268c78a8",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "groupBy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "by",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "having",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c432646c-e0c4-4fef-a72c-cab3414d0029",
+      "name": "Batch",
+      "description": {
+        "content": "Batch operations for bulk create, update, and delete",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2fb27476-dc75-41c1-ae19-cf0da257eca6",
+          "name": "Prisma Create multiple records",
+          "request": {
+            "name": "Prisma Create multiple records",
+            "description": {
+              "content": "Inserts multiple records in a single transaction. Optionally skips records that would violate unique constraints. Returns a count of created records. On PostgreSQL, CockroachDB, and SQLite, use createManyAndReturn to also retrieve the created records.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "createMany"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"key_0\": 4008.1335156806686\n    },\n    {\n      \"key_0\": 6819.136677761298\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0fd02ec9-20df-4bd6-a044-2157ba70255a",
+              "name": "Successfully created records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "createMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"key_0\": 5802,\n      \"key_1\": 2916.9960716701526\n    },\n    {\n      \"key_0\": false,\n      \"key_1\": \"string\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 3339\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6785924e-4dbb-44dc-90de-bb6b134fe2f8",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "createMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"key_0\": 5802,\n      \"key_1\": 2916.9960716701526\n    },\n    {\n      \"key_0\": false,\n      \"key_1\": \"string\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c7f7cf4d-6b49-4e40-b98c-4721169da365",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "createMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": [\n    {\n      \"key_0\": 5802,\n      \"key_1\": 2916.9960716701526\n    },\n    {\n      \"key_0\": false,\n      \"key_1\": \"string\"\n    }\n  ],\n  \"skipDuplicates\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "18ea0502-e65b-43aa-af9c-b9e1c07ac9d9",
+          "name": "Prisma Update multiple records",
+          "request": {
+            "name": "Prisma Update multiple records",
+            "description": {
+              "content": "Updates all records matching the filter criteria with the provided data. Returns a count of the number of records updated. Does not return the updated records themselves.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "updateMany"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"key_0\": true,\n    \"key_1\": 4303.886451014568\n  },\n  \"where\": {\n    \"key_0\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b95677fd-ab47-476e-a834-2c3bbeed0efa",
+              "name": "Successfully updated records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "updateMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 773,\n    \"key_1\": 8819,\n    \"key_2\": \"string\"\n  },\n  \"where\": {\n    \"key_0\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 3339\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c25cf45d-150e-46ce-a99c-8beff20fa908",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "updateMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 773,\n    \"key_1\": 8819,\n    \"key_2\": \"string\"\n  },\n  \"where\": {\n    \"key_0\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e8f6f82-0db0-4161-af12-b3c2ebefb1cc",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "updateMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 773,\n    \"key_1\": 8819,\n    \"key_2\": \"string\"\n  },\n  \"where\": {\n    \"key_0\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a850354d-0e6f-4802-85a8-514530d744a7",
+          "name": "Prisma Delete multiple records",
+          "request": {
+            "name": "Prisma Delete multiple records",
+            "description": {
+              "content": "Deletes all records matching the filter criteria. Returns a count of the number of records deleted. If no filter is provided, all records in the model are deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "deleteMany"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b11d4e9-72e7-446d-90cf-dc00ca77846f",
+              "name": "Successfully deleted records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "deleteMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 3339\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "327f6462-57c7-43ab-a33e-70bdbc966ed4",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "deleteMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cde92bc0-32ba-476d-88da-1c2d00e5a489",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "deleteMany"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "257aaa7e-b822-4cf5-b460-2aeb34e32b27",
+      "name": "CRUD",
+      "description": {
+        "content": "Core create, read, update, and delete operations for database models",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7305cfe4-0baf-485d-8160-87d158466335",
+          "name": "Prisma Find multiple records",
+          "request": {
+            "name": "Prisma Find multiple records",
+            "description": {
+              "content": "Retrieves multiple records from the specified model with optional filtering, ordering, pagination, and relation loading. Supports where conditions with operators (equals, contains, startsWith, endsWith, gt, gte, lt, lte, in, notIn), orderBy on any field, cursor-based and offset pagination via take/skip, and distinct filtering.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions using Prisma query operators"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "<string>",
+                  "description": "JSON-encoded sort specification with field names and asc/desc"
+                },
+                {
+                  "disabled": false,
+                  "key": "take",
+                  "value": "<integer>",
+                  "description": "Number of records to return. Negative values reverse the order."
+                },
+                {
+                  "disabled": false,
+                  "key": "skip",
+                  "value": "<integer>",
+                  "description": "Number of records to skip for offset pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "cursor",
+                  "value": "<string>",
+                  "description": "JSON-encoded cursor position for cursor-based pagination"
+                },
+                {
+                  "disabled": false,
+                  "key": "select",
+                  "value": "<string>",
+                  "description": "JSON-encoded field selection specifying which properties to include"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "JSON-encoded relation loading specification for eager loading"
+                },
+                {
+                  "disabled": false,
+                  "key": "distinct",
+                  "value": "<string>",
+                  "description": "JSON-encoded list of fields to deduplicate results by"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2e2a4c63-c1f8-4c68-b5f3-aadee63abf04",
+              "name": "Successfully retrieved records",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key_0\": 5133.279022185598,\n    \"key_1\": 2212\n  },\n  {\n    \"key_0\": 8485,\n    \"key_1\": \"string\",\n    \"key_2\": 2479.865671058451,\n    \"key_3\": 9484\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3c5be469-af9b-4efc-a558-747a88e82648",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e62a7a6d-1e9e-4693-9c4a-ccf2b24b90f4",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "take",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "skip",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "distinct",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "288fe066-ea22-4a1b-96ec-7b5338a6a82f",
+          "name": "Prisma Create a new record",
+          "request": {
+            "name": "Prisma Create a new record",
+            "description": {
+              "content": "Creates a new record in the specified model with the provided data. Supports nested creation of related records via create and connectOrCreate operations, and connecting to existing related records via connect.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"key_0\": true,\n    \"key_1\": true\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8c385bf0-6534-4788-8a4e-679898deaff9",
+              "name": "Successfully created record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 2696.377873321163\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "539c06a9-e736-4d9c-b310-b584922c595e",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 2696.377873321163\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "601d73d7-5875-43a6-b9df-6fff0ab9cb3a",
+              "name": "Unique constraint violation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 2696.377873321163\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3822329-50d9-4196-a763-154dff96c4ce",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 2696.377873321163\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b3b3be57-3a05-4618-825c-3f0348947961",
+          "name": "Prisma Find a unique record",
+          "request": {
+            "name": "Prisma Find a unique record",
+            "description": {
+              "content": "Retrieves a single record by its unique identifier or compound unique constraint. Returns null if no record matches. Use select to specify which fields to return and include for eager-loading relations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "select",
+                  "value": "<string>",
+                  "description": "JSON-encoded field selection"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "JSON-encoded relation loading specification"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the record"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "589ca4c4-0b9a-484e-83c4-a30847ed6306",
+              "name": "Successfully retrieved record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b4468ba-fd73-431a-9713-9301fd961cbe",
+              "name": "The requested record was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "632ae7e6-94af-4faa-bd1c-4d126e4bfd9b",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "044a0ead-5fc1-4498-89f4-b42e7d22433f",
+          "name": "Prisma Update a record",
+          "request": {
+            "name": "Prisma Update a record",
+            "description": {
+              "content": "Updates an existing record identified by its unique identifier. Supports atomic number operations (increment, decrement, multiply, divide), nested relation updates (create, connect, disconnect, delete, update, upsert, set), and conditional updates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the record"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"key_0\": true\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "88f3e320-5db1-4f0f-8693-6e417eaf67c0",
+              "name": "Successfully updated record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 6139.696251210182\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f07c007-f268-4890-a505-eb23be2a5d10",
+              "name": "The requested record was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 6139.696251210182\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7861399f-a13e-4397-91e8-89189e5c3f73",
+              "name": "Unique constraint violation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 6139.696251210182\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55ab3994-b335-4cc2-81b4-92851ff6c743",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"key_0\": 6139.696251210182\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e7b090a3-f6fa-4a81-ad17-9c4f966026e6",
+          "name": "Prisma Delete a record",
+          "request": {
+            "name": "Prisma Delete a record",
+            "description": {
+              "content": "Permanently deletes a single record identified by its unique identifier. Returns the deleted record data. Cascading deletes may apply based on the Prisma schema relation configuration.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Unique identifier of the record"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "919443a7-515c-4535-adc7-d6e9d0b215de",
+              "name": "Successfully deleted record, returns the deleted data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d8eb5738-7670-42b2-abd4-6cc9ab64895c",
+              "name": "The requested record was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ec887db-2034-4003-9f3c-a6647b9dd14f",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Unique identifier of the record"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6302d6d4-3ff5-4d78-99b1-45f7953a143a",
+          "name": "Prisma Upsert a record",
+          "request": {
+            "name": "Prisma Upsert a record",
+            "description": {
+              "content": "Updates a record if it exists matching the where condition, or creates a new record if no match is found. Requires both create and update data to be provided along with the where condition.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "upsert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"where\": {\n    \"key_0\": 74\n  },\n  \"create\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": true,\n    \"key_3\": 4041.8666998010613\n  },\n  \"update\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": \"string\",\n    \"key_3\": 2318\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5fc31c83-ea21-4ef9-8188-64518cb0b3c5",
+              "name": "Successfully upserted record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"where\": {\n    \"key_0\": false\n  },\n  \"create\": {\n    \"key_0\": 1952.048421190904,\n    \"key_1\": 1869.5566442306877,\n    \"key_2\": 87.04502628807288\n  },\n  \"update\": {\n    \"key_0\": 819.4779850934731,\n    \"key_1\": 8101.913642311107,\n    \"key_2\": true\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f679280-eb75-4e0a-a6e7-290a2c8f9d38",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"where\": {\n    \"key_0\": false\n  },\n  \"create\": {\n    \"key_0\": 1952.048421190904,\n    \"key_1\": 1869.5566442306877,\n    \"key_2\": 87.04502628807288\n  },\n  \"update\": {\n    \"key_0\": 819.4779850934731,\n    \"key_1\": 8101.913642311107,\n    \"key_2\": true\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ced98f30-78f9-429d-a6d6-e557f151ce68",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"where\": {\n    \"key_0\": false\n  },\n  \"create\": {\n    \"key_0\": 1952.048421190904,\n    \"key_1\": 1869.5566442306877,\n    \"key_2\": 87.04502628807288\n  },\n  \"update\": {\n    \"key_0\": 819.4779850934731,\n    \"key_1\": 8101.913642311107,\n    \"key_2\": true\n  },\n  \"select\": {\n    \"key_0\": \"<boolean>\",\n    \"key_1\": \"<boolean>\",\n    \"key_2\": \"<boolean>\"\n  },\n  \"include\": {\n    \"key_0\": \"<boolean>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "352b2090-a9cc-44ee-8f22-291d11cd29ab",
+          "name": "Prisma Find the first matching record",
+          "request": {
+            "name": "Prisma Find the first matching record",
+            "description": {
+              "content": "Returns the first record that matches the filter criteria. Supports the same filtering and ordering options as findMany. Returns null if no records match.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":model",
+                "first"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "where",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter conditions"
+                },
+                {
+                  "disabled": false,
+                  "key": "orderBy",
+                  "value": "<string>",
+                  "description": "JSON-encoded sort specification"
+                },
+                {
+                  "disabled": false,
+                  "key": "select",
+                  "value": "<string>",
+                  "description": "JSON-encoded field selection"
+                },
+                {
+                  "disabled": false,
+                  "key": "include",
+                  "value": "<string>",
+                  "description": "JSON-encoded relation loading specification"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "model",
+                  "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "256eed41-ac06-4a5e-ac1d-3671d6cd61e9",
+              "name": "Successfully retrieved the first matching record",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "first"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": true,\n  \"key_1\": false,\n  \"key_2\": 9841.97974497424\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b01f0299-37cf-408c-9e0e-54f17293540e",
+              "name": "No matching record found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "first"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d393dbb3-67cd-4d01-988a-587134ee8468",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":model",
+                    "first"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "where",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "select",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "include",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "model",
+                      "description": "(Required) The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "56667656-5680-4180-b18d-9600946d06b9",
+      "name": "Raw",
+      "description": {
+        "content": "Raw SQL query execution",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b3fc5101-e7c5-4513-a67c-0e5ba2b25ed0",
+          "name": "Prisma Execute a raw SQL query",
+          "request": {
+            "name": "Prisma Execute a raw SQL query",
+            "description": {
+              "content": "Executes a raw SQL SELECT query against the database and returns the result set. Use parameterized queries to prevent SQL injection.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "raw",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1be86987-b901-4329-b447-818504d7e002",
+              "name": "Successfully executed query",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"key_0\": \"string\",\n    \"key_1\": 8741\n  },\n  {\n    \"key_0\": 5170.336487856818,\n    \"key_1\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80f5ae0a-cefc-4c34-8210-de092cd19405",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "10504662-680f-460c-ae8d-aae97b601906",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7e410c21-63a7-4ef7-8800-4a92d0b94d16",
+          "name": "Prisma Execute a raw SQL statement",
+          "request": {
+            "name": "Prisma Execute a raw SQL statement",
+            "description": {
+              "content": "Executes a raw SQL statement (INSERT, UPDATE, DELETE, DDL) against the database and returns the number of affected rows.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "raw",
+                "execute"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "180e20c6-d243-4c2b-9ca8-2463232c9118",
+              "name": "Successfully executed statement",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "execute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"count\": 4816\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34aa962a-e80c-4f93-9b98-7792364ebf62",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "execute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ace8174-561c-4d85-9a7e-6b64920f39db",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "raw",
+                    "execute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"SELECT * FROM \\\"User\\\" WHERE email = $1\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P2002\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 4562.326027242301,\n    \"key_1\": false,\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://localhost:3000/api",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d2b709ba-7ae1-4925-99d0-511625a360ca",
+    "name": "Prisma Client API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,1075 @@
+{
+  "item": [
+    {
+      "id": "3641cc35-04de-4408-8fa3-8568f89463f8",
+      "name": "Cache",
+      "description": {
+        "content": "Cache management and invalidation operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d796f508-301a-4b9e-947a-dd92d36f85d4",
+          "name": "Prisma Invalidate cache entries by tags",
+          "request": {
+            "name": "Prisma Invalidate cache entries by tags",
+            "description": {
+              "content": "Invalidates cached query results that were tagged with the specified cache tags. Up to 5 tags can be specified per request. Tags are alphanumeric strings with underscores, maximum 64 characters each. This endpoint is available on paid plans only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invalidate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4a8545ef-5347-4dbc-bda2-a71aa7f4b42f",
+              "name": "Cache entries successfully invalidated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"invalidatedTags\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5a532749-4966-4d8f-a72a-d5f30c2ee36f",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17db15ca-c87d-40a7-8121-8488c40963fe",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "befccb5d-a664-49d6-8e94-de6654a15f62",
+              "name": "Rate limit exceeded for cache invalidation (error code P6003). Retry after the indicated time.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Seconds to wait before retrying",
+                  "key": "retry-after",
+                  "value": "8226"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c1043f6-fe80-4526-a67d-dc6dee15d4d8",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"tags\": [\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9570e8ec-35dd-4d82-a629-94b9603c4f0d",
+          "name": "Prisma Invalidate all cache entries",
+          "request": {
+            "name": "Prisma Invalidate all cache entries",
+            "description": {
+              "content": "Clears the entire cache for the current environment. Use with caution as this affects all cached queries in the environment and may cause a temporary increase in database load as the cache repopulates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "invalidate-all"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "219d6739-65e6-4894-8d15-cf478d4deec2",
+              "name": "All cache entries successfully invalidated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate-all"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"invalidatedTags\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "985b908a-59a1-4e1e-9803-9f3c7e03d9a4",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate-all"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14a10308-03b6-4afe-af94-9ff7ac16dfe6",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate-all"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2edbb975-1897-4ec1-82f9-71436ccadd42",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "invalidate-all"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "a8c96c59-e8c2-47b9-a4f7-d42144b5c320",
+      "name": "Health",
+      "description": {
+        "content": "Service health and status checks",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d31b06e-cbf0-48a4-a397-ececa0ce569e",
+          "name": "Prisma Check Accelerate service health",
+          "request": {
+            "name": "Prisma Check Accelerate service health",
+            "description": {
+              "content": "Returns the current health status of the Accelerate proxy service including regional availability information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "health"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d5619dc2-79b7-4561-a336-dff7555af10f",
+              "name": "Service is healthy",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"degraded\",\n  \"timestamp\": \"1984-07-25T18:12:34.633Z\",\n  \"region\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69267312-9eed-401f-b911-7e470cba7975",
+              "name": "Service is unavailable",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "health"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"degraded\",\n  \"timestamp\": \"1984-07-25T18:12:34.633Z\",\n  \"region\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "d1051859-9191-45fd-a016-2dd20dcce203",
+      "name": "Queries",
+      "description": {
+        "content": "Proxied database query operations routed through Accelerate with optional caching",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e07380d7-c7cb-4e08-a951-4f14b9ccc309",
+          "name": "Prisma Execute a proxied database query",
+          "request": {
+            "name": "Prisma Execute a proxied database query",
+            "description": {
+              "content": "Executes a Prisma Client query through the Accelerate proxy. The proxy manages connection pooling, applies caching strategies based on the cacheStrategy parameters, and returns results from cache when available. Cache behavior is controlled by TTL (time-to-live) and SWR (stale-while-revalidate) headers or query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ":apiVersion",
+                ":engineHash",
+                "graphql"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "apiVersion",
+                  "description": "(Required) Prisma engine API version"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "engineHash",
+                  "description": "(Required) Prisma engine version hash for protocol compatibility"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": \"<integer>\",\n      \"swr\": \"<integer>\",\n      \"tags\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1b21ff04-7818-49a7-b49c-ddc87d64b880",
+              "name": "Query executed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":apiVersion",
+                    ":engineHash",
+                    "graphql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "apiVersion",
+                      "description": "(Required) Prisma engine API version"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "engineHash",
+                      "description": "(Required) Prisma engine version hash for protocol compatibility"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false,\n    \"key_1\": 2519.531803717898\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": 60,\n      \"swr\": 60,\n      \"tags\": [\n        \"user_list\",\n        \"active_users\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Indicates the cache status of the response. Values include ttl (served from cache within TTL), swr (served stale while revalidating), miss (cache miss, fetched from database), or none (caching not configured for this query).",
+                  "key": "x-accelerate-cache-status",
+                  "value": "swr"
+                },
+                {
+                  "disabled": false,
+                  "description": "Timestamp when the cached entry was last updated",
+                  "key": "x-accelerate-last-modified",
+                  "value": "1985-08-27T09:09:20.067Z"
+                },
+                {
+                  "disabled": false,
+                  "description": "Edge region that processed the request",
+                  "key": "x-accelerate-region",
+                  "value": "string"
+                },
+                {
+                  "disabled": false,
+                  "description": "Unique identifier for the request for debugging",
+                  "key": "x-accelerate-request-id",
+                  "value": "4ff231bc-f9cc-5400-1d78-db7dfca062d8"
+                },
+                {
+                  "disabled": false,
+                  "description": "Response signature for verification",
+                  "key": "x-accelerate-signature",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": true,\n    \"key_1\": 1835\n  },\n  \"errors\": [\n    {\n      \"code\": \"P6003\",\n      \"message\": \"string\",\n      \"meta\": {\n        \"key_0\": false\n      }\n    },\n    {\n      \"code\": \"P6003\",\n      \"message\": \"string\",\n      \"meta\": {\n        \"key_0\": \"string\",\n        \"key_1\": false\n      }\n    }\n  ],\n  \"extensions\": {\n    \"accelerateInfo\": {\n      \"cacheStatus\": \"ttl\",\n      \"requestId\": \"string\",\n      \"lastModified\": \"1966-02-03T23:55:07.924Z\",\n      \"region\": \"us-east-1\",\n      \"signature\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5853026e-e6ff-4dd8-929a-c70f567b05fc",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":apiVersion",
+                    ":engineHash",
+                    "graphql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "apiVersion",
+                      "description": "(Required) Prisma engine API version"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "engineHash",
+                      "description": "(Required) Prisma engine version hash for protocol compatibility"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false,\n    \"key_1\": 2519.531803717898\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": 60,\n      \"swr\": 60,\n      \"tags\": [\n        \"user_list\",\n        \"active_users\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8071660b-7830-43d6-9e41-b1f2d038c504",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":apiVersion",
+                    ":engineHash",
+                    "graphql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "apiVersion",
+                      "description": "(Required) Prisma engine API version"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "engineHash",
+                      "description": "(Required) Prisma engine version hash for protocol compatibility"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false,\n    \"key_1\": 2519.531803717898\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": 60,\n      \"swr\": 60,\n      \"tags\": [\n        \"user_list\",\n        \"active_users\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b82318c-ba5c-4dc8-8edf-d1c74280ac23",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ":apiVersion",
+                    ":engineHash",
+                    "graphql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "apiVersion",
+                      "description": "(Required) Prisma engine API version"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "engineHash",
+                      "description": "(Required) Prisma engine version hash for protocol compatibility"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"variables\": {\n    \"key_0\": false,\n    \"key_1\": 2519.531803717898\n  },\n  \"extensions\": {\n    \"cacheStrategy\": {\n      \"ttl\": 60,\n      \"swr\": 60,\n      \"tags\": [\n        \"user_list\",\n        \"active_users\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"P6003\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 6838,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://accelerate.prisma-data.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bc4d42a4-6a17-4960-92c4-0a1ae6e94326",
+    "name": "Prisma Accelerate API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+      "type": "text/plain"
+    }
+  }
+}
