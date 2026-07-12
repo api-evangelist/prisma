@@ -1,0 +1,30 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/prisma-accelerate-openapi.yml, openapi/prisma-data-platform-openapi.yml, openapi/prisma-optimize-openapi.yml,
+  openapi/prisma-postgres-management-openapi.yml, openapi/prisma-pulse-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: API key for Accelerate authentication, provided as a Bearer token. Generated
+    from the Prisma Data Platform Console for each environment.
+  sources:
+  - openapi/prisma-accelerate-openapi.yml
+  - openapi/prisma-optimize-openapi.yml
+  - openapi/prisma-pulse-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: Authentication via service token or OAuth 2.0 access token. Service tokens are
+    created in the Prisma Console under workspace settings.
+  sources:
+  - openapi/prisma-data-platform-openapi.yml
+  - openapi/prisma-postgres-management-openapi.yml

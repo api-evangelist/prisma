@@ -170,6 +170,12 @@ apis:
         email: support@prisma.io
         url: https://www.prisma.io/support
 common:
+  - type: VulnerabilityDisclosure
+    url: security/prisma-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/prisma-domain-security.yml
+  - type: Authentication
+    url: authentication/prisma-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/prisma/overview
   - type: Arazzo
