@@ -170,6 +170,8 @@ apis:
         email: support@prisma.io
         url: https://www.prisma.io/support
 common:
+  - type: AgenticAccess
+    url: agentic-access/prisma-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/prisma-vulnerability-disclosure.yml
   - type: DomainSecurity
