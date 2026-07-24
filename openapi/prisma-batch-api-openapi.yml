@@ -1,0 +1,195 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Batch API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Batch
+  description: Batch operations for bulk create, update, and delete
+paths:
+  /{model}/createMany:
+    post:
+      operationId: createMany
+      summary: Prisma Create multiple records
+      description: Inserts multiple records in a single transaction. Optionally skips records that would violate unique constraints. Returns a count of created records. On PostgreSQL, CockroachDB, and SQLite, use createManyAndReturn to also retrieve the created records.
+      tags:
+      - Batch
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateManyInput'
+      responses:
+        '200':
+          description: Successfully created records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPayload'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/updateMany:
+    patch:
+      operationId: updateMany
+      summary: Prisma Update multiple records
+      description: Updates all records matching the filter criteria with the provided data. Returns a count of the number of records updated. Does not return the updated records themselves.
+      tags:
+      - Batch
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateManyInput'
+      responses:
+        '200':
+          description: Successfully updated records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPayload'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/deleteMany:
+    delete:
+      operationId: deleteMany
+      summary: Prisma Delete multiple records
+      description: Deletes all records matching the filter criteria. Returns a count of the number of records deleted. If no filter is provided, all records in the model are deleted.
+      tags:
+      - Batch
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully deleted records
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPayload'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    UpdateManyInput:
+      type: object
+      description: Input data for updating multiple records
+      properties:
+        where:
+          type: object
+          description: Filter conditions to select records to update
+          additionalProperties: true
+        data:
+          type: object
+          description: Field values to update
+          additionalProperties: true
+      required:
+      - data
+    BatchPayload:
+      type: object
+      description: Result of a batch operation with the count of affected records
+      properties:
+        count:
+          type: integer
+          description: Number of records affected by the operation
+          minimum: 0
+      required:
+      - count
+    CreateManyInput:
+      type: object
+      description: Input data for creating multiple records
+      properties:
+        data:
+          type: array
+          description: Array of records to create
+          items:
+            type: object
+            additionalProperties: true
+        skipDuplicates:
+          type: boolean
+          description: Skip records that violate unique constraints
+          default: false
+      required:
+      - data
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+  parameters:
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

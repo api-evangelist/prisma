@@ -1,0 +1,244 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Projects API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Projects
+  description: Operations for managing projects within workspaces
+paths:
+  /workspaces/{workspaceId}/projects:
+    get:
+      operationId: listProjects
+      summary: Prisma List projects in a workspace
+      description: Retrieves all projects within a specified workspace. Each project contains environments and database configurations.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Successfully retrieved list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createProject
+      summary: Prisma Create a project
+      description: Creates a new project within the specified workspace with the given name and configuration settings.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/WorkspaceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '201':
+          description: Successfully created project
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /projects/{projectId}:
+    get:
+      operationId: getProject
+      summary: Prisma Get a project
+      description: Retrieves detailed information about a specific project including its environments and database connections.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Successfully retrieved project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteProject
+      summary: Prisma Delete a project
+      description: Permanently deletes a project and all associated environments and resources. This action cannot be undone.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Successfully deleted project
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+  responses:
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My New Application
+      required:
+      - name
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    Project:
+      type: object
+      description: A project represents an application or service within a workspace that contains environments and database connections.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+          examples:
+          - prj_abc123def456
+        name:
+          type: string
+          description: Display name of the project
+          examples:
+          - My Application
+        workspaceId:
+          type: string
+          description: Identifier of the parent workspace
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+      - id
+      - name
+      - workspaceId
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

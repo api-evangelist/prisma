@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Aggregation
+  description: Count, aggregate, and groupBy operations for analytics
+paths:
+  /{model}/count:
+    get:
+      operationId: count
+      summary: Prisma Count matching records
+      description: Returns the count of records matching the filter criteria. Optionally provides field-level counts showing how many non-null values exist for each specified field.
+      tags:
+      - Aggregation
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions
+        schema:
+          type: string
+      - name: select
+        in: query
+        description: JSON-encoded field selection for field-level counts
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved count
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - type: integer
+                  description: Total count when no field selection
+                - type: object
+                  description: Field-level counts
+                  additionalProperties:
+                    type: integer
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/aggregate:
+    get:
+      operationId: aggregate
+      summary: Prisma Aggregate records
+      description: Performs aggregate calculations on matching records. Supports _count, _avg, _sum, _min, and _max operations on numeric fields with optional filtering and ordering.
+      tags:
+      - Aggregation
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions
+        schema:
+          type: string
+      - name: _count
+        in: query
+        description: Fields to count or true for total count
+        schema:
+          type: string
+      - name: _avg
+        in: query
+        description: JSON-encoded specification of fields to average
+        schema:
+          type: string
+      - name: _sum
+        in: query
+        description: JSON-encoded specification of fields to sum
+        schema:
+          type: string
+      - name: _min
+        in: query
+        description: JSON-encoded specification of fields to find minimum
+        schema:
+          type: string
+      - name: _max
+        in: query
+        description: JSON-encoded specification of fields to find maximum
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully performed aggregation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregateResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/groupBy:
+    get:
+      operationId: groupBy
+      summary: Prisma Group records and aggregate
+      description: Groups records by one or more fields and applies aggregate functions within each group. Supports filtering groups with having conditions and ordering groups by field values or aggregate results.
+      tags:
+      - Aggregation
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: by
+        in: query
+        required: true
+        description: JSON-encoded list of fields to group by
+        schema:
+          type: string
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions applied before grouping
+        schema:
+          type: string
+      - name: having
+        in: query
+        description: JSON-encoded filter conditions applied after grouping
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: JSON-encoded sort specification for groups
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully grouped and aggregated records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupByResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    GroupByResult:
+      type: object
+      description: A single group result from a groupBy operation
+      additionalProperties: true
+    AggregateResult:
+      type: object
+      description: Result of an aggregation operation
+      properties:
+        _count:
+          type: object
+          description: Count of records or field-level counts
+          additionalProperties:
+            type: integer
+        _avg:
+          type: object
+          description: Average values for numeric fields
+          additionalProperties:
+            type: number
+        _sum:
+          type: object
+          description: Sum of numeric field values
+          additionalProperties:
+            type: number
+        _min:
+          type: object
+          description: Minimum values per field
+          additionalProperties: true
+        _max:
+          type: object
+          description: Maximum values per field
+          additionalProperties: true
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+  parameters:
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

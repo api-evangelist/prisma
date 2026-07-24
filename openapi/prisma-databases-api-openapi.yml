@@ -1,0 +1,284 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Databases API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Databases
+  description: Operations for provisioning and managing Prisma Postgres databases
+paths:
+  /projects/{projectId}/databases:
+    post:
+      operationId: createDatabase
+      summary: Prisma Create a database in a project
+      description: Provisions a new Prisma Postgres database within an existing project. The database runs on PostgreSQL v17 using unikernel-based infrastructure for performance and security isolation.
+      tags:
+      - Databases
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCreate'
+      responses:
+        '201':
+          description: Successfully created database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}:
+    get:
+      operationId: getDatabase
+      summary: Prisma Get a database
+      description: Retrieves detailed information about a specific Prisma Postgres database including its status, region, and connection details.
+      tags:
+      - Databases
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved database details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteDatabase
+      summary: Prisma Delete a database
+      description: Permanently deletes a Prisma Postgres database and all its data. This action cannot be undone. All associated backups and connection strings are also removed.
+      tags:
+      - Databases
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '204':
+          description: Successfully deleted database
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
+    DatabaseCreate:
+      type: object
+      description: Request body for creating a new database
+      properties:
+        name:
+          type: string
+          description: Display name for the database
+        region:
+          type: string
+          description: Region where the database should be provisioned
+          enum:
+          - us-east-1
+          - us-west-2
+          - eu-west-1
+          - eu-central-1
+          - ap-southeast-1
+          - ap-northeast-1
+      required:
+      - region
+    Database:
+      type: object
+      description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the database
+        name:
+          type: string
+          description: Display name of the database
+        projectId:
+          type: string
+          description: Identifier of the parent project
+        region:
+          type: string
+          description: Region where the database is deployed
+        status:
+          type: string
+          description: Current operational status of the database
+          enum:
+          - provisioning
+          - active
+          - suspended
+          - deleting
+          - deleted
+        connectionString:
+          type: string
+          description: Prisma Postgres connection string in prisma+postgres:// format
+          examples:
+          - prisma+postgres://accelerate.prisma-data.net/?api_key=ey...
+        apiKeys:
+          type: array
+          description: API keys for database access
+          items:
+            $ref: '#/components/schemas/DatabaseApiKey'
+        directConnection:
+          $ref: '#/components/schemas/DirectConnection'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was last updated
+      required:
+      - id
+      - projectId
+      - region
+      - status
+      - createdAt
+      - updatedAt
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
+  parameters:
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

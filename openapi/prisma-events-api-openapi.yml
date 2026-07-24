@@ -1,0 +1,125 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Events API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Events
+  description: Database change event retrieval and management
+paths:
+  /events/{eventId}:
+    get:
+      operationId: getEvent
+      summary: Prisma Get a specific event by ID
+      description: Retrieves a specific database change event by its unique ULID identifier. Only available when event persistence is enabled.
+      tags:
+      - Events
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        description: ULID identifier of the event
+        schema:
+          type: string
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+      responses:
+        '200':
+          description: Event retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    PulseEvent:
+      type: object
+      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
+      properties:
+        id:
+          type: string
+          description: Unique ULID identifier for the event
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+        action:
+          type: string
+          description: The type of database operation that triggered the event
+          enum:
+          - create
+          - update
+          - delete
+        modelName:
+          type: string
+          description: Name of the Prisma model the event relates to
+      required:
+      - id
+      - action
+      - modelName
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Raw API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Raw
+  description: Raw SQL query execution
+paths:
+  /raw/query:
+    post:
+      operationId: queryRaw
+      summary: Prisma Execute a raw SQL query
+      description: Executes a raw SQL SELECT query against the database and returns the result set. Use parameterized queries to prevent SQL injection.
+      tags:
+      - Raw
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RawQueryInput'
+      responses:
+        '200':
+          description: Successfully executed query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /raw/execute:
+    post:
+      operationId: executeRaw
+      summary: Prisma Execute a raw SQL statement
+      description: Executes a raw SQL statement (INSERT, UPDATE, DELETE, DDL) against the database and returns the number of affected rows.
+      tags:
+      - Raw
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RawQueryInput'
+      responses:
+        '200':
+          description: Successfully executed statement
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of rows affected
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    RawQueryInput:
+      type: object
+      description: Input for raw SQL query execution
+      properties:
+        query:
+          type: string
+          description: The SQL query string with $1, $2 parameter placeholders
+          examples:
+          - SELECT * FROM "User" WHERE email = $1
+        parameters:
+          type: array
+          description: Parameter values for the query placeholders
+          items: {}
+      required:
+      - query
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

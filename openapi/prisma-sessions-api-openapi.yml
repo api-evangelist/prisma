@@ -1,0 +1,273 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Sessions API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Sessions
+  description: Recording session management for query capture and analysis
+paths:
+  /sessions:
+    post:
+      operationId: createSession
+      summary: Prisma Create a recording session
+      description: Creates a new query recording session. The Optimize extension captures all Prisma Client queries executed during an active session and sends them to the Optimize service for analysis. Sessions are intended for use in local development environments only.
+      tags:
+      - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionCreate'
+      responses:
+        '201':
+          description: Recording session created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: listSessions
+      summary: Prisma List recording sessions
+      description: Retrieves a list of all recording sessions for the current environment, including their status, duration, and query counts.
+      tags:
+      - Sessions
+      parameters:
+      - name: status
+        in: query
+        description: Filter sessions by status
+        schema:
+          type: string
+          enum:
+          - active
+          - completed
+          - expired
+      - name: limit
+        in: query
+        description: Maximum number of sessions to return
+        schema:
+          type: integer
+          default: 20
+          maximum: 100
+      - name: offset
+        in: query
+        description: Number of sessions to skip for pagination
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: Successfully retrieved list of sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Session'
+                  total:
+                    type: integer
+                    description: Total number of sessions
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /sessions/{sessionId}:
+    get:
+      operationId: getSession
+      summary: Prisma Get a recording session
+      description: Retrieves detailed information about a specific recording session including query statistics and analysis status.
+      tags:
+      - Sessions
+      parameters:
+      - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Successfully retrieved session details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: stopSession
+      summary: Prisma Stop a recording session
+      description: Stops an active recording session and finalizes the captured query data for analysis. Once stopped, no new queries will be captured for this session.
+      tags:
+      - Sessions
+      parameters:
+      - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Session stopped successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
+    SessionCreate:
+      type: object
+      description: Request body for creating a new recording session
+      properties:
+        name:
+          type: string
+          description: Optional display name for the session
+          examples:
+          - Feature development session
+        databaseProvider:
+          type: string
+          description: The database provider being used
+          enum:
+          - postgresql
+          - mysql
+          - cockroachdb
+          - sqlserver
+      required:
+      - databaseProvider
+    Session:
+      type: object
+      description: A query recording session for performance analysis
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the session
+        name:
+          type: string
+          description: Display name of the session
+        status:
+          type: string
+          description: Current status of the session
+          enum:
+          - active
+          - completed
+          - expired
+        databaseProvider:
+          type: string
+          description: Database provider used during the session
+          enum:
+          - postgresql
+          - mysql
+          - cockroachdb
+          - sqlserver
+        queryCount:
+          type: integer
+          description: Total number of queries captured
+          minimum: 0
+        totalDuration:
+          type: number
+          format: float
+          description: Total query execution time in milliseconds
+        startedAt:
+          type: string
+          format: date-time
+          description: When the recording session started
+        endedAt:
+          type: string
+          format: date-time
+          description: When the recording session ended (null if active)
+      required:
+      - id
+      - status
+      - databaseProvider
+      - queryCount
+      - startedAt
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

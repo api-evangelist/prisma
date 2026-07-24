@@ -1,0 +1,156 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Subscriptions API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Subscriptions
+  description: Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
+paths:
+  /subscribe:
+    post:
+      operationId: createSubscription
+      summary: Prisma Create a transient event subscription
+      description: Creates a transient subscription to database change events for a specific model. The subscribe() method provides at-most-once delivery with no ordering guarantees. Events that occur while the subscriber is disconnected are not recovered. For guaranteed delivery, use the stream() API instead.
+      tags:
+      - Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubscriptionRequest'
+      responses:
+        '200':
+          description: Subscription opened successfully. Events are delivered as server-sent events.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    PulseEvent:
+      type: object
+      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
+      properties:
+        id:
+          type: string
+          description: Unique ULID identifier for the event
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+        action:
+          type: string
+          description: The type of database operation that triggered the event
+          enum:
+          - create
+          - update
+          - delete
+        modelName:
+          type: string
+          description: Name of the Prisma model the event relates to
+      required:
+      - id
+      - action
+      - modelName
+    SubscriptionRequest:
+      type: object
+      description: Request to create a transient event subscription
+      properties:
+        model:
+          type: string
+          description: The Prisma model name to subscribe to
+          examples:
+          - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
+      required:
+      - model
+    EventFilter:
+      type: object
+      description: Filters to apply to event subscriptions. Filters can target specific event types and field values.
+      properties:
+        create:
+          type: object
+          description: Filter conditions for create events based on scalar fields
+          additionalProperties: true
+        update:
+          type: object
+          description: Filter conditions for update events. Uses the after field to filter on post-update values.
+          properties:
+            after:
+              type: object
+              description: Filter on field values after the update
+              additionalProperties: true
+        delete:
+          type: object
+          description: Filter conditions for delete events based on scalar fields
+          additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

@@ -1,0 +1,201 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Metrics API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Metrics
+  description: Performance metrics and statistics
+paths:
+  /sessions/{sessionId}/metrics:
+    get:
+      operationId: getSessionMetrics
+      summary: Prisma Get session performance metrics
+      description: Retrieves aggregated performance metrics for all queries in a session including total execution time, average query duration, slowest queries, and query type distribution.
+      tags:
+      - Metrics
+      parameters:
+      - $ref: '#/components/parameters/SessionId'
+      responses:
+        '200':
+          description: Successfully retrieved session metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionMetrics'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    SessionMetrics:
+      type: object
+      description: Aggregated performance metrics for a recording session
+      properties:
+        sessionId:
+          type: string
+          description: Identifier of the session
+        totalQueries:
+          type: integer
+          description: Total number of queries in the session
+        totalDuration:
+          type: number
+          format: float
+          description: Total execution time of all queries in milliseconds
+        averageDuration:
+          type: number
+          format: float
+          description: Average query execution time in milliseconds
+        maxDuration:
+          type: number
+          format: float
+          description: Maximum single query execution time in milliseconds
+        minDuration:
+          type: number
+          format: float
+          description: Minimum single query execution time in milliseconds
+        queryTypeDistribution:
+          type: object
+          description: Count of queries by operation type
+          additionalProperties:
+            type: integer
+        modelDistribution:
+          type: object
+          description: Count of queries by model name
+          additionalProperties:
+            type: integer
+        slowestQueries:
+          type: array
+          description: Top 10 slowest queries by execution duration
+          items:
+            $ref: '#/components/schemas/RecordedQuery'
+          maxItems: 10
+      required:
+      - sessionId
+      - totalQueries
+      - totalDuration
+      - averageDuration
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
+    RecordedQuery:
+      type: object
+      description: A query captured during a recording session
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the recorded query
+        sessionId:
+          type: string
+          description: Identifier of the parent session
+        operation:
+          type: string
+          description: The Prisma Client operation that was executed
+          enum:
+          - findUnique
+          - findFirst
+          - findMany
+          - create
+          - createMany
+          - update
+          - updateMany
+          - upsert
+          - delete
+          - deleteMany
+          - count
+          - aggregate
+          - groupBy
+          - queryRaw
+          - executeRaw
+        model:
+          type: string
+          description: The Prisma model the query operates on
+          examples:
+          - User
+          - Post
+        sql:
+          type: string
+          description: The generated SQL query
+        duration:
+          type: number
+          format: float
+          description: Query execution time in milliseconds
+        timestamp:
+          type: string
+          format: date-time
+          description: When the query was executed
+        params:
+          type: object
+          description: Query parameters (sanitized)
+          additionalProperties: true
+      required:
+      - id
+      - sessionId
+      - operation
+      - duration
+      - timestamp
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

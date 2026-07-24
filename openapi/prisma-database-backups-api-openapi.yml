@@ -1,0 +1,231 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Database Backups API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Database Backups
+  description: Operations for managing database backup and restore operations
+paths:
+  /databases/{databaseId}/backups:
+    get:
+      operationId: listDatabaseBackups
+      summary: Prisma List database backups
+      description: Retrieves a list of all backups for a specific database, including automatic and manual backups with their status and size.
+      tags:
+      - Database Backups
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved list of backups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DatabaseBackup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createDatabaseBackup
+      summary: Prisma Create a manual database backup
+      description: Initiates a manual backup of the specified database. The backup process runs asynchronously. Use the backup ID to check status.
+      tags:
+      - Database Backups
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupCreate'
+      responses:
+        '202':
+          description: Backup creation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseBackup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}/backups/{backupId}/restore:
+    post:
+      operationId: restoreDatabaseBackup
+      summary: Prisma Restore a database from backup
+      description: Restores a database to the state captured in a specific backup. This operation replaces the current database content with the backup data.
+      tags:
+      - Database Backups
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      - name: backupId
+        in: path
+        required: true
+        description: Unique identifier of the backup to restore
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Database restore initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Status of the restore operation
+                    enum:
+                    - restoring
+                  message:
+                    type: string
+                    description: Description of the restore operation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    BackupCreate:
+      type: object
+      description: Request body for creating a manual backup
+      properties:
+        label:
+          type: string
+          description: Optional label for the backup
+    DatabaseBackup:
+      type: object
+      description: A backup of a Prisma Postgres database
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the backup
+        databaseId:
+          type: string
+          description: Identifier of the source database
+        type:
+          type: string
+          description: Type of backup
+          enum:
+          - automatic
+          - manual
+        status:
+          type: string
+          description: Current status of the backup
+          enum:
+          - pending
+          - in_progress
+          - completed
+          - failed
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Size of the backup in bytes
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the backup was created
+        completedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the backup completed
+      required:
+      - id
+      - databaseId
+      - type
+      - status
+      - createdAt
+  parameters:
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

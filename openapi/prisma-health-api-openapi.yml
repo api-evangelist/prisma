@@ -1,0 +1,74 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Health API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Health
+  description: Service health and status checks
+paths:
+  /health:
+    get:
+      operationId: getHealthStatus
+      summary: Prisma Check Accelerate service health
+      description: Returns the current health status of the Accelerate proxy service including regional availability information.
+      tags:
+      - Health
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      description: Health status of the Accelerate service
+      properties:
+        status:
+          type: string
+          enum:
+          - healthy
+          - degraded
+          - unavailable
+        region:
+          type: string
+          description: Region of the health check responder
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the health check
+      required:
+      - status
+      - timestamp
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

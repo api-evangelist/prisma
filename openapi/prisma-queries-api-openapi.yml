@@ -1,0 +1,483 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Queries API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Queries
+  description: Proxied database query operations routed through Accelerate with optional caching
+paths:
+  /{apiVersion}/{engineHash}/graphql:
+    post:
+      operationId: executeQuery
+      summary: Prisma Execute a proxied database query
+      description: Executes a Prisma Client query through the Accelerate proxy. The proxy manages connection pooling, applies caching strategies based on the cacheStrategy parameters, and returns results from cache when available. Cache behavior is controlled by TTL (time-to-live) and SWR (stale-while-revalidate) headers or query parameters.
+      tags:
+      - Queries
+      parameters:
+      - name: apiVersion
+        in: path
+        required: true
+        description: Prisma engine API version
+        schema:
+          type: string
+          examples:
+          - '2024'
+      - name: engineHash
+        in: path
+        required: true
+        description: Prisma engine version hash for protocol compatibility
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+          headers:
+            x-accelerate-cache-status:
+              description: Indicates the cache status of the response. Values include ttl (served from cache within TTL), swr (served stale while revalidating), miss (cache miss, fetched from database), or none (caching not configured for this query).
+              schema:
+                type: string
+                enum:
+                - ttl
+                - swr
+                - miss
+                - none
+            x-accelerate-last-modified:
+              description: Timestamp when the cached entry was last updated
+              schema:
+                type: string
+                format: date-time
+            x-accelerate-region:
+              description: Edge region that processed the request
+              schema:
+                type: string
+            x-accelerate-request-id:
+              description: Unique identifier for the request for debugging
+              schema:
+                type: string
+                format: uuid
+            x-accelerate-signature:
+              description: Response signature for verification
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /sessions/{sessionId}/queries:
+    get:
+      operationId: listSessionQueries
+      summary: Prisma List queries from a session
+      description: Retrieves all queries captured during a specific recording session. Queries include the operation type, execution time, affected model, and generated SQL.
+      tags:
+      - Queries
+      parameters:
+      - $ref: '#/components/parameters/SessionId'
+      - name: orderBy
+        in: query
+        description: Sort queries by the specified field
+        schema:
+          type: string
+          enum:
+          - duration
+          - timestamp
+          - model
+          default: timestamp
+      - name: order
+        in: query
+        description: Sort direction
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      responses:
+        '200':
+          description: Successfully retrieved session queries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecordedQuery'
+                  total:
+                    type: integer
+                    description: Total number of queries in the session
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError_2'
+  /sessions/{sessionId}/queries/{queryId}:
+    get:
+      operationId: getQueryDetails
+      summary: Prisma Get query details
+      description: Retrieves detailed information about a specific recorded query including the full SQL, execution plan, and performance metrics.
+      tags:
+      - Queries
+      parameters:
+      - $ref: '#/components/parameters/SessionId'
+      - name: queryId
+        in: path
+        required: true
+        description: Unique identifier of the recorded query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved query details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordedQuery'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError_2'
+  /ingest:
+    post:
+      operationId: ingestQueryData
+      summary: Prisma Ingest query execution data
+      description: Receives query execution data from the Prisma Optimize extension running in development. This endpoint is called automatically by the extension and is not typically invoked directly.
+      tags:
+      - Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryIngestPayload'
+      responses:
+        '202':
+          description: Query data accepted for processing
+        '400':
+          $ref: '#/components/responses/BadRequest_2'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError_2'
+components:
+  schemas:
+    CacheStrategy:
+      type: object
+      description: Cache configuration for a specific query. Defines how long results should be cached and how stale data should be handled.
+      properties:
+        ttl:
+          type: integer
+          description: Time-to-live in seconds. Cached results are served directly for this duration without querying the database.
+          minimum: 1
+          examples:
+          - 60
+        swr:
+          type: integer
+          description: Stale-while-revalidate time in seconds. After TTL expires, stale cached results are served while a background refresh occurs.
+          minimum: 1
+          examples:
+          - 60
+        tags:
+          type: array
+          description: Cache tags for targeted invalidation. Each tag must be alphanumeric with underscores, maximum 64 characters.
+          items:
+            type: string
+            pattern: ^[a-zA-Z0-9_]{1,64}$
+          maxItems: 5
+          examples:
+          - - user_list
+            - active_users
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
+    QueryRequest:
+      type: object
+      description: A Prisma query request routed through the Accelerate proxy
+      properties:
+        query:
+          type: string
+          description: The Prisma query operation serialized as a GraphQL query string
+        variables:
+          type: object
+          description: Variables for the query operation
+          additionalProperties: true
+        extensions:
+          type: object
+          description: Query extensions including cache strategy configuration
+          properties:
+            cacheStrategy:
+              $ref: '#/components/schemas/CacheStrategy'
+      required:
+      - query
+    AccelerateError:
+      type: object
+      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
+      properties:
+        code:
+          type: string
+          description: Accelerate-specific error code (P6xxx format)
+          pattern: ^P6[0-9]{3}$
+          examples:
+          - P6003
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    RecordedQuery:
+      type: object
+      description: A query captured during a recording session
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the recorded query
+        sessionId:
+          type: string
+          description: Identifier of the parent session
+        operation:
+          type: string
+          description: The Prisma Client operation that was executed
+          enum:
+          - findUnique
+          - findFirst
+          - findMany
+          - create
+          - createMany
+          - update
+          - updateMany
+          - upsert
+          - delete
+          - deleteMany
+          - count
+          - aggregate
+          - groupBy
+          - queryRaw
+          - executeRaw
+        model:
+          type: string
+          description: The Prisma model the query operates on
+          examples:
+          - User
+          - Post
+        sql:
+          type: string
+          description: The generated SQL query
+        duration:
+          type: number
+          format: float
+          description: Query execution time in milliseconds
+        timestamp:
+          type: string
+          format: date-time
+          description: When the query was executed
+        params:
+          type: object
+          description: Query parameters (sanitized)
+          additionalProperties: true
+      required:
+      - id
+      - sessionId
+      - operation
+      - duration
+      - timestamp
+    QueryIngestPayload:
+      type: object
+      description: Payload sent by the Optimize extension containing query execution data
+      properties:
+        sessionId:
+          type: string
+          description: Active session to associate the queries with
+        queries:
+          type: array
+          description: Array of query execution records
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                description: Prisma Client operation name
+              model:
+                type: string
+                description: Model name
+              sql:
+                type: string
+                description: Generated SQL
+              duration:
+                type: number
+                format: float
+                description: Execution duration in milliseconds
+              timestamp:
+                type: string
+                format: date-time
+                description: Execution timestamp
+            required:
+            - operation
+            - duration
+            - timestamp
+      required:
+      - sessionId
+      - queries
+    AccelerateInfo:
+      type: object
+      description: Cache metadata returned alongside query results
+      properties:
+        cacheStatus:
+          type: string
+          description: Indicates how the response was served relative to the cache
+          enum:
+          - ttl
+          - swr
+          - miss
+          - none
+        lastModified:
+          type: string
+          format: date-time
+          description: When the cached data was last refreshed from the database
+        region:
+          type: string
+          description: The edge region that processed the request
+          examples:
+          - us-east-1
+        requestId:
+          type: string
+          description: Unique identifier for request tracing
+        signature:
+          type: string
+          description: Response signature for cache verification
+      required:
+      - cacheStatus
+      - requestId
+    QueryResponse:
+      type: object
+      description: Response from a proxied query through Accelerate
+      properties:
+        data:
+          type: object
+          description: The query result data
+          additionalProperties: true
+        errors:
+          type: array
+          description: Any errors that occurred during query execution
+          items:
+            $ref: '#/components/schemas/AccelerateError'
+        extensions:
+          type: object
+          description: Response extensions including cache metadata
+          properties:
+            accelerateInfo:
+              $ref: '#/components/schemas/AccelerateInfo'
+  responses:
+    InternalServerError_2:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest_2:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized_2:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

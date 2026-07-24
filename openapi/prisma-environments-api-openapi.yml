@@ -1,0 +1,253 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Environments API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Environments
+  description: Operations for managing project environments
+paths:
+  /projects/{projectId}/environments:
+    get:
+      operationId: listEnvironments
+      summary: Prisma List environments for a project
+      description: Retrieves all environments configured for a specific project. Environments represent different deployment stages such as development, staging, and production.
+      tags:
+      - Environments
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Successfully retrieved list of environments
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Environment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createEnvironment
+      summary: Prisma Create an environment
+      description: Creates a new environment within a project for a specific deployment stage with its own database connection and API key.
+      tags:
+      - Environments
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentCreate'
+      responses:
+        '201':
+          description: Successfully created environment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /environments/{environmentId}:
+    get:
+      operationId: getEnvironment
+      summary: Prisma Get an environment
+      description: Retrieves detailed information about a specific environment including its connection configuration and API key status.
+      tags:
+      - Environments
+      parameters:
+      - $ref: '#/components/parameters/EnvironmentId'
+      responses:
+        '200':
+          description: Successfully retrieved environment details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteEnvironment
+      summary: Prisma Delete an environment
+      description: Permanently deletes an environment and its associated API keys. This action cannot be undone.
+      tags:
+      - Environments
+      parameters:
+      - $ref: '#/components/parameters/EnvironmentId'
+      responses:
+        '204':
+          description: Successfully deleted environment
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Environment:
+      type: object
+      description: An environment represents a deployment stage within a project, such as development, staging, or production, with its own database connection and API keys.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the environment
+          examples:
+          - env_abc123def456
+        name:
+          type: string
+          description: Display name of the environment
+          examples:
+          - Production
+        projectId:
+          type: string
+          description: Identifier of the parent project
+        connectionString:
+          type: string
+          description: Database connection string for this environment
+          examples:
+          - prisma://accelerate.prisma-data.net/?api_key=ey...
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the environment was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the environment was last updated
+      required:
+      - id
+      - name
+      - projectId
+      - createdAt
+      - updatedAt
+    EnvironmentCreate:
+      type: object
+      description: Request body for creating a new environment
+      properties:
+        name:
+          type: string
+          description: Display name for the new environment
+          examples:
+          - Staging
+        connectionString:
+          type: string
+          description: Database connection string for the environment
+      required:
+      - name
+      - connectionString
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+  responses:
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    EnvironmentId:
+      name: environmentId
+      in: path
+      required: true
+      description: Unique identifier of the environment
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

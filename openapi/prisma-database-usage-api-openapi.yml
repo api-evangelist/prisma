@@ -1,0 +1,182 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Database Usage API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Database Usage
+  description: Operations for retrieving database usage metrics and statistics
+paths:
+  /databases/{databaseId}/usage:
+    get:
+      operationId: getDatabaseUsage
+      summary: Prisma Get database usage metrics
+      description: Retrieves usage metrics for a specific database including storage consumption, query counts, connection counts, and compute utilization over a specified time range.
+      tags:
+      - Database Usage
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      - name: startDate
+        in: query
+        description: Start date for the usage metrics period (ISO 8601 format)
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: End date for the usage metrics period (ISO 8601 format)
+        schema:
+          type: string
+          format: date
+      responses:
+        '200':
+          description: Successfully retrieved database usage metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseUsage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    DatabaseUsage:
+      type: object
+      description: Usage metrics for a database over a specified period
+      properties:
+        databaseId:
+          type: string
+          description: Identifier of the database
+        period:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: Start date of the metrics period
+            endDate:
+              type: string
+              format: date
+              description: End date of the metrics period
+        storage:
+          type: object
+          description: Storage usage metrics
+          properties:
+            usedBytes:
+              type: integer
+              format: int64
+              description: Total storage consumed in bytes
+            limitBytes:
+              type: integer
+              format: int64
+              description: Storage limit for the current plan in bytes
+        queries:
+          type: object
+          description: Query execution metrics
+          properties:
+            totalCount:
+              type: integer
+              format: int64
+              description: Total number of queries executed
+            readCount:
+              type: integer
+              format: int64
+              description: Number of read queries executed
+            writeCount:
+              type: integer
+              format: int64
+              description: Number of write queries executed
+        connections:
+          type: object
+          description: Connection pool metrics
+          properties:
+            peakCount:
+              type: integer
+              description: Peak number of concurrent connections
+            averageCount:
+              type: number
+              format: float
+              description: Average number of concurrent connections
+      required:
+      - databaseId
+      - period
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+  parameters:
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

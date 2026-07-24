@@ -1,0 +1,277 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Streams API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Streams
+  description: Resumable event streams with at-least-once delivery and ordering guarantees. Requires event persistence to be enabled.
+paths:
+  /streams:
+    post:
+      operationId: createStream
+      summary: Prisma Create a named event stream
+      description: Creates a new named event stream for a specific database model. Named streams are resumable, meaning that if the consumer disconnects and reconnects with the same stream name, it will resume from where it left off. Requires event persistence to be enabled on the environment. The stream() API provides at-least-once delivery with correct ordering guarantees.
+      tags:
+      - Streams
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StreamCreateRequest'
+      responses:
+        '201':
+          description: Stream created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: A stream with this name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PulseError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      operationId: listStreams
+      summary: Prisma List active event streams
+      description: Retrieves a list of all active named streams for the current environment, including their status and cursor positions.
+      tags:
+      - Streams
+      responses:
+        '200':
+          description: Successfully retrieved list of streams
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StreamInfo'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /streams/{streamName}/events:
+    get:
+      operationId: consumeStreamEvents
+      summary: Prisma Consume events from a named stream
+      description: Opens a long-lived connection to receive events from a named stream. Events are delivered in order with at-least-once delivery guarantees when event persistence is enabled. The connection uses server-sent events (SSE) for real-time delivery. If the stream was previously consumed and has a saved cursor position, events resume from that position.
+      tags:
+      - Streams
+      parameters:
+      - name: streamName
+        in: path
+        required: true
+        description: Name of the stream to consume events from
+        schema:
+          type: string
+          examples:
+          - all-user-events
+      responses:
+        '200':
+          description: Event stream opened successfully. Events are delivered as server-sent events.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/PulseEvent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /streams/{streamName}:
+    delete:
+      operationId: deleteStream
+      summary: Prisma Delete a named stream
+      description: Permanently removes a named stream and its associated cursor position. Any active consumers will be disconnected. The stream name can be reused after deletion.
+      tags:
+      - Streams
+      parameters:
+      - name: streamName
+        in: path
+        required: true
+        description: Name of the stream to delete
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Stream deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    StreamInfo:
+      type: object
+      description: Information about a named event stream
+      properties:
+        name:
+          type: string
+          description: Name of the stream
+        model:
+          type: string
+          description: Model being streamed
+        status:
+          type: string
+          description: Current status of the stream
+          enum:
+          - active
+          - paused
+          - stopped
+        cursor:
+          type: string
+          description: Current cursor position (ULID of last processed event)
+        createdAt:
+          type: string
+          format: date-time
+          description: When the stream was created
+      required:
+      - name
+      - model
+      - status
+      - createdAt
+    StreamCreateRequest:
+      type: object
+      description: Request to create a new named event stream
+      properties:
+        name:
+          type: string
+          description: Unique name for the stream. Used for resumability; reconnecting with the same name resumes from the last acknowledged position.
+          examples:
+          - all-user-events
+        model:
+          type: string
+          description: The Prisma model name to stream events for
+          examples:
+          - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
+      required:
+      - name
+      - model
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    PulseEvent:
+      type: object
+      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
+      properties:
+        id:
+          type: string
+          description: Unique ULID identifier for the event
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+        action:
+          type: string
+          description: The type of database operation that triggered the event
+          enum:
+          - create
+          - update
+          - delete
+        modelName:
+          type: string
+          description: Name of the Prisma model the event relates to
+      required:
+      - id
+      - action
+      - modelName
+    EventFilter:
+      type: object
+      description: Filters to apply to event subscriptions. Filters can target specific event types and field values.
+      properties:
+        create:
+          type: object
+          description: Filter conditions for create events based on scalar fields
+          additionalProperties: true
+        update:
+          type: object
+          description: Filter conditions for update events. Uses the after field to filter on post-update values.
+          properties:
+            after:
+              type: object
+              description: Filter on field values after the update
+              additionalProperties: true
+        delete:
+          type: object
+          description: Filter conditions for delete events based on scalar fields
+          additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

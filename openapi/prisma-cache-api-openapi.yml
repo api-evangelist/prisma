@@ -1,0 +1,159 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Cache API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Cache
+  description: Cache management and invalidation operations
+paths:
+  /invalidate:
+    post:
+      operationId: invalidateCacheByTags
+      summary: Prisma Invalidate cache entries by tags
+      description: Invalidates cached query results that were tagged with the specified cache tags. Up to 5 tags can be specified per request. Tags are alphanumeric strings with underscores, maximum 64 characters each. This endpoint is available on paid plans only.
+      tags:
+      - Cache
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CacheInvalidationRequest'
+      responses:
+        '200':
+          description: Cache entries successfully invalidated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheInvalidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          description: Rate limit exceeded for cache invalidation (error code P6003). Retry after the indicated time.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccelerateError'
+          headers:
+            retry-after:
+              description: Seconds to wait before retrying
+              schema:
+                type: integer
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /invalidate-all:
+    post:
+      operationId: invalidateAllCache
+      summary: Prisma Invalidate all cache entries
+      description: Clears the entire cache for the current environment. Use with caution as this affects all cached queries in the environment and may cause a temporary increase in database load as the cache repopulates.
+      tags:
+      - Cache
+      responses:
+        '200':
+          description: All cache entries successfully invalidated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheInvalidationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccelerateError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    CacheInvalidationRequest:
+      type: object
+      description: Request to invalidate cache entries by their associated tags
+      properties:
+        tags:
+          type: array
+          description: Tags identifying which cache entries to invalidate
+          items:
+            type: string
+            pattern: ^[a-zA-Z0-9_]{1,64}$
+          minItems: 1
+          maxItems: 5
+      required:
+      - tags
+    AccelerateError:
+      type: object
+      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
+      properties:
+        code:
+          type: string
+          description: Accelerate-specific error code (P6xxx format)
+          pattern: ^P6[0-9]{3}$
+          examples:
+          - P6003
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    CacheInvalidationResponse:
+      type: object
+      description: Confirmation of cache invalidation
+      properties:
+        success:
+          type: boolean
+          description: Whether the invalidation was successful
+        invalidatedTags:
+          type: array
+          description: Tags that were successfully invalidated
+          items:
+            type: string
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

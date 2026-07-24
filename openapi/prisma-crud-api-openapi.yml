@@ -1,0 +1,408 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation CRUD API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: CRUD
+  description: Core create, read, update, and delete operations for database models
+paths:
+  /{model}:
+    get:
+      operationId: findMany
+      summary: Prisma Find multiple records
+      description: Retrieves multiple records from the specified model with optional filtering, ordering, pagination, and relation loading. Supports where conditions with operators (equals, contains, startsWith, endsWith, gt, gte, lt, lte, in, notIn), orderBy on any field, cursor-based and offset pagination via take/skip, and distinct filtering.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions using Prisma query operators
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: JSON-encoded sort specification with field names and asc/desc
+        schema:
+          type: string
+      - name: take
+        in: query
+        description: Number of records to return. Negative values reverse the order.
+        schema:
+          type: integer
+      - name: skip
+        in: query
+        description: Number of records to skip for offset pagination
+        schema:
+          type: integer
+          minimum: 0
+      - name: cursor
+        in: query
+        description: JSON-encoded cursor position for cursor-based pagination
+        schema:
+          type: string
+      - name: select
+        in: query
+        description: JSON-encoded field selection specifying which properties to include
+        schema:
+          type: string
+      - name: include
+        in: query
+        description: JSON-encoded relation loading specification for eager loading
+        schema:
+          type: string
+      - name: distinct
+        in: query
+        description: JSON-encoded list of fields to deduplicate results by
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Record'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: create
+      summary: Prisma Create a new record
+      description: Creates a new record in the specified model with the provided data. Supports nested creation of related records via create and connectOrCreate operations, and connecting to existing related records via connect.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInput'
+      responses:
+        '201':
+          description: Successfully created record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Unique constraint violation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrismaError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/{id}:
+    get:
+      operationId: findUnique
+      summary: Prisma Find a unique record
+      description: Retrieves a single record by its unique identifier or compound unique constraint. Returns null if no record matches. Use select to specify which fields to return and include for eager-loading relations.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - $ref: '#/components/parameters/RecordId'
+      - name: select
+        in: query
+        description: JSON-encoded field selection
+        schema:
+          type: string
+      - name: include
+        in: query
+        description: JSON-encoded relation loading specification
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    put:
+      operationId: update
+      summary: Prisma Update a record
+      description: Updates an existing record identified by its unique identifier. Supports atomic number operations (increment, decrement, multiply, divide), nested relation updates (create, connect, disconnect, delete, update, upsert, set), and conditional updates.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - $ref: '#/components/parameters/RecordId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateInput'
+      responses:
+        '200':
+          description: Successfully updated record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          description: Unique constraint violation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrismaError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteRecord
+      summary: Prisma Delete a record
+      description: Permanently deletes a single record identified by its unique identifier. Returns the deleted record data. Cascading deletes may apply based on the Prisma schema relation configuration.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - $ref: '#/components/parameters/RecordId'
+      responses:
+        '200':
+          description: Successfully deleted record, returns the deleted data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/upsert:
+    post:
+      operationId: upsert
+      summary: Prisma Upsert a record
+      description: Updates a record if it exists matching the where condition, or creates a new record if no match is found. Requires both create and update data to be provided along with the where condition.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertInput'
+      responses:
+        '200':
+          description: Successfully upserted record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /{model}/first:
+    get:
+      operationId: findFirst
+      summary: Prisma Find the first matching record
+      description: Returns the first record that matches the filter criteria. Supports the same filtering and ordering options as findMany. Returns null if no records match.
+      tags:
+      - CRUD
+      parameters:
+      - $ref: '#/components/parameters/ModelName'
+      - name: where
+        in: query
+        description: JSON-encoded filter conditions
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: JSON-encoded sort specification
+        schema:
+          type: string
+      - name: select
+        in: query
+        description: JSON-encoded field selection
+        schema:
+          type: string
+      - name: include
+        in: query
+        description: JSON-encoded relation loading specification
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved the first matching record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Record'
+        '404':
+          description: No matching record found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Record:
+      type: object
+      description: A database record. The structure depends on the model schema and select/include options used in the query.
+      additionalProperties: true
+    UpdateInput:
+      type: object
+      description: Input data for updating a record
+      properties:
+        data:
+          type: object
+          description: The field values to update
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
+    UpsertInput:
+      type: object
+      description: Input data for upserting a record
+      properties:
+        where:
+          type: object
+          description: Unique identifier to search for an existing record
+          additionalProperties: true
+        create:
+          type: object
+          description: Data to use if creating a new record
+          additionalProperties: true
+        update:
+          type: object
+          description: Data to use if updating an existing record
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - where
+      - create
+      - update
+    CreateInput:
+      type: object
+      description: Input data for creating a new record
+      properties:
+        data:
+          type: object
+          description: The field values for the new record
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+  parameters:
+    RecordId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the record
+      schema:
+        type: string
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    NotFound:
+      description: The requested record was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

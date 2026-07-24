@@ -1,0 +1,221 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Workspaces API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Workspaces
+  description: Operations for managing Prisma Data Platform workspaces
+paths:
+  /workspaces:
+    get:
+      operationId: listWorkspaces
+      summary: Prisma List all workspaces
+      description: Retrieves a list of all workspaces accessible to the authenticated user. Each workspace contains projects, environments, and associated resources.
+      tags:
+      - Workspaces
+      responses:
+        '200':
+          description: Successfully retrieved list of workspaces
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Workspace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /workspaces/{workspaceId}:
+    get:
+      operationId: getWorkspace
+      summary: Prisma Get a workspace
+      description: Retrieves detailed information about a specific workspace including its configuration, billing status, and associated projects.
+      tags:
+      - Workspaces
+      parameters:
+      - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Successfully retrieved workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      operationId: updateWorkspace
+      summary: Prisma Update a workspace
+      description: Updates the configuration of a specific workspace, such as its name or settings.
+      tags:
+      - Workspaces
+      parameters:
+      - $ref: '#/components/parameters/WorkspaceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdate'
+      responses:
+        '200':
+          description: Successfully updated workspace
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    WorkspaceUpdate:
+      type: object
+      description: Fields that can be updated on a workspace
+      properties:
+        name:
+          type: string
+          description: New display name for the workspace
+    Workspace:
+      type: object
+      description: A workspace is the top-level organizational unit in the Prisma Data Platform that contains projects, members, and billing configuration.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the workspace
+          examples:
+          - ws_abc123def456
+        name:
+          type: string
+          description: Display name of the workspace
+          examples:
+          - My Workspace
+        slug:
+          type: string
+          description: URL-friendly identifier for the workspace
+          examples:
+          - my-workspace
+        plan:
+          type: string
+          description: Current billing plan for the workspace
+          enum:
+          - free
+          - pro
+          - business
+          - enterprise
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was last updated
+      required:
+      - id
+      - name
+      - slug
+      - plan
+      - createdAt
+      - updatedAt
+  responses:
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

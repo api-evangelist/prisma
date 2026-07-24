@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Connections API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Connections
+  description: Operations for managing database connection strings
+paths:
+  /databases/{databaseId}/connections:
+    get:
+      operationId: listConnections
+      summary: Prisma List database connection strings
+      description: Retrieves all connection strings for a specific database, including the Prisma Postgres connection string and direct TCP connection details.
+      tags:
+      - Connections
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved connection strings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Connection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createConnection
+      summary: Prisma Create a database connection string
+      description: Generates a new connection string for the specified database with optional configuration for connection pooling and access restrictions.
+      tags:
+      - Connections
+      parameters:
+      - $ref: '#/components/parameters/DatabaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionCreate'
+      responses:
+        '201':
+          description: Successfully created connection string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionWithCredentials'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /connections/{connectionId}:
+    delete:
+      operationId: deleteConnection
+      summary: Prisma Delete a connection string
+      description: Permanently revokes and deletes a connection string. Any clients using this connection will immediately lose database access.
+      tags:
+      - Connections
+      parameters:
+      - name: connectionId
+        in: path
+        required: true
+        description: Unique identifier of the connection string
+        schema:
+          type: string
+      responses:
+        '204':
+          description: Successfully deleted connection string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    ConnectionCreate:
+      type: object
+      description: Request body for creating a new connection string
+      properties:
+        name:
+          type: string
+          description: Display name for the connection
+        type:
+          type: string
+          description: Type of connection to create
+          enum:
+          - prisma
+          - direct
+      required:
+      - type
+    ConnectionWithCredentials:
+      allOf:
+      - $ref: '#/components/schemas/Connection'
+      - type: object
+        properties:
+          connectionString:
+            type: string
+            description: The full connection string with credentials. Only returned once during creation.
+        required:
+        - connectionString
+    Connection:
+      type: object
+      description: A database connection string configuration
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the connection
+        databaseId:
+          type: string
+          description: Identifier of the associated database
+        type:
+          type: string
+          description: Type of connection
+          enum:
+          - prisma
+          - direct
+        connectionString:
+          type: string
+          description: The connection string with credentials masked
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the connection was created
+      required:
+      - id
+      - databaseId
+      - type
+      - createdAt
+  parameters:
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate

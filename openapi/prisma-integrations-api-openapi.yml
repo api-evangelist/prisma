@@ -1,0 +1,127 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate Aggregation Integrations API
+  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+servers:
+- url: https://accelerate.prisma-data.net
+  description: Prisma Accelerate global proxy endpoint
+security:
+- apiKeyAuth: []
+tags:
+- name: Integrations
+  description: Operations for managing third-party integrations
+paths:
+  /integrations:
+    get:
+      operationId: listIntegrations
+      summary: Prisma List configured integrations
+      description: Retrieves all third-party integrations configured for the current workspace or project.
+      tags:
+      - Integrations
+      responses:
+        '200':
+          description: Successfully retrieved list of integrations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integration'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  schemas:
+    Integration:
+      type: object
+      description: A third-party integration configuration
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the integration
+        name:
+          type: string
+          description: Name of the integration
+        provider:
+          type: string
+          description: Integration provider identifier
+        status:
+          type: string
+          description: Current status of the integration
+          enum:
+          - active
+          - inactive
+          - error
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the integration was configured
+      required:
+      - id
+      - name
+      - provider
+      - status
+      - createdAt
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+  responses:
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate
