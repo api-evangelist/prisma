@@ -2,173 +2,1132 @@ name: Prisma
 description: >-
   Prisma is a next-generation ORM that helps developers build applications faster and with fewer errors. It provides a
   type-safe database client, migrations system, and visual database browser.
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://www.prisma.io/images/prisma-logo.svg
 url: https://www.prisma.io
 created: '2024'
 modified: '2026-05-19'
 specificationVersion: '0.18'
 apis:
-  - name: Prisma Data Platform API
-    description: >-
-      REST API for managing Prisma Data Platform resources including projects, environments, and database connections
-      through the Prisma Console.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/platform/about
-    baseUrl: https://api.cloud.prisma.io
-    tags:
-      - Database
-      - Developer Tools
-      - ORM
-      - Platform
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/platform/about
-      - type: OpenAPI
-        url: https://api.cloud.prisma.io/openapi.json
-      - type: OpenAPI
-        url: openapi/prisma-data-platform-openapi.yml
-      - type: Authentication
-        url: https://www.prisma.io/docs/management-api/authentication
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/console/getting-started
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
-  - name: Prisma Accelerate API
-    description: >-
-      API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases with
-      query-level cache policies directly from the Prisma ORM.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/accelerate
-    baseUrl: https://accelerate.prisma-data.net
-    tags:
-      - Caching
-      - Connection Pooling
-      - Database
-      - Performance
-      - Serverless
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/accelerate
-      - type: OpenAPI
-        url: openapi/prisma-accelerate-openapi.yml
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/accelerate/getting-started
-      - type: Reference
-        url: https://www.prisma.io/docs/accelerate/reference/api-reference
-      - type: FAQ
-        url: https://www.prisma.io/docs/accelerate/more/faq
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
-  - name: Prisma Pulse API
-    description: >-
-      API for Prisma Pulse, a managed Change Data Capture service enabling real-time database change events and
-      type-safe subscriptions via Prisma Client.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/pulse/database-events
-    baseUrl: https://pulse.prisma-data.net
-    tags:
-      - Change Data Capture
-      - Database
-      - Events
-      - Real-Time
-      - Subscriptions
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/pulse/database-events
-      - type: OpenAPI
-        url: openapi/prisma-pulse-openapi.yml
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/pulse/getting-started
-      - type: FAQ
-        url: https://www.prisma.io/docs/pulse/faq
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
-  - name: Prisma Postgres Management API
-    description: >-
-      REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces,
-      supporting automation, CI/CD workflows, and partner integrations.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/postgres/introduction/management-api
-    baseUrl: https://api.prisma.io/v1
-    tags:
-      - Database
-      - Infrastructure
-      - Managed Database
-      - PostgreSQL
-      - Provisioning
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/postgres/introduction/management-api
-      - type: OpenAPI
-        url: openapi/prisma-postgres-management-openapi.yml
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/guides/management-api-basic
-      - type: Authentication
-        url: https://www.prisma.io/docs/management-api/authentication
-      - type: SDKs
-        url: https://www.prisma.io/docs/management-api/sdk
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
-  - name: Prisma Client API
-    description: >-
-      Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access for
-      PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/orm/reference/prisma-client-reference
-    tags:
-      - Database
-      - Node.js
-      - ORM
-      - Query Builder
-      - TypeScript
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/orm
-      - type: OpenAPI
-        url: openapi/prisma-client-openapi.yml
-      - type: Reference
-        url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
-      - type: SDKs
-        url: https://www.npmjs.com/package/@prisma/client
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
-  - name: Prisma Optimize API
-    description: >-
-      Query performance tool for analyzing, debugging, and improving database queries during development, with
-      AI-powered recommendations to reduce database load and improve responsiveness.
-    image: https://www.prisma.io/images/prisma-logo.svg
-    humanUrl: https://www.prisma.io/docs/optimize
-    tags:
-      - AI
-      - Database
-      - Developer Tools
-      - Performance
-      - Query Optimization
-    properties:
-      - type: Documentation
-        url: https://www.prisma.io/docs/optimize
-      - type: OpenAPI
-        url: openapi/prisma-optimize-openapi.yml
-      - type: GettingStarted
-        url: https://www.prisma.io/docs/optimize/getting-started
-      - type: SDKs
-        url: https://www.npmjs.com/package/@prisma/extension-optimize
-    contact:
-      - FN: Prisma Support
-        email: support@prisma.io
-        url: https://www.prisma.io/support
+- aid: prisma:prisma-aggregation-api
+  name: Prisma Aggregation API
+  description: Count, aggregate, and groupBy operations for analytics
+  tags:
+  - Aggregation
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-aggregation-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-api-keys-api
+  name: Prisma API Keys API
+  description: Operations for managing API keys for platform resources
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-batch-api
+  name: Prisma Batch API
+  description: Batch operations for bulk create, update, and delete
+  tags:
+  - Batch
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-batch-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-cache-api
+  name: Prisma Cache API
+  description: Cache management and invalidation operations
+  tags:
+  - Cache
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-cache-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-connections-api
+  name: Prisma Connections API
+  description: Operations for managing database connection strings
+  tags:
+  - Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-connections-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-crud-api
+  name: Prisma CRUD API
+  description: Core create, read, update, and delete operations for database models
+  tags:
+  - CRUD
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-crud-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-database-backups-api
+  name: Prisma Database Backups API
+  description: Operations for managing database backup and restore operations
+  tags:
+  - Database Backups
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-database-backups-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-database-usage-api
+  name: Prisma Database Usage API
+  description: Operations for retrieving database usage metrics and statistics
+  tags:
+  - Database Usage
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-database-usage-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-databases-api
+  name: Prisma Databases API
+  description: Operations for provisioning and managing Prisma Postgres databases
+  tags:
+  - Databases
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-databases-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-environments-api
+  name: Prisma Environments API
+  description: Operations for managing project environments
+  tags:
+  - Environments
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-environments-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-events-api
+  name: Prisma Events API
+  description: Database change event retrieval and management
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-events-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-health-api
+  name: Prisma Health API
+  description: Service health and status checks
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-health-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-integrations-api
+  name: Prisma Integrations API
+  description: Operations for managing third-party integrations
+  tags:
+  - Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-integrations-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-members-api
+  name: Prisma Members API
+  description: Operations for managing workspace members and roles
+  tags:
+  - Members
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-members-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-metrics-api
+  name: Prisma Metrics API
+  description: Performance metrics and statistics
+  tags:
+  - Metrics
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-metrics-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-projects-api
+  name: Prisma Projects API
+  description: Operations for managing projects within workspaces
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-projects-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-queries-api
+  name: Prisma Queries API
+  description: Proxied database query operations routed through Accelerate with optional caching
+  tags:
+  - Queries
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-queries-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-raw-api
+  name: Prisma Raw API
+  description: Raw SQL query execution
+  tags:
+  - Raw
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-raw-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-recommendations-api
+  name: Prisma Recommendations API
+  description: AI-powered query optimization recommendations
+  tags:
+  - Recommendations
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-recommendations-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-sessions-api
+  name: Prisma Sessions API
+  description: Recording session management for query capture and analysis
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-streams-api
+  name: Prisma Streams API
+  description: >-
+    Resumable event streams with at-least-once delivery and ordering guarantees. Requires event persistence
+    to be enabled.
+  tags:
+  - Streams
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-streams-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-subscriptions-api
+  name: Prisma Subscriptions API
+  description: >-
+    Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
+  tags:
+  - Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+- aid: prisma:prisma-workspaces-api
+  name: Prisma Workspaces API
+  description: Operations for managing Prisma Data Platform workspaces
+  tags:
+  - Workspaces
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-workspaces-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/platform/about
+  - type: Authentication
+    url: https://www.prisma.io/docs/management-api/authentication
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/console/getting-started
+  - type: Documentation
+    url: https://www.prisma.io/docs/accelerate
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/accelerate/getting-started
+  - type: Reference
+    url: https://www.prisma.io/docs/accelerate/reference/api-reference
+  - type: FAQ
+    url: https://www.prisma.io/docs/accelerate/more/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/pulse/database-events
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/pulse/getting-started
+  - type: FAQ
+    url: https://www.prisma.io/docs/pulse/faq
+  - type: Documentation
+    url: https://www.prisma.io/docs/postgres/introduction/management-api
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/guides/management-api-basic
+  - type: SDKs
+    url: https://www.prisma.io/docs/management-api/sdk
+  - type: Documentation
+    url: https://www.prisma.io/docs/orm
+  - type: Reference
+    url: https://www.prisma.io/docs/orm/reference/prisma-client-reference
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/client
+  - type: Documentation
+    url: https://www.prisma.io/docs/optimize
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/optimize/getting-started
+  - type: SDKs
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
 common:
   - type: AgenticAccess
     url: agentic-access/prisma-agentic-access.yml
