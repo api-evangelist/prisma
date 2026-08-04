@@ -1,0 +1,1051 @@
+openapi: 3.1.0
+info:
+  title: Prisma Postgres Management API
+  description: >-
+    REST API for programmatically provisioning and managing Prisma Postgres
+    databases, projects, and workspaces. Supports automation, CI/CD workflows,
+    and partner integrations. The API provides endpoints for managing
+    workspaces, projects, databases, database backups, database usage metrics,
+    connections, and integrations. Authentication is handled via service tokens
+    or OAuth 2.0 with PKCE support.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+externalDocs:
+  description: Prisma Postgres Management API Documentation
+  url: https://www.prisma.io/docs/postgres/introduction/management-api
+servers:
+  - url: https://api.prisma.io/v1
+    description: Prisma Management API production server
+security:
+  - bearerAuth: []
+tags:
+  - name: Connections
+    description: Operations for managing database connection strings
+  - name: Database Backups
+    description: Operations for managing database backup and restore operations
+  - name: Database Usage
+    description: Operations for retrieving database usage metrics and statistics
+  - name: Databases
+    description: Operations for provisioning and managing Prisma Postgres databases
+  - name: Integrations
+    description: Operations for managing third-party integrations
+  - name: Projects
+    description: Operations for creating, managing, and deleting projects
+  - name: Workspaces
+    description: Operations for managing Prisma workspaces
+paths:
+  /workspaces:
+    get:
+      operationId: listWorkspaces
+      summary: Prisma List all workspaces
+      description: >-
+        Retrieves a list of all workspaces accessible to the authenticated
+        user or service token. Workspaces are the top-level organizational
+        unit containing projects and databases.
+      tags:
+        - Workspaces
+      responses:
+        '200':
+          description: Successfully retrieved list of workspaces
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Workspace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /workspaces/{workspaceId}:
+    get:
+      operationId: getWorkspace
+      summary: Prisma Get a workspace
+      description: >-
+        Retrieves detailed information about a specific workspace including
+        its configuration and billing status.
+      tags:
+        - Workspaces
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Successfully retrieved workspace details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /workspaces/{workspaceId}/projects:
+    get:
+      operationId: listProjects
+      summary: Prisma List projects in a workspace
+      description: >-
+        Retrieves all projects within a specified workspace. Projects contain
+        databases and their associated configuration.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      responses:
+        '200':
+          description: Successfully retrieved list of projects
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Project'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createProject
+      summary: Prisma Create a project with a database
+      description: >-
+        Creates a new project within the specified workspace. A Prisma Postgres
+        database is automatically provisioned in the specified region. The
+        response includes the database connection string, API keys, and direct
+        TCP connection details.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '201':
+          description: Successfully created project with database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWithDatabase'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /projects/{projectId}:
+    get:
+      operationId: getProject
+      summary: Prisma Get a project
+      description: >-
+        Retrieves detailed information about a specific project including
+        its associated databases.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Successfully retrieved project details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectWithDatabase'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteProject
+      summary: Prisma Delete a project
+      description: >-
+        Permanently deletes a project and all associated databases, backups,
+        and connection strings. This action cannot be undone.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Successfully deleted project
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /projects/{projectId}/databases:
+    post:
+      operationId: createDatabase
+      summary: Prisma Create a database in a project
+      description: >-
+        Provisions a new Prisma Postgres database within an existing project.
+        The database runs on PostgreSQL v17 using unikernel-based infrastructure
+        for performance and security isolation.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DatabaseCreate'
+      responses:
+        '201':
+          description: Successfully created database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}:
+    get:
+      operationId: getDatabase
+      summary: Prisma Get a database
+      description: >-
+        Retrieves detailed information about a specific Prisma Postgres
+        database including its status, region, and connection details.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved database details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Database'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      operationId: deleteDatabase
+      summary: Prisma Delete a database
+      description: >-
+        Permanently deletes a Prisma Postgres database and all its data.
+        This action cannot be undone. All associated backups and connection
+        strings are also removed.
+      tags:
+        - Databases
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '204':
+          description: Successfully deleted database
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}/usage:
+    get:
+      operationId: getDatabaseUsage
+      summary: Prisma Get database usage metrics
+      description: >-
+        Retrieves usage metrics for a specific database including storage
+        consumption, query counts, connection counts, and compute utilization
+        over a specified time range.
+      tags:
+        - Database Usage
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+        - name: startDate
+          in: query
+          description: Start date for the usage metrics period (ISO 8601 format)
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: End date for the usage metrics period (ISO 8601 format)
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Successfully retrieved database usage metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseUsage'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}/backups:
+    get:
+      operationId: listDatabaseBackups
+      summary: Prisma List database backups
+      description: >-
+        Retrieves a list of all backups for a specific database, including
+        automatic and manual backups with their status and size.
+      tags:
+        - Database Backups
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved list of backups
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DatabaseBackup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createDatabaseBackup
+      summary: Prisma Create a manual database backup
+      description: >-
+        Initiates a manual backup of the specified database. The backup
+        process runs asynchronously. Use the backup ID to check status.
+      tags:
+        - Database Backups
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackupCreate'
+      responses:
+        '202':
+          description: Backup creation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseBackup'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}/backups/{backupId}/restore:
+    post:
+      operationId: restoreDatabaseBackup
+      summary: Prisma Restore a database from backup
+      description: >-
+        Restores a database to the state captured in a specific backup. This
+        operation replaces the current database content with the backup data.
+      tags:
+        - Database Backups
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+        - name: backupId
+          in: path
+          required: true
+          description: Unique identifier of the backup to restore
+          schema:
+            type: string
+      responses:
+        '202':
+          description: Database restore initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Status of the restore operation
+                    enum:
+                      - restoring
+                  message:
+                    type: string
+                    description: Description of the restore operation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /databases/{databaseId}/connections:
+    get:
+      operationId: listConnections
+      summary: Prisma List database connection strings
+      description: >-
+        Retrieves all connection strings for a specific database, including
+        the Prisma Postgres connection string and direct TCP connection details.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      responses:
+        '200':
+          description: Successfully retrieved connection strings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Connection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      operationId: createConnection
+      summary: Prisma Create a database connection string
+      description: >-
+        Generates a new connection string for the specified database with
+        optional configuration for connection pooling and access restrictions.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/DatabaseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionCreate'
+      responses:
+        '201':
+          description: Successfully created connection string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionWithCredentials'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /connections/{connectionId}:
+    delete:
+      operationId: deleteConnection
+      summary: Prisma Delete a connection string
+      description: >-
+        Permanently revokes and deletes a connection string. Any clients using
+        this connection will immediately lose database access.
+      tags:
+        - Connections
+      parameters:
+        - name: connectionId
+          in: path
+          required: true
+          description: Unique identifier of the connection string
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully deleted connection string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /integrations:
+    get:
+      operationId: listIntegrations
+      summary: Prisma List configured integrations
+      description: >-
+        Retrieves all third-party integrations configured for the current
+        workspace or project.
+      tags:
+        - Integrations
+      responses:
+        '200':
+          description: Successfully retrieved list of integrations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Integration'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Authentication via service token or OAuth 2.0 access token. Service
+        tokens are created in the Prisma Console under Settings > Service
+        Tokens. OAuth 2.0 tokens are obtained via the authorization endpoint
+        at https://auth.prisma.io/authorize with token exchange at
+        https://auth.prisma.io/token. PKCE is supported with S256 code
+        challenge method.
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
+  schemas:
+    Workspace:
+      type: object
+      description: >-
+        A workspace is the top-level organizational unit containing projects,
+        databases, and team members with shared billing.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the workspace
+        name:
+          type: string
+          description: Display name of the workspace
+        slug:
+          type: string
+          description: URL-friendly identifier for the workspace
+        plan:
+          type: string
+          description: Current billing plan
+          enum:
+            - free
+            - pro
+            - business
+            - enterprise
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was last updated
+      required:
+        - id
+        - name
+        - slug
+        - plan
+        - createdAt
+        - updatedAt
+    Project:
+      type: object
+      description: >-
+        A project represents an application or service that contains one or
+        more Prisma Postgres databases.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+        name:
+          type: string
+          description: Display name of the project
+        workspaceId:
+          type: string
+          description: Identifier of the parent workspace
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+        - id
+        - name
+        - workspaceId
+        - createdAt
+        - updatedAt
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project with a database
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+            - My Application
+        region:
+          type: string
+          description: >-
+            Region where the database should be provisioned. Determines the
+            physical location of the database for latency optimization.
+          enum:
+            - us-east-1
+            - us-west-2
+            - eu-west-1
+            - eu-central-1
+            - ap-southeast-1
+            - ap-northeast-1
+          examples:
+            - us-east-1
+      required:
+        - name
+        - region
+    ProjectWithDatabase:
+      allOf:
+        - $ref: '#/components/schemas/Project'
+        - type: object
+          properties:
+            databases:
+              type: array
+              description: Databases associated with the project
+              items:
+                $ref: '#/components/schemas/Database'
+    Database:
+      type: object
+      description: >-
+        A Prisma Postgres database instance running PostgreSQL v17 on
+        unikernel-based infrastructure with built-in connection pooling,
+        caching, and real-time subscription capabilities.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the database
+        name:
+          type: string
+          description: Display name of the database
+        projectId:
+          type: string
+          description: Identifier of the parent project
+        region:
+          type: string
+          description: Region where the database is deployed
+        status:
+          type: string
+          description: Current operational status of the database
+          enum:
+            - provisioning
+            - active
+            - suspended
+            - deleting
+            - deleted
+        connectionString:
+          type: string
+          description: >-
+            Prisma Postgres connection string in prisma+postgres:// format
+          examples:
+            - prisma+postgres://accelerate.prisma-data.net/?api_key=ey...
+        apiKeys:
+          type: array
+          description: API keys for database access
+          items:
+            $ref: '#/components/schemas/DatabaseApiKey'
+        directConnection:
+          $ref: '#/components/schemas/DirectConnection'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was last updated
+      required:
+        - id
+        - projectId
+        - region
+        - status
+        - createdAt
+        - updatedAt
+    DatabaseCreate:
+      type: object
+      description: Request body for creating a new database
+      properties:
+        name:
+          type: string
+          description: Display name for the database
+        region:
+          type: string
+          description: Region where the database should be provisioned
+          enum:
+            - us-east-1
+            - us-west-2
+            - eu-west-1
+            - eu-central-1
+            - ap-southeast-1
+            - ap-northeast-1
+      required:
+        - region
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+        - apiKey
+        - connectionString
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+        - host
+        - port
+        - username
+        - password
+        - database
+    DatabaseUsage:
+      type: object
+      description: Usage metrics for a database over a specified period
+      properties:
+        databaseId:
+          type: string
+          description: Identifier of the database
+        period:
+          type: object
+          properties:
+            startDate:
+              type: string
+              format: date
+              description: Start date of the metrics period
+            endDate:
+              type: string
+              format: date
+              description: End date of the metrics period
+        storage:
+          type: object
+          description: Storage usage metrics
+          properties:
+            usedBytes:
+              type: integer
+              format: int64
+              description: Total storage consumed in bytes
+            limitBytes:
+              type: integer
+              format: int64
+              description: Storage limit for the current plan in bytes
+        queries:
+          type: object
+          description: Query execution metrics
+          properties:
+            totalCount:
+              type: integer
+              format: int64
+              description: Total number of queries executed
+            readCount:
+              type: integer
+              format: int64
+              description: Number of read queries executed
+            writeCount:
+              type: integer
+              format: int64
+              description: Number of write queries executed
+        connections:
+          type: object
+          description: Connection pool metrics
+          properties:
+            peakCount:
+              type: integer
+              description: Peak number of concurrent connections
+            averageCount:
+              type: number
+              format: float
+              description: Average number of concurrent connections
+      required:
+        - databaseId
+        - period
+    DatabaseBackup:
+      type: object
+      description: A backup of a Prisma Postgres database
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the backup
+        databaseId:
+          type: string
+          description: Identifier of the source database
+        type:
+          type: string
+          description: Type of backup
+          enum:
+            - automatic
+            - manual
+        status:
+          type: string
+          description: Current status of the backup
+          enum:
+            - pending
+            - in_progress
+            - completed
+            - failed
+        sizeBytes:
+          type: integer
+          format: int64
+          description: Size of the backup in bytes
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the backup was created
+        completedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the backup completed
+      required:
+        - id
+        - databaseId
+        - type
+        - status
+        - createdAt
+    BackupCreate:
+      type: object
+      description: Request body for creating a manual backup
+      properties:
+        label:
+          type: string
+          description: Optional label for the backup
+    Connection:
+      type: object
+      description: A database connection string configuration
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the connection
+        databaseId:
+          type: string
+          description: Identifier of the associated database
+        type:
+          type: string
+          description: Type of connection
+          enum:
+            - prisma
+            - direct
+        connectionString:
+          type: string
+          description: >-
+            The connection string with credentials masked
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the connection was created
+      required:
+        - id
+        - databaseId
+        - type
+        - createdAt
+    ConnectionCreate:
+      type: object
+      description: Request body for creating a new connection string
+      properties:
+        name:
+          type: string
+          description: Display name for the connection
+        type:
+          type: string
+          description: Type of connection to create
+          enum:
+            - prisma
+            - direct
+      required:
+        - type
+    ConnectionWithCredentials:
+      allOf:
+        - $ref: '#/components/schemas/Connection'
+        - type: object
+          properties:
+            connectionString:
+              type: string
+              description: >-
+                The full connection string with credentials. Only returned
+                once during creation.
+          required:
+            - connectionString
+    Integration:
+      type: object
+      description: A third-party integration configuration
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the integration
+        name:
+          type: string
+          description: Name of the integration
+        provider:
+          type: string
+          description: Integration provider identifier
+        status:
+          type: string
+          description: Current status of the integration
+          enum:
+            - active
+            - inactive
+            - error
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the integration was configured
+      required:
+        - id
+        - name
+        - provider
+        - status
+        - createdAt
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+            - code
+            - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

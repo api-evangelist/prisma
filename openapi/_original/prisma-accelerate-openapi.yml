@@ -1,0 +1,408 @@
+openapi: 3.1.0
+info:
+  title: Prisma Accelerate API
+  description: >-
+    API for Prisma Accelerate, a fully managed global connection pool and
+    caching layer for existing databases. Accelerate intercepts Prisma Client
+    queries via a proxy protocol, applies query-level cache policies with
+    configurable TTL and stale-while-revalidate strategies, and provides
+    tag-based cache invalidation. The proxy uses the prisma:// connection
+    protocol to route queries through Accelerate's global edge network.
+  version: 1.0.0
+  contact:
+    name: Prisma Support
+    email: support@prisma.io
+    url: https://www.prisma.io/support
+  license:
+    name: Proprietary
+    url: https://www.prisma.io/terms
+  termsOfService: https://www.prisma.io/terms
+externalDocs:
+  description: Prisma Accelerate Documentation
+  url: https://www.prisma.io/docs/accelerate
+servers:
+  - url: https://accelerate.prisma-data.net
+    description: Prisma Accelerate global proxy endpoint
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Cache
+    description: Cache management and invalidation operations
+  - name: Health
+    description: Service health and status checks
+  - name: Queries
+    description: >-
+      Proxied database query operations routed through Accelerate with
+      optional caching
+paths:
+  /{apiVersion}/{engineHash}/graphql:
+    post:
+      operationId: executeQuery
+      summary: Prisma Execute a proxied database query
+      description: >-
+        Executes a Prisma Client query through the Accelerate proxy. The proxy
+        manages connection pooling, applies caching strategies based on the
+        cacheStrategy parameters, and returns results from cache when available.
+        Cache behavior is controlled by TTL (time-to-live) and SWR
+        (stale-while-revalidate) headers or query parameters.
+      tags:
+        - Queries
+      parameters:
+        - name: apiVersion
+          in: path
+          required: true
+          description: Prisma engine API version
+          schema:
+            type: string
+            examples:
+              - '2024'
+        - name: engineHash
+          in: path
+          required: true
+          description: Prisma engine version hash for protocol compatibility
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        '200':
+          description: Query executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+          headers:
+            x-accelerate-cache-status:
+              description: >-
+                Indicates the cache status of the response. Values include ttl
+                (served from cache within TTL), swr (served stale while
+                revalidating), miss (cache miss, fetched from database), or
+                none (caching not configured for this query).
+              schema:
+                type: string
+                enum:
+                  - ttl
+                  - swr
+                  - miss
+                  - none
+            x-accelerate-last-modified:
+              description: Timestamp when the cached entry was last updated
+              schema:
+                type: string
+                format: date-time
+            x-accelerate-region:
+              description: Edge region that processed the request
+              schema:
+                type: string
+            x-accelerate-request-id:
+              description: Unique identifier for the request for debugging
+              schema:
+                type: string
+                format: uuid
+            x-accelerate-signature:
+              description: Response signature for verification
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /invalidate:
+    post:
+      operationId: invalidateCacheByTags
+      summary: Prisma Invalidate cache entries by tags
+      description: >-
+        Invalidates cached query results that were tagged with the specified
+        cache tags. Up to 5 tags can be specified per request. Tags are
+        alphanumeric strings with underscores, maximum 64 characters each.
+        This endpoint is available on paid plans only.
+      tags:
+        - Cache
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CacheInvalidationRequest'
+      responses:
+        '200':
+          description: Cache entries successfully invalidated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheInvalidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          description: >-
+            Rate limit exceeded for cache invalidation (error code P6003).
+            Retry after the indicated time.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccelerateError'
+          headers:
+            retry-after:
+              description: Seconds to wait before retrying
+              schema:
+                type: integer
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /invalidate-all:
+    post:
+      operationId: invalidateAllCache
+      summary: Prisma Invalidate all cache entries
+      description: >-
+        Clears the entire cache for the current environment. Use with caution
+        as this affects all cached queries in the environment and may cause
+        a temporary increase in database load as the cache repopulates.
+      tags:
+        - Cache
+      responses:
+        '200':
+          description: All cache entries successfully invalidated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CacheInvalidationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccelerateError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /health:
+    get:
+      operationId: getHealthStatus
+      summary: Prisma Check Accelerate service health
+      description: >-
+        Returns the current health status of the Accelerate proxy service
+        including regional availability information.
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+        '503':
+          description: Service is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        API key for Accelerate authentication, provided as a Bearer token.
+        Generated from the Prisma Data Platform Console for each environment.
+  schemas:
+    QueryRequest:
+      type: object
+      description: A Prisma query request routed through the Accelerate proxy
+      properties:
+        query:
+          type: string
+          description: The Prisma query operation serialized as a GraphQL query string
+        variables:
+          type: object
+          description: Variables for the query operation
+          additionalProperties: true
+        extensions:
+          type: object
+          description: Query extensions including cache strategy configuration
+          properties:
+            cacheStrategy:
+              $ref: '#/components/schemas/CacheStrategy'
+      required:
+        - query
+    QueryResponse:
+      type: object
+      description: Response from a proxied query through Accelerate
+      properties:
+        data:
+          type: object
+          description: The query result data
+          additionalProperties: true
+        errors:
+          type: array
+          description: Any errors that occurred during query execution
+          items:
+            $ref: '#/components/schemas/AccelerateError'
+        extensions:
+          type: object
+          description: Response extensions including cache metadata
+          properties:
+            accelerateInfo:
+              $ref: '#/components/schemas/AccelerateInfo'
+    CacheStrategy:
+      type: object
+      description: >-
+        Cache configuration for a specific query. Defines how long results
+        should be cached and how stale data should be handled.
+      properties:
+        ttl:
+          type: integer
+          description: >-
+            Time-to-live in seconds. Cached results are served directly for
+            this duration without querying the database.
+          minimum: 1
+          examples:
+            - 60
+        swr:
+          type: integer
+          description: >-
+            Stale-while-revalidate time in seconds. After TTL expires, stale
+            cached results are served while a background refresh occurs.
+          minimum: 1
+          examples:
+            - 60
+        tags:
+          type: array
+          description: >-
+            Cache tags for targeted invalidation. Each tag must be alphanumeric
+            with underscores, maximum 64 characters.
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9_]{1,64}$'
+          maxItems: 5
+          examples:
+            -   - user_list
+                - active_users
+    AccelerateInfo:
+      type: object
+      description: Cache metadata returned alongside query results
+      properties:
+        cacheStatus:
+          type: string
+          description: >-
+            Indicates how the response was served relative to the cache
+          enum:
+            - ttl
+            - swr
+            - miss
+            - none
+        lastModified:
+          type: string
+          format: date-time
+          description: When the cached data was last refreshed from the database
+        region:
+          type: string
+          description: The edge region that processed the request
+          examples:
+            - us-east-1
+        requestId:
+          type: string
+          description: Unique identifier for request tracing
+        signature:
+          type: string
+          description: Response signature for cache verification
+      required:
+        - cacheStatus
+        - requestId
+    CacheInvalidationRequest:
+      type: object
+      description: Request to invalidate cache entries by their associated tags
+      properties:
+        tags:
+          type: array
+          description: Tags identifying which cache entries to invalidate
+          items:
+            type: string
+            pattern: '^[a-zA-Z0-9_]{1,64}$'
+          minItems: 1
+          maxItems: 5
+      required:
+        - tags
+    CacheInvalidationResponse:
+      type: object
+      description: Confirmation of cache invalidation
+      properties:
+        success:
+          type: boolean
+          description: Whether the invalidation was successful
+        invalidatedTags:
+          type: array
+          description: Tags that were successfully invalidated
+          items:
+            type: string
+    HealthStatus:
+      type: object
+      description: Health status of the Accelerate service
+      properties:
+        status:
+          type: string
+          enum:
+            - healthy
+            - degraded
+            - unavailable
+        region:
+          type: string
+          description: Region of the health check responder
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the health check
+      required:
+        - status
+        - timestamp
+    AccelerateError:
+      type: object
+      description: >-
+        Error response from Accelerate. All Accelerate errors follow the
+        P6xxx error code format.
+      properties:
+        code:
+          type: string
+          description: Accelerate-specific error code (P6xxx format)
+          pattern: '^P6[0-9]{3}$'
+          examples:
+            - P6003
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+        - code
+        - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
