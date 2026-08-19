@@ -19,7 +19,7 @@ image: https://www.prisma.io/images/prisma-logo.svg
 url: https://www.prisma.io
 created: '2024'
 modified: '2026-05-19'
-specificationVersion: '0.18'
+specificationVersion: '0.23'
 apis:
 - aid: prisma:prisma-aggregation-api
   name: Prisma Aggregation API
