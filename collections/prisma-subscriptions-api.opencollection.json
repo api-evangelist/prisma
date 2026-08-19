@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Subscriptions API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscriptions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create a transient event subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/subscribe",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a transient subscription to database change events for a specific model. The subscribe() method provides at-most-once delivery with no ordering guarantees. Events that occur while the subscriber is disconnected are not recovered. For guaranteed delivery, use the stream() API instead."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Events API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Get a specific event by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/events/:eventId",
+            "params": [
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path",
+                "description": "ULID identifier of the event"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific database change event by its unique ULID identifier. Only available when event persistence is enabled."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

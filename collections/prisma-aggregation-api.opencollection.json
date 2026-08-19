@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Aggregation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Count matching records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model/count",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection for field-level counts"
+              }
+            ]
+          },
+          "docs": "Returns the count of records matching the filter criteria. Optionally provides field-level counts showing how many non-null values exist for each specified field."
+        },
+        {
+          "info": {
+            "name": "Prisma Aggregate records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model/aggregate",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "_count",
+                "value": "",
+                "type": "query",
+                "description": "Fields to count or true for total count"
+              },
+              {
+                "name": "_avg",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to average"
+              },
+              {
+                "name": "_sum",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to sum"
+              },
+              {
+                "name": "_min",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to find minimum"
+              },
+              {
+                "name": "_max",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded specification of fields to find maximum"
+              }
+            ]
+          },
+          "docs": "Performs aggregate calculations on matching records. Supports _count, _avg, _sum, _min, and _max operations on numeric fields with optional filtering and ordering."
+        },
+        {
+          "info": {
+            "name": "Prisma Group records and aggregate",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model/groupBy",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "by",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded list of fields to group by"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions applied before grouping"
+              },
+              {
+                "name": "having",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions applied after grouping"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification for groups"
+              }
+            ]
+          },
+          "docs": "Groups records by one or more fields and applies aggregate functions within each group. Supports filtering groups with having conditions and ordering groups by field values or aggregate results."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

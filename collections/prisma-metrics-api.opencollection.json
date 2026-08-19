@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Metrics API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metrics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Get session performance metrics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/sessions/:sessionId/metrics",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recording session"
+              }
+            ]
+          },
+          "docs": "Retrieves aggregated performance metrics for all queries in a session including total execution time, average query duration, slowest queries, and query type distribution."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

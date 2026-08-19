@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Projects API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List projects in a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves all projects within a specified workspace. Each project contains environments and database configurations."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/workspaces/:workspaceId/projects",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the specified workspace with the given name and configuration settings."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific project including its environments and database connections."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/projects/:projectId",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a project and all associated environments and resources. This action cannot be undone."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

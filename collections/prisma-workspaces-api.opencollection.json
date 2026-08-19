@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Workspaces API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Workspaces",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List all workspaces",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/workspaces"
+          },
+          "docs": "Retrieves a list of all workspaces accessible to the authenticated user. Each workspace contains projects, environments, and associated resources."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/workspaces/:workspaceId",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific workspace including its configuration, billing status, and associated projects."
+        },
+        {
+          "info": {
+            "name": "Prisma Update a workspace",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://accelerate.prisma-data.net/workspaces/:workspaceId",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the workspace"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configuration of a specific workspace, such as its name or settings."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

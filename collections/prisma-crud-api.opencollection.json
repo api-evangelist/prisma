@@ -1,0 +1,273 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation CRUD API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CRUD",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Find multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions using Prisma query operators"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification with field names and asc/desc"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return. Negative values reverse the order."
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for offset pagination"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded cursor position for cursor-based pagination"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection specifying which properties to include"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification for eager loading"
+              },
+              {
+                "name": "distinct",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded list of fields to deduplicate results by"
+              }
+            ]
+          },
+          "docs": "Retrieves multiple records from the specified model with optional filtering, ordering, pagination, and relation loading. Supports where conditions with operators (equals, contains, startsWith, endsWith, gt, gte, lt, lte, in, notIn), orderBy on any field, cursor-based and offset pagination via take/skip, and distinct filtering."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a new record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/:model",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new record in the specified model with the provided data. Supports nested creation of related records via create and connectOrCreate operations, and connecting to existing related records via connect."
+        },
+        {
+          "info": {
+            "name": "Prisma Find a unique record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification"
+              }
+            ]
+          },
+          "docs": "Retrieves a single record by its unique identifier or compound unique constraint. Returns null if no record matches. Use select to specify which fields to return and include for eager-loading relations."
+        },
+        {
+          "info": {
+            "name": "Prisma Update a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://accelerate.prisma-data.net/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing record identified by its unique identifier. Supports atomic number operations (increment, decrement, multiply, divide), nested relation updates (create, connect, disconnect, delete, update, upsert, set), and conditional updates."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/:model/:id",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the record"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a single record identified by its unique identifier. Returns the deleted record data. Cascading deletes may apply based on the Prisma schema relation configuration."
+        },
+        {
+          "info": {
+            "name": "Prisma Upsert a record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/:model/upsert",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a record if it exists matching the where condition, or creates a new record if no match is found. Requires both create and update data to be provided along with the where condition."
+        },
+        {
+          "info": {
+            "name": "Prisma Find the first matching record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/:model/first",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded sort specification"
+              },
+              {
+                "name": "select",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded field selection"
+              },
+              {
+                "name": "include",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded relation loading specification"
+              }
+            ]
+          },
+          "docs": "Returns the first record that matches the filter criteria. Supports the same filtering and ordering options as findMany. Returns null if no records match."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

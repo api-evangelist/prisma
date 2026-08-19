@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Queries API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Execute a proxied database query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/:apiVersion/:engineHash/graphql",
+            "params": [
+              {
+                "name": "apiVersion",
+                "value": "",
+                "type": "path",
+                "description": "Prisma engine API version"
+              },
+              {
+                "name": "engineHash",
+                "value": "",
+                "type": "path",
+                "description": "Prisma engine version hash for protocol compatibility"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a Prisma Client query through the Accelerate proxy. The proxy manages connection pooling, applies caching strategies based on the cacheStrategy parameters, and returns results from cache when available. Cache behavior is controlled by TTL (time-to-live) and SWR (stale-while-revalidate) headers or query parameters."
+        },
+        {
+          "info": {
+            "name": "Prisma List queries from a session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/sessions/:sessionId/queries",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recording session"
+              },
+              {
+                "name": "orderBy",
+                "value": "",
+                "type": "query",
+                "description": "Sort queries by the specified field"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction"
+              }
+            ]
+          },
+          "docs": "Retrieves all queries captured during a specific recording session. Queries include the operation type, execution time, affected model, and generated SQL."
+        },
+        {
+          "info": {
+            "name": "Prisma Get query details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/sessions/:sessionId/queries/:queryId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recording session"
+              },
+              {
+                "name": "queryId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recorded query"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific recorded query including the full SQL, execution plan, and performance metrics."
+        },
+        {
+          "info": {
+            "name": "Prisma Ingest query execution data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/ingest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Receives query execution data from the Prisma Optimize extension running in development. This endpoint is called automatically by the extension and is not typically invoked directly."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

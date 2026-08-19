@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Sessions API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List recording sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/sessions",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter sessions by status"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of sessions to return"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of sessions to skip for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all recording sessions for the current environment, including their status, duration, and query counts."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a recording session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new query recording session. The Optimize extension captures all Prisma Client queries executed during an active session and sends them to the Optimize service for analysis. Sessions are intended for use in local development environments only."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a recording session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/sessions/:sessionId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recording session"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific recording session including query statistics and analysis status."
+        },
+        {
+          "info": {
+            "name": "Prisma Stop a recording session",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/sessions/:sessionId",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the recording session"
+              }
+            ]
+          },
+          "docs": "Stops an active recording session and finalizes the captured query data for analysis. Once stopped, no new queries will be captured for this session."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

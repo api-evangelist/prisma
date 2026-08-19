@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Connections API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List database connection strings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId/connections",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves all connection strings for a specific database, including the Prisma Postgres connection string and direct TCP connection details."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a database connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId/connections",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a new connection string for the specified database with optional configuration for connection pooling and access restrictions."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a connection string",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/connections/:connectionId",
+            "params": [
+              {
+                "name": "connectionId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the connection string"
+              }
+            ]
+          },
+          "docs": "Permanently revokes and deletes a connection string. Any clients using this connection will immediately lose database access."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

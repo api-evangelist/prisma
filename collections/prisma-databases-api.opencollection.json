@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Databases API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Databases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create a database in a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/projects/:projectId/databases",
+            "params": [
+              {
+                "name": "projectId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the project"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions a new Prisma Postgres database within an existing project. The database runs on PostgreSQL v17 using unikernel-based infrastructure for performance and security isolation."
+        },
+        {
+          "info": {
+            "name": "Prisma Get a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves detailed information about a specific Prisma Postgres database including its status, region, and connection details."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete a database",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a Prisma Postgres database and all its data. This action cannot be undone. All associated backups and connection strings are also removed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

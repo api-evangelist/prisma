@@ -1,0 +1,301 @@
+{
+  "item": [
+    {
+      "id": "43286366-3317-4fb2-a3fe-8219f7bc81db",
+      "name": "Subscriptions",
+      "description": {
+        "content": "Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6220a992-0482-442a-afe6-385ab7f53a6a",
+          "name": "Prisma Create a transient event subscription",
+          "request": {
+            "name": "Prisma Create a transient event subscription",
+            "description": {
+              "content": "Creates a transient subscription to database change events for a specific model. The subscribe() method provides at-most-once delivery with no ordering guarantees. Events that occur while the subscriber is disconnected are not recovered. For guaranteed delivery, use the stream() API instead.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "subscribe"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"model\": \"<string>\",\n  \"filter\": {\n    \"create\": {\n      \"key_0\": true\n    },\n    \"update\": {\n      \"after\": {\n        \"key_0\": 5966\n      }\n    },\n    \"delete\": {\n      \"key_0\": 4565.82393379444,\n      \"key_1\": false,\n      \"key_2\": \"string\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d920677-a7ef-4676-9844-b5443a9096e5",
+              "name": "Subscription opened successfully. Events are delivered as server-sent events.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/event-stream"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"User\",\n  \"filter\": {\n    \"create\": {\n      \"key_0\": \"string\",\n      \"key_1\": 6723.9637498166485,\n      \"key_2\": false\n    },\n    \"update\": {\n      \"after\": {\n        \"key_0\": 1893.2070481769415\n      }\n    },\n    \"delete\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1858\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/event-stream"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "da93bfa6-c722-48aa-bb45-c2a5a3cbdcbf",
+              "name": "The request was invalid or malformed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"User\",\n  \"filter\": {\n    \"create\": {\n      \"key_0\": \"string\",\n      \"key_1\": 6723.9637498166485,\n      \"key_2\": false\n    },\n    \"update\": {\n      \"after\": {\n        \"key_0\": 1893.2070481769415\n      }\n    },\n    \"delete\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1858\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 9165.415969220037,\n    \"key_1\": 7053\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0642a9ef-211e-4a98-9eea-11648b38c7ee",
+              "name": "Invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"User\",\n  \"filter\": {\n    \"create\": {\n      \"key_0\": \"string\",\n      \"key_1\": 6723.9637498166485,\n      \"key_2\": false\n    },\n    \"update\": {\n      \"after\": {\n        \"key_0\": 1893.2070481769415\n      }\n    },\n    \"delete\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1858\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 9165.415969220037,\n    \"key_1\": 7053\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "364307fb-df10-4f1a-91d5-45f24269eaa3",
+              "name": "An unexpected error occurred",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"model\": \"User\",\n  \"filter\": {\n    \"create\": {\n      \"key_0\": \"string\",\n      \"key_1\": 6723.9637498166485,\n      \"key_2\": false\n    },\n    \"update\": {\n      \"after\": {\n        \"key_0\": 1893.2070481769415\n      }\n    },\n    \"delete\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1858\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"meta\": {\n    \"key_0\": 9165.415969220037,\n    \"key_1\": 7053\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://accelerate.prisma-data.net",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "810763e1-b4b2-4f88-8e01-9c72f3edafa9",
+    "name": "Prisma Accelerate Aggregation Subscriptions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.\n\nContact Support:\n Name: Prisma Support\n Email: support@prisma.io",
+      "type": "text/plain"
+    }
+  }
+}

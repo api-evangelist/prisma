@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Cache API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cache",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Invalidate cache entries by tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/invalidate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invalidates cached query results that were tagged with the specified cache tags. Up to 5 tags can be specified per request. Tags are alphanumeric strings with underscores, maximum 64 characters each. This endpoint is available on paid plans only."
+        },
+        {
+          "info": {
+            "name": "Prisma Invalidate all cache entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/invalidate-all"
+          },
+          "docs": "Clears the entire cache for the current environment. Use with caution as this affects all cached queries in the environment and may cause a temporary increase in database load as the cache repopulates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

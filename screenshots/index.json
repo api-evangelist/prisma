@@ -6,5 +6,14 @@
     "source_type": "Portal",
     "file": "prisma-2026-06-20T192111.png",
     "bytes": 126959
+  },
+  {
+    "repo": "prisma",
+    "captured_at": "2026-08-17T124858",
+    "source_url": "https://prisma.io",
+    "source_type": "root-domain",
+    "file": "prisma-2026-08-17T124858.png",
+    "bytes": 159787,
+    "capture": "playwright-local"
   }
 ]

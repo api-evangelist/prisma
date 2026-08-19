@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Batch API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Batch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma Create multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/:model/createMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Inserts multiple records in a single transaction. Optionally skips records that would violate unique constraints. Returns a count of created records. On PostgreSQL, CockroachDB, and SQLite, use createManyAndReturn to also retrieve the created records."
+        },
+        {
+          "info": {
+            "name": "Prisma Update multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://accelerate.prisma-data.net/:model/updateMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates all records matching the filter criteria with the provided data. Returns a count of the number of records updated. Does not return the updated records themselves."
+        },
+        {
+          "info": {
+            "name": "Prisma Delete multiple records",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://accelerate.prisma-data.net/:model/deleteMany",
+            "params": [
+              {
+                "name": "model",
+                "value": "",
+                "type": "path",
+                "description": "The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file"
+              },
+              {
+                "name": "where",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter conditions"
+              }
+            ]
+          },
+          "docs": "Deletes all records matching the filter criteria. Returns a count of the number of records deleted. If no filter is provided, all records in the model are deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

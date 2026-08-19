@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Prisma Accelerate Aggregation Database Backups API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Database Backups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Prisma List database backups",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId/backups",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all backups for a specific database, including automatic and manual backups with their status and size."
+        },
+        {
+          "info": {
+            "name": "Prisma Create a manual database backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId/backups",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Initiates a manual backup of the specified database. The backup process runs asynchronously. Use the backup ID to check status."
+        },
+        {
+          "info": {
+            "name": "Prisma Restore a database from backup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://accelerate.prisma-data.net/databases/:databaseId/backups/:backupId/restore",
+            "params": [
+              {
+                "name": "databaseId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the database"
+              },
+              {
+                "name": "backupId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier of the backup to restore"
+              }
+            ]
+          },
+          "docs": "Restores a database to the state captured in a specific backup. This operation replaces the current database content with the backup data."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
