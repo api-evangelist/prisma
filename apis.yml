@@ -73,6 +73,8 @@ apis:
   name: Prisma API Keys API
   description: Operations for managing API keys for platform resources
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -505,6 +507,8 @@ apis:
   name: Prisma Events API
   description: Database change event retrieval and management
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -601,6 +605,8 @@ apis:
   name: Prisma Integrations API
   description: Operations for managing third-party integrations
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -745,6 +751,8 @@ apis:
   name: Prisma Projects API
   description: Operations for managing projects within workspaces
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -793,6 +801,8 @@ apis:
   name: Prisma Queries API
   description: Proxied database query operations routed through Accelerate with optional caching
   tags:
+  - Query
+  tags_raw:
   - Queries
   properties:
   - type: OpenAPI
@@ -1036,6 +1046,8 @@ apis:
   description: >-
     Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
   tags:
+  - Subscription
+  tags_raw:
   - Subscriptions
   properties:
   - type: OpenAPI
