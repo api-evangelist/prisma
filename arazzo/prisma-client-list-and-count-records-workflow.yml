@@ -13,8 +13,11 @@ info:
     opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: clientApi
-  url: ../openapi/prisma-client-openapi.yml
+- name: aggregationApi
+  url: ../openapi/prisma-aggregation-api-openapi.yml
+  type: openapi
+- name: crudApi
+  url: ../openapi/prisma-crud-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: list-and-count-records

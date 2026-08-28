@@ -12,8 +12,11 @@ info:
     be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: accelerateApi
-  url: ../openapi/prisma-accelerate-openapi.yml
+- name: cacheApi
+  url: ../openapi/prisma-cache-api-openapi.yml
+  type: openapi
+- name: queriesApi
+  url: ../openapi/prisma-queries-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: query-and-invalidate

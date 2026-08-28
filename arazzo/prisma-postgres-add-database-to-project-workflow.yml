@@ -11,8 +11,14 @@ info:
     OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: postgresManagementApi
-  url: ../openapi/prisma-postgres-management-openapi.yml
+- name: connectionsApi
+  url: ../openapi/prisma-connections-api-openapi.yml
+  type: openapi
+- name: databasesApi
+  url: ../openapi/prisma-databases-api-openapi.yml
+  type: openapi
+- name: projectsApi
+  url: ../openapi/prisma-projects-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: add-database-to-project

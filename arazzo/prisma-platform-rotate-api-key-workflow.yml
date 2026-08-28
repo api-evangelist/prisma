@@ -12,8 +12,8 @@ info:
     and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: dataPlatformApi
-  url: ../openapi/prisma-data-platform-openapi.yml
+- name: apiKeysApi
+  url: ../openapi/prisma-api-keys-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: rotate-api-key

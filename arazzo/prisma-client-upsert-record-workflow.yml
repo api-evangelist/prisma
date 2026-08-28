@@ -14,8 +14,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: clientApi
-  url: ../openapi/prisma-client-openapi.yml
+- name: crudApi
+  url: ../openapi/prisma-crud-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: upsert-record

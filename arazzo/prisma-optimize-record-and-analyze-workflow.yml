@@ -11,8 +11,14 @@ info:
     be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: optimizeApi
-  url: ../openapi/prisma-optimize-openapi.yml
+- name: queriesApi
+  url: ../openapi/prisma-queries-api-openapi.yml
+  type: openapi
+- name: recommendationsApi
+  url: ../openapi/prisma-recommendations-api-openapi.yml
+  type: openapi
+- name: sessionsApi
+  url: ../openapi/prisma-sessions-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: record-and-analyze-session
