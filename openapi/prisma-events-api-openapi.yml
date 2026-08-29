@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Events API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Pulse Events API
+  description: API for Prisma Pulse, a managed Change Data Capture (CDC) service that enables real-time database change events and type-safe subscriptions via Prisma Client. Pulse captures PostgreSQL logical replication events and delivers them through stream() and subscribe() methods. The stream() API provides at-least-once delivery with ordering guarantees and resumability, while subscribe() provides at-most-once delivery for simpler use cases. Events include create, update, and delete operations with full or partial record data depending on PostgreSQL REPLICA IDENTITY configuration.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -12,8 +12,8 @@ info:
     url: https://www.prisma.io/terms
   termsOfService: https://www.prisma.io/terms
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
+- url: https://pulse.prisma-data.net
+  description: Prisma Pulse production endpoint
 security:
 - apiKeyAuth: []
 tags:
@@ -49,6 +49,25 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
   schemas:
     PulseError:
       type: object
@@ -95,31 +114,12 @@ components:
       - id
       - action
       - modelName
-  responses:
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+      description: API key for Pulse authentication provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
 externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+  description: Prisma Pulse Documentation
+  url: https://www.prisma.io/docs/pulse/database-events

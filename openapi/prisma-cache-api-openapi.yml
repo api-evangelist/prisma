@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Cache API
+  title: Prisma Accelerate Cache API
   description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
   version: 1.0.0
   contact:
@@ -82,21 +82,38 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
   schemas:
-    CacheInvalidationRequest:
+    CacheInvalidationResponse:
       type: object
-      description: Request to invalidate cache entries by their associated tags
+      description: Confirmation of cache invalidation
       properties:
-        tags:
+        success:
+          type: boolean
+          description: Whether the invalidation was successful
+        invalidatedTags:
           type: array
-          description: Tags identifying which cache entries to invalidate
+          description: Tags that were successfully invalidated
           items:
             type: string
-            pattern: ^[a-zA-Z0-9_]{1,64}$
-          minItems: 1
-          maxItems: 5
-      required:
-      - tags
     AccelerateError:
       type: object
       description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
@@ -117,37 +134,20 @@ components:
       required:
       - code
       - message
-    CacheInvalidationResponse:
+    CacheInvalidationRequest:
       type: object
-      description: Confirmation of cache invalidation
+      description: Request to invalidate cache entries by their associated tags
       properties:
-        success:
-          type: boolean
-          description: Whether the invalidation was successful
-        invalidatedTags:
+        tags:
           type: array
-          description: Tags that were successfully invalidated
+          description: Tags identifying which cache entries to invalidate
           items:
             type: string
-  responses:
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
+            pattern: ^[a-zA-Z0-9_]{1,64}$
+          minItems: 1
+          maxItems: 5
+      required:
+      - tags
   securitySchemes:
     apiKeyAuth:
       type: apiKey

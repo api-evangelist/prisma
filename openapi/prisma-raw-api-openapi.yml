@@ -1,21 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Raw API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Client Raw API
+  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
   version: 1.0.0
   contact:
     name: Prisma Support
     email: support@prisma.io
     url: https://www.prisma.io/support
   license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
+    name: Apache-2.0
+    url: https://opensource.org/licenses/Apache-2.0
   termsOfService: https://www.prisma.io/terms
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
-security:
-- apiKeyAuth: []
+- url: https://localhost:3000/api
+  description: Local development server. Prisma Client is typically used as a library, not a REST API. This specification documents the operations available when exposed via a REST layer.
 tags:
 - name: Raw
   description: Raw SQL query execution
@@ -76,7 +74,35 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   schemas:
+    RawQueryInput:
+      type: object
+      description: Input for raw SQL query execution
+      properties:
+        query:
+          type: string
+          description: The SQL query string with $1, $2 parameter placeholders
+          examples:
+          - SELECT * FROM "User" WHERE email = $1
+        parameters:
+          type: array
+          description: Parameter values for the query placeholders
+          items: {}
+      required:
+      - query
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -98,40 +124,6 @@ components:
       required:
       - code
       - message
-    RawQueryInput:
-      type: object
-      description: Input for raw SQL query execution
-      properties:
-        query:
-          type: string
-          description: The SQL query string with $1, $2 parameter placeholders
-          examples:
-          - SELECT * FROM "User" WHERE email = $1
-        parameters:
-          type: array
-          description: Parameter values for the query placeholders
-          items: {}
-      required:
-      - query
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-  securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
 externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+  description: Prisma Client API Reference
+  url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

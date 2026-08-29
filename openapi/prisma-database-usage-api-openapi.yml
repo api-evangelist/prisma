@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Database Usage API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Postgres Management Database Usage API
+  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -12,10 +12,10 @@ info:
     url: https://www.prisma.io/terms
   termsOfService: https://www.prisma.io/terms
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
+- url: https://api.prisma.io/v1
+  description: Prisma Management API production server
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 tags:
 - name: Database Usage
   description: Operations for retrieving database usage metrics and statistics
@@ -58,6 +58,26 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
     DatabaseUsage:
       type: object
       description: Usage metrics for a database over a specified period
@@ -118,41 +138,7 @@ components:
       required:
       - databaseId
       - period
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-  parameters:
-    DatabaseId:
-      name: databaseId
-      in: path
-      required: true
-      description: Unique identifier of the database
-      schema:
-        type: string
   responses:
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found
       content:
@@ -165,18 +151,32 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication via service token or OAuth 2.0 access token. Service tokens are created in the Prisma Console under Settings > Service Tokens. OAuth 2.0 tokens are obtained via the authorization endpoint at https://auth.prisma.io/authorize with token exchange at https://auth.prisma.io/token. PKCE is supported with S256 code challenge method.
 externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+  description: Prisma Postgres Management API Documentation
+  url: https://www.prisma.io/docs/postgres/introduction/management-api

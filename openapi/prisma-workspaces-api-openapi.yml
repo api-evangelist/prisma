@@ -1,7 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Workspaces API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Workspaces API
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -11,11 +10,14 @@ info:
     name: Proprietary
     url: https://www.prisma.io/terms
   termsOfService: https://www.prisma.io/terms
+  description: 'Operations tagged Workspaces across 2 of this provider''s published API definitions: prisma-data-platform-openapi.yml, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
+- url: https://api.cloud.prisma.io
+  description: Prisma Data Platform production server
+- url: https://api.prisma.io/v1
+  description: Prisma Management API production server
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 tags:
 - name: Workspaces
   description: Operations for managing Prisma Data Platform workspaces
@@ -45,6 +47,9 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    servers:
+    - url: https://api.cloud.prisma.io
+      description: Prisma Data Platform production server
   /workspaces/{workspaceId}:
     get:
       operationId: getWorkspace
@@ -100,15 +105,41 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    servers:
+    - url: https://api.cloud.prisma.io
+      description: Prisma Data Platform production server
 components:
-  parameters:
-    WorkspaceId:
-      name: workspaceId
-      in: path
-      required: true
-      description: Unique identifier of the workspace
-      schema:
-        type: string
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -179,43 +210,76 @@ components:
       - plan
       - createdAt
       - updatedAt
-  responses:
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    Workspace_2:
+      type: object
+      description: A workspace is the top-level organizational unit containing projects, databases, and team members with shared billing.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the workspace
+        name:
+          type: string
+          description: Display name of the workspace
+        slug:
+          type: string
+          description: URL-friendly identifier for the workspace
+        plan:
+          type: string
+          description: Current billing plan
+          enum:
+          - free
+          - pro
+          - business
+          - enterprise
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the workspace was last updated
+      required:
+      - id
+      - name
+      - slug
+      - plan
+      - createdAt
+      - updatedAt
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
-externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication via service token or OAuth 2.0 access token. Service tokens are created in the Prisma Console under workspace settings.
+x-refined-from:
+- prisma-data-platform-openapi.yml
+- prisma-postgres-management-openapi.yml

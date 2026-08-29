@@ -1,7 +1,7 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Environments API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Data Platform Environments API
+  description: REST API for managing Prisma Data Platform resources including projects, environments, and database connections through the Prisma Console. Provides programmatic access to workspace management, API key generation, and platform resource configuration.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -12,10 +12,10 @@ info:
     url: https://www.prisma.io/terms
   termsOfService: https://www.prisma.io/terms
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
+- url: https://api.cloud.prisma.io
+  description: Prisma Data Platform production server
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 tags:
 - name: Environments
   description: Operations for managing project environments
@@ -124,7 +124,73 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    EnvironmentCreate:
+      type: object
+      description: Request body for creating a new environment
+      properties:
+        name:
+          type: string
+          description: Display name for the new environment
+          examples:
+          - Staging
+        connectionString:
+          type: string
+          description: Database connection string for the environment
+      required:
+      - name
+      - connectionString
     Environment:
       type: object
       description: An environment represents a deployment stage within a project, such as development, staging, or production, with its own database connection and API keys.
@@ -161,80 +227,7 @@ components:
       - projectId
       - createdAt
       - updatedAt
-    EnvironmentCreate:
-      type: object
-      description: Request body for creating a new environment
-      properties:
-        name:
-          type: string
-          description: Display name for the new environment
-          examples:
-          - Staging
-        connectionString:
-          type: string
-          description: Database connection string for the environment
-      required:
-      - name
-      - connectionString
-    Error:
-      type: object
-      description: Standard error response from the API
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-  responses:
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    EnvironmentId:
-      name: environmentId
-      in: path
-      required: true
-      description: Unique identifier of the environment
-      schema:
-        type: string
     ProjectId:
       name: projectId
       in: path
@@ -242,12 +235,19 @@ components:
       description: Unique identifier of the project
       schema:
         type: string
+    EnvironmentId:
+      name: environmentId
+      in: path
+      required: true
+      description: Unique identifier of the environment
+      schema:
+        type: string
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication via service token or OAuth 2.0 access token. Service tokens are created in the Prisma Console under workspace settings.
 externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+  description: Prisma Data Platform Documentation
+  url: https://www.prisma.io/docs/platform/about

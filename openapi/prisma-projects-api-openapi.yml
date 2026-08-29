@@ -1,7 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Prisma Accelerate Aggregation Projects API
-  description: API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases. Accelerate intercepts Prisma Client queries via a proxy protocol, applies query-level cache policies with configurable TTL and stale-while-revalidate strategies, and provides tag-based cache invalidation. The proxy uses the prisma:// connection protocol to route queries through Accelerate's global edge network.
+  title: Prisma Projects API
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -11,11 +10,14 @@ info:
     name: Proprietary
     url: https://www.prisma.io/terms
   termsOfService: https://www.prisma.io/terms
+  description: 'Operations tagged Projects across 2 of this provider''s published API definitions: prisma-data-platform-openapi.yml, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
-- url: https://accelerate.prisma-data.net
-  description: Prisma Accelerate global proxy endpoint
+- url: https://api.cloud.prisma.io
+  description: Prisma Data Platform production server
+- url: https://api.prisma.io/v1
+  description: Prisma Management API production server
 security:
-- apiKeyAuth: []
+- bearerAuth: []
 tags:
 - name: Projects
   description: Operations for managing projects within workspaces
@@ -80,6 +82,9 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    servers:
+    - url: https://api.cloud.prisma.io
+      description: Prisma Data Platform production server
   /projects/{projectId}:
     get:
       operationId: getProject
@@ -123,35 +128,11 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+    servers:
+    - url: https://api.cloud.prisma.io
+      description: Prisma Data Platform production server
 components:
-  parameters:
-    WorkspaceId:
-      name: workspaceId
-      in: path
-      required: true
-      description: Unique identifier of the workspace
-      schema:
-        type: string
-    ProjectId:
-      name: projectId
-      in: path
-      required: true
-      description: Unique identifier of the project
-      schema:
-        type: string
   responses:
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -170,18 +151,19 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ProjectCreate:
-      type: object
-      description: Request body for creating a new project
-      properties:
-        name:
-          type: string
-          description: Display name for the new project
-          examples:
-          - My New Application
-      required:
-      - name
     Error:
       type: object
       description: Standard error response from the API
@@ -233,12 +215,210 @@ components:
       - workspaceId
       - createdAt
       - updatedAt
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My New Application
+      required:
+      - name
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    ProjectWithDatabase:
+      allOf:
+      - $ref: '#/components/schemas/Project_2'
+      - type: object
+        properties:
+          databases:
+            type: array
+            description: Databases associated with the project
+            items:
+              $ref: '#/components/schemas/Database'
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
+    Project_2:
+      type: object
+      description: A project represents an application or service that contains one or more Prisma Postgres databases.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+        name:
+          type: string
+          description: Display name of the project
+        workspaceId:
+          type: string
+          description: Identifier of the parent workspace
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+      - id
+      - name
+      - workspaceId
+      - createdAt
+      - updatedAt
+    ProjectCreate_2:
+      type: object
+      description: Request body for creating a new project with a database
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My Application
+        region:
+          type: string
+          description: Region where the database should be provisioned. Determines the physical location of the database for latency optimization.
+          enum:
+          - us-east-1
+          - us-west-2
+          - eu-west-1
+          - eu-central-1
+          - ap-southeast-1
+          - ap-northeast-1
+          examples:
+          - us-east-1
+      required:
+      - name
+      - region
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
+    Database:
+      type: object
+      description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the database
+        name:
+          type: string
+          description: Display name of the database
+        projectId:
+          type: string
+          description: Identifier of the parent project
+        region:
+          type: string
+          description: Region where the database is deployed
+        status:
+          type: string
+          description: Current operational status of the database
+          enum:
+          - provisioning
+          - active
+          - suspended
+          - deleting
+          - deleted
+        connectionString:
+          type: string
+          description: Prisma Postgres connection string in prisma+postgres:// format
+          examples:
+          - prisma+postgres://accelerate.prisma-data.net/?api_key=ey...
+        apiKeys:
+          type: array
+          description: API keys for database access
+          items:
+            $ref: '#/components/schemas/DatabaseApiKey'
+        directConnection:
+          $ref: '#/components/schemas/DirectConnection'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the database was last updated
+      required:
+      - id
+      - projectId
+      - region
+      - status
+      - createdAt
+      - updatedAt
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
   securitySchemes:
-    apiKeyAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma Data Platform Console for each environment.
-externalDocs:
-  description: Prisma Accelerate Documentation
-  url: https://www.prisma.io/docs/accelerate
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Authentication via service token or OAuth 2.0 access token. Service tokens are created in the Prisma Console under workspace settings.
+x-refined-from:
+- prisma-data-platform-openapi.yml
+- prisma-postgres-management-openapi.yml
