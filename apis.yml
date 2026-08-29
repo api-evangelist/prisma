@@ -2,6 +2,18 @@ name: Prisma
 description: >-
   Prisma is a next-generation ORM that helps developers build applications faster and with fewer errors. It provides a
   type-safe database client, migrations system, and visual database browser.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
