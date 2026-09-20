@@ -2,8 +2,8 @@
 kin_checks:
   slug: prisma
   schema_version: 0.22.0
-  scored_at: '2026-09-18'
-  run_ts: 2026-09-18T231945
+  scored_at: '2026-09-19'
+  run_ts: 2026-09-19T193153
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
@@ -57,6 +57,9 @@ kin_checks:
     status: missed
   - id: examples_published
     status: missed
+  - id: console_or_sandbox
+    status: missed
+    detail: pointer liveness 0.0
   - id: sign_up_present
     status: missed
     detail: pointer liveness 0.0
@@ -73,8 +76,6 @@ kin_checks:
   - id: agent_card
     status: missed
   - id: dry_run_mode
-    status: missed
-  - id: protected_resource_metadata
     status: missed
   - id: agentic_commerce
     status: missed
