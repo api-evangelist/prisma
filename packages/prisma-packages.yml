@@ -1,0 +1,169 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  registry.npmjs.org, pypi.org, proxy.golang.org, crates.io, plus
+  https://www.prisma.io/docs/rest-api/sdk and https://www.prisma.io/docs/cli
+note: >-
+  Versions and dates were read from each registry's own metadata endpoint on 2026-09-17.
+  Prisma's first-party distribution is npm-only. The Python, Go and Rust clients are
+  community projects built on the Prisma engines, not published by Prisma — official:false,
+  and each one's last release predates the current Prisma ORM 8 line by more than a year.
+packages:
+  - name: prisma
+    registry: npm
+    url: https://www.npmjs.com/package/prisma
+    official: true
+    language: typescript
+    kind: cli
+    version: 8.0.0-rc.15
+    published: '2026-09-14'
+    description: >-
+      The Prisma CLI: one binary for the ORM, Composer, and the Prisma Developer Platform.
+      Prisma ORM 8 is shipping as a release candidate; 7.x remains the fully supported line.
+  - name: '@prisma/client'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/client
+    official: true
+    language: typescript
+    kind: orm-client
+    version: 7.10.0
+    published: '2026-08-25'
+    description: Auto-generated, type-safe query builder for Node.js and TypeScript.
+  - name: '@prisma/management-api-sdk'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/management-api-sdk
+    official: true
+    language: typescript
+    kind: api-sdk
+    version: 1.74.0
+    published: '2026-09-14'
+    repository: https://github.com/prisma/pdp-control-plane
+    description: >-
+      TypeScript SDK for the Prisma Postgres Management API (https://api.prisma.io/v1),
+      generated from the provider's public OpenAPI 3.1 document. Carries the OAuth 2.0 +
+      PKCE flow and automatic token refresh. This is the SDK the REST API docs name.
+    docs: https://www.prisma.io/docs/rest-api/sdk
+  - name: '@prisma/composer'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/composer
+    official: true
+    language: typescript
+    kind: framework
+    version: 0.20.0
+    published: null
+    note: >-
+      Publish date not recorded — the full registry document timed out on two attempts and the
+      abbreviated metadata endpoint does not carry `time`. Version read from dist-tags.latest.
+    description: Prisma Composer (Early Access) — declare services, databases and typed dependencies.
+  - name: '@prisma/orm-extension-supabase'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/orm-extension-supabase
+    official: true
+    language: typescript
+    kind: extension
+    version: 8.0.0-rc.11
+    published: null
+    note: Version read from dist-tags.latest; publish date not captured in the abbreviated metadata document.
+  - name: '@prisma/adapter-pg'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/adapter-pg
+    official: true
+    language: typescript
+    kind: driver-adapter
+    version: 7.10.0
+    published: '2026-08-25'
+  - name: '@prisma/adapter-libsql'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/adapter-libsql
+    official: true
+    language: typescript
+    kind: driver-adapter
+    version: 7.10.0
+    published: null
+    note: Version read from dist-tags.latest; date not captured.
+  - name: '@prisma/instrumentation'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/instrumentation
+    official: true
+    language: typescript
+    kind: observability
+    version: 7.10.0
+    published: '2026-08-25'
+    description: OpenTelemetry instrumentation for Prisma Client.
+  - name: '@prisma/studio-core'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/studio-core
+    official: true
+    language: typescript
+    kind: ui-components
+    version: 0.33.0
+    published: '2026-07-14'
+    description: Modular Prisma Studio components — the embeddable database browser.
+  - name: '@prisma/extension-accelerate'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/extension-accelerate
+    official: true
+    language: typescript
+    kind: extension
+    version: 3.0.1
+    published: '2025-12-03'
+    decay_signal: >-
+      Last published 2025-12-03, ~21 months before the current @prisma/client 7.10.0
+      (2026-08-25). Accelerate no longer appears in the provider's own llms.txt product list.
+  - name: '@prisma/extension-optimize'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/extension-optimize
+    official: true
+    language: typescript
+    kind: extension
+    version: 2.0.1
+    published: '2025-11-08'
+    decay_signal: >-
+      Last published 2025-11-08. Optimize has been superseded by Query Insights in the current
+      docs; the package is still installable but is not part of the advertised product line.
+  - name: '@prisma/nuxt'
+    registry: npm
+    url: https://www.npmjs.com/package/@prisma/nuxt
+    official: true
+    language: typescript
+    kind: framework-integration
+    version: 0.3.0
+    published: '2025-01-22'
+    decay_signal: Last published 2025-01-22, more than 19 months behind the ORM it wraps.
+  - name: prisma
+    registry: pypi
+    url: https://pypi.org/project/prisma/
+    official: false
+    language: python
+    kind: orm-client
+    version: 0.15.0
+    published: '2024-08-16'
+    repository: https://github.com/RobertCraigie/prisma-client-py
+    note: >-
+      Community project by Robert Craigie, not published by Prisma. Last release 2024-08-16 —
+      two major Prisma ORM lines behind.
+  - name: github.com/steebchen/prisma-client-go
+    registry: go
+    url: https://pkg.go.dev/github.com/steebchen/prisma-client-go
+    official: false
+    language: go
+    kind: orm-client
+    version: v0.47.0
+    published: '2025-02-21'
+    note: Community project by Luca Steeb, not published by Prisma.
+  - name: prisma-client-rust
+    registry: crates.io
+    url: https://crates.io/crates/prisma-client-rust
+    official: false
+    language: rust
+    kind: orm-client
+    version: null
+    published: null
+    note: >-
+      Community crate; crates.io last recorded an update 2022-03-01 and the API response does not
+      expose a current default version in the summary document. Recorded as checked-and-stale
+      rather than guessed.
+counts:
+  total: 16
+  official: 12
+  community: 4

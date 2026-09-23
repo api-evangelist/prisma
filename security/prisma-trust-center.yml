@@ -1,0 +1,28 @@
+generated: '2026-09-17'
+method: probed
+source: https://trust.prisma.io/
+url: https://trust.prisma.io/
+http_status: 200
+readable: false
+note: >-
+  A trust center exists and answers HTTP 200, but the page body is a JS-rendered shell: a raw
+  fetch returns only the document title "Prisma Trust Center" with no certification names,
+  subprocessor list, or policy links in the markup. No certifications are recorded from this
+  source because none could be read without executing JavaScript.
+certifications_read_from_this_page: []
+certifications_elsewhere:
+  source: https://www.prisma.io/pricing
+  note: >-
+    The pricing page states compliance coverage as a plan entitlement — GDPR and HIPAA from the
+    Pro plan, SOC 2 and ISO 27001 from the Business plan. Recorded in full in
+    conformance/prisma-conformance.yml.
+  names: [GDPR, HIPAA, SOC 2, ISO 27001]
+evidence:
+  - url: https://trust.prisma.io/
+    status: 200
+    kind: live probe, 2026-09-17
+    finding: JS-rendered shell; no machine-readable certification data
+  - url: https://www.prisma.io/pricing
+    status: 200
+    kind: live fetch of the provider's own markdown twin (/pricing.md)
+    finding: compliance names stated per plan tier

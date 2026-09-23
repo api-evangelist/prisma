@@ -118,26 +118,13 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Error:
+    BackupCreate:
       type: object
-      description: Standard error response
+      description: Request body for creating a manual backup
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
+        label:
+          type: string
+          description: Optional label for the backup
     DatabaseBackup:
       type: object
       description: A backup of a Prisma Postgres database
@@ -180,22 +167,35 @@ components:
       - type
       - status
       - createdAt
-    BackupCreate:
+    Error:
       type: object
-      description: Request body for creating a manual backup
+      description: Standard error response
       properties:
-        label:
-          type: string
-          description: Optional label for the backup
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
   responses:
-    NotFound:
-      description: The requested resource was not found
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -206,8 +206,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:

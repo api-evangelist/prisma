@@ -1,21 +1,115 @@
-generated: '2026-09-11'
-method: probed
-source: https://github.com/prisma/mcp
-status: gated
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/docs/ai/tools/mcp-server
+status: published
 server:
   name: prisma
-  transport: http
+  transport: streamable-http
   url: https://mcp.prisma.io/mcp
 deployment:
   mode: remote
   endpoint: https://mcp.prisma.io/mcp
+  install: null
+  package: null
+  auth: oauth
   verified: probed
-  probe: gated
-  checked: '2026-09-11'
-  source: ptr_only reconciliation 2026-09-11 (apis.yml pointed here, no manifest existed)
-  probe_why: RFC 9728 challenge on the MCP path only
-tools_note: No tool list captured. This manifest records a PROBED, reachable endpoint only; anonymous
-  tools/list was auth-gated or the server requires an initialize handshake this reachability probe does
-  not perform. Run signals/audit_mcp_authorship.py --probe to enumerate tools and settle platform-vs-provider
-  authorship. Do NOT derive a tool list from the OpenAPI and store it here -- that is a candidate manifest,
-  and it belongs under an X-MCPServerCandidate pointer.
+  probe:
+    url: https://mcp.prisma.io/mcp
+    method: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 401
+    body: '{"error":"invalid_token","error_description":"Missing Authorization header"}'
+    checked: '2026-09-17'
+  note: >-
+    Remote only. The provider documents the server exclusively as a URL entry in an MCP client
+    config ({"prisma":{"url":"https://mcp.prisma.io/mcp"}}) across Claude Code, Codex, Cursor,
+    Windsurf, VS Code and Warp. No npx/stdio package is published or documented, so mode is
+    remote, not both. Authentication is OAuth against Prisma Console on first use.
+oauth:
+  authorization_server: https://auth.prisma.io
+  metadata: https://mcp.prisma.io/.well-known/oauth-authorization-server
+  metadata_http_status: 200
+  scopes:
+    - workspace:admin
+    - offline_access
+  pkce: S256
+  dynamic_client_registration: https://auth.prisma.io/register
+  protected_resource_metadata: null
+  protected_resource_metadata_note: >-
+    /.well-known/oauth-protected-resource returns 404 on mcp.prisma.io — the 401 carries no
+    RFC 9728 resource-metadata pointer, so a client cannot discover the authorization server
+    from the challenge alone. It must read the oauth-authorization-server document directly.
+tools_source: >-
+  Names and descriptions transcribed verbatim from the provider's published tool list at
+  https://www.prisma.io/docs/ai/tools/mcp-server#tools. Input schemas are NOT captured:
+  anonymous tools/list is OAuth-gated (401), so live introspection requires an authenticated
+  session. Nothing below is derived from the OpenAPI.
+tools:
+  - name: fetch_workspace_details
+    group: Workspace and databases
+    description: Fetch the details of a Prisma Postgres workspace.
+  - name: list_prisma_postgres_databases
+    group: Workspace and databases
+    description: Fetch a list of available Prisma Postgres databases for the user's workspace.
+  - name: create_prisma_postgres_database
+    group: Workspace and databases
+    description: Create a new managed Prisma Postgres database.
+  - name: delete_prisma_postgres_database
+    group: Workspace and databases
+    description: Delete a Prisma Postgres database with the given database id.
+  - name: list_prisma_postgres_connection_strings
+    group: Connection strings
+    description: Fetch a list of available connection strings for the given database id.
+  - name: create_prisma_postgres_connection_string
+    group: Connection strings
+    description: Create a new connection string for a Prisma Postgres database with the given id.
+  - name: delete_prisma_postgres_connection_string
+    group: Connection strings
+    description: Delete a connection string with the given connection string id.
+  - name: list_prisma_postgres_backups
+    group: Backups and recovery
+    description: Fetch a list of available backups for the given database id.
+  - name: create_prisma_postgres_backup
+    group: Backups and recovery
+    description: Create a new managed Prisma Postgres backup.
+  - name: create_prisma_postgres_recovery
+    group: Backups and recovery
+    description: Restore a Prisma Postgres database to a new database with the given backup id.
+  - name: introspect_database_schema
+    group: Schema and queries
+    description: Introspect the schema of a Prisma Postgres database with the given id.
+  - name: execute_sql_query
+    group: Schema and queries
+    description: Execute a SQL query on a Prisma Postgres database with the given id.
+  - name: execute_prisma_postgres_schema_update
+    group: Schema and queries
+    description: Execute a schema update on a Prisma Postgres database with the given id.
+  - name: list_object_store_buckets
+    group: Object store
+    description: List object-store buckets in the workspace, optionally filtered by project id.
+  - name: create_object_store_bucket
+    group: Object store
+    description: Create a new object-store bucket in the given project.
+  - name: delete_object_store_bucket
+    group: Object store
+    description: >-
+      Permanently delete an object-store bucket, all objects stored in it, and all its access keys.
+  - name: create_object_store_bucket_key
+    group: Object store
+    description: Create an S3-compatible access key for an object-store bucket.
+  - name: delete_object_store_bucket_key
+    group: Object store
+    description: Delete an object-store bucket access key. The key stops working immediately.
+  - name: search_prisma_documentation
+    group: Documentation
+    description: >-
+      Answer a natural-language question about Prisma using the official Prisma documentation,
+      returning a cited answer with links back to the docs. Read-only.
+tool_count: 19
+clients_documented:
+  - Claude Code
+  - Codex
+  - Cursor
+  - Windsurf
+  - VS Code
+  - Warp
+  - Claude (Anthropic integrations)

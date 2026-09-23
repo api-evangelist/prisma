@@ -1,0 +1,81 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Prisma Postgres Management API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-17'
+  method: generated
+  source: openapi/prisma-postgres-management-api-openapi.json
+  extends: openapi/prisma-postgres-management-api-openapi.json
+  note: >-
+    This overlay carries API Evangelist's enhancements to the provider's own OpenAPI. The
+    original document is never mutated. Nothing here changes behaviour — it adds contact,
+    licensing, terms, a server description and the cross-cutting runtime semantics we measured
+    (error envelope, cursor pagination, 429 + Retry-After, scoped idempotency, reversal paths)
+    so an agent reading only the spec sees what the docs say.
+actions:
+  - target: $.info
+    update:
+      contact:
+        name: Prisma Support
+        url: https://www.prisma.io/support
+      termsOfService: https://www.prisma.io/terms
+      x-privacy-policy: https://www.prisma.io/privacy
+      x-changelog: https://www.prisma.io/changelog.md
+      x-status-page: https://www.prisma-status.com
+      x-llms-txt: https://www.prisma.io/docs/llms.txt
+      x-sdk: https://www.npmjs.com/package/@prisma/management-api-sdk
+      x-mcp-server: https://mcp.prisma.io/mcp
+  - target: $.servers[0]
+    update:
+      description: >-
+        Prisma Postgres Management API production host. Operations are rooted at /v1, so the
+        effective base is https://api.prisma.io/v1.
+  - target: $.info
+    update:
+      x-error-envelope:
+        media_type: application/json
+        rfc9457: false
+        shape: '{"error":{"code":string,"message":string,"hint":string?}}'
+        note: Not problem+json. `hint` carries a remediation string on many 404s.
+      x-pagination:
+        style: cursor
+        params: [cursor, limit]
+      x-rate-limit:
+        status: 429
+        headers: [Retry-After]
+        published_numbers: false
+      x-idempotency:
+        coverage: partial
+        header: null
+        scope:
+          - postV1Builds
+          - putV1BuildsByBuildIdResourcesByResourceTypeByResourceId
+          - putV1ProjectsByProjectIdBranchesByBranchIdApplication-topology
+        note: >-
+          No Idempotency-Key header exists. Stable-tier writes (create project, create database,
+          create connection, create service token, create bucket) have no replay protection.
+      x-reversibility:
+        grade: documented
+        note: >-
+          Rollback exists for app and service deployments; database deletion is reversible only
+          via restore from a backup, bounded by plan backup retention (7 days Starter/Pro,
+          30 days Business, none on Free). No docs page states a reversal WINDOW as such.
+      x-stability-legend:
+        extension: x-prisma-stability
+        values:
+          experimental: >-
+            May change at any time without notice. 70 of 115 operations carry this marker.
+  - target: $.components.securitySchemes.OAuth2
+    update:
+      x-discovery: https://auth.prisma.io/.well-known/oauth-authorization-server
+      x-pkce: S256 (mandatory for public clients)
+      x-access-token-ttl: 3600
+      x-refresh: single-use rotation with replay detection (offline_access scope)
+      x-docs: https://www.prisma.io/docs/rest-api/authentication
+  - target: $.components.securitySchemes.Bearer
+    update:
+      x-credential: >-
+        Service token created in Prisma Console (Settings → Service Tokens). Never expires;
+        revoke with DELETE /v1/workspaces/{workspaceId}/service-tokens/{serviceTokenId}.
+      x-docs: https://www.prisma.io/docs/rest-api/authentication#service-tokens

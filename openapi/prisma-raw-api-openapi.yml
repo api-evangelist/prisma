@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Client Raw API
-  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
+  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -74,35 +74,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
   schemas:
-    RawQueryInput:
-      type: object
-      description: Input for raw SQL query execution
-      properties:
-        query:
-          type: string
-          description: The SQL query string with $1, $2 parameter placeholders
-          examples:
-          - SELECT * FROM "User" WHERE email = $1
-        parameters:
-          type: array
-          description: Parameter values for the query placeholders
-          items: {}
-      required:
-      - query
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -124,6 +96,34 @@ components:
       required:
       - code
       - message
+    RawQueryInput:
+      type: object
+      description: Input for raw SQL query execution
+      properties:
+        query:
+          type: string
+          description: The SQL query string with $1, $2 parameter placeholders
+          examples:
+          - SELECT * FROM "User" WHERE email = $1
+        parameters:
+          type: array
+          description: Parameter values for the query placeholders
+          items: {}
+      required:
+      - query
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

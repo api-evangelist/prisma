@@ -1,0 +1,158 @@
+generated: '2026-09-19'
+method: probed
+source: live HTTPS probes of every host this record knows, 2026-09-17
+note: 'console.prisma.io answered HTTP 200 on every /.well-known/* path with the same ~25KB Next.js single-page-app
+  shell (<!DOCTYPE html>), not a document. Those are recorded as misses per the SPA-catch-all rule, not
+  as hits. api.prisma.io answers its own JSON 404 envelope for every /.well-known path. No agent card
+  was found on any host, so no AgentCard pointer is emitted.
+
+
+  MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s primary
+  hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed and
+  were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
+hosts:
+- host: www.prisma.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: prisma-security.txt
+    content_type: text/plain
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: prisma.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: prisma-security.txt
+    content_type: text/plain
+    note: identical body to www.prisma.io; Canonical field names the www host
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: auth.prisma.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: prisma-auth-oauth-authorization-server.json
+    content_type: application/json
+    note: RFC 8414 authorization server metadata. issuer https://auth.prisma.io, PKCE S256, dynamic client
+      registration endpoint present. Named as the discovery endpoint in the provider's own REST API authentication
+      docs.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  path_echo_control: passed
+- host: mcp.prisma.io
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: prisma-mcp-oauth-authorization-server.json
+    content_type: application/json
+    note: Same issuer as auth.prisma.io but additionally advertises scopes_supported [workspace:admin,
+      offline_access] — the MCP server's own scope surface.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: RFC 9728 protected-resource metadata is NOT served; the MCP endpoint itself answers 401 {"error":"invalid_token"}
+      without a resource-metadata pointer.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: prisma-mcp-oauth-protected-resource.json
+    bytes: 172
+  path_echo_control: passed
+- host: api.prisma.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+- host: console.prisma.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: SPA shell (text/html, Next.js catch-all) — not a document; treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 200
+    note: SPA shell — treated as a miss.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    note: SPA shell — treated as a miss.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SPA shell — treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: SPA shell — treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: SPA shell — treated as a miss. No AgentCard pointer emitted.
+  - path: /.well-known/agent.json
+    status: 200
+    note: SPA shell — treated as a miss.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    note: SPA shell — treated as a miss.
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://mcp.prisma.io
+    path: /.well-known/oauth-protected-resource
+    file: prisma-mcp-oauth-protected-resource.json
+  - host: https://auth.prisma.io
+    path: /.well-known/oauth-authorization-server
+    file: prisma-auth-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host

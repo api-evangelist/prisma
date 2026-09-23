@@ -1,0 +1,53 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://www.prisma.io/docs/local-development/postgres, https://www.prisma.io/docs/cli/dev,
+  https://www.prisma.io/docs/llms/local-development.txt, https://www.prisma.io/pricing
+note: >-
+  Prisma publishes no test/live key duality and no hosted sandbox tenant for the Management API —
+  there is one set of credentials and one api.prisma.io. What it does publish, and what serves the
+  same purpose, is a genuine LOCAL runtime: `prisma dev` runs Prisma Postgres on the developer's
+  machine, and the app runs locally on Bun via Composer, with S3-compatible local object storage.
+  No test values, magic identifiers or fixture tokens are published, so none are recorded here.
+modes:
+  test_live_separation: false
+  key_prefixes: null
+  key_prefix_note: >-
+    Service tokens and connection strings carry no documented test/live prefix. The only
+    prefixed identifiers found in the contract are resource ids (e.g. bld_ for builds).
+  hosted_sandbox_tenant: false
+local_development:
+  available: true
+  docs: https://www.prisma.io/docs/local-development/postgres
+  surfaces:
+    - name: Local Prisma Postgres
+      command: prisma dev
+      description: >-
+        Run Prisma Postgres locally during development and switch to a hosted database for
+        production, with the same client and connection-string workflow.
+    - name: Local app runtime
+      description: Local app development on Bun and with Prisma Composer.
+      docs: https://www.prisma.io/docs/llms/local-development.txt
+    - name: Local object storage
+      description: S3-compatible local object storage matching the hosted Object Store buckets.
+free_tier_as_evaluation:
+  available: true
+  plan: Free
+  price: $0/month, free forever, no credit card required
+  included: 200k database operations/month, 500MB storage, 50 databases, 1M Compute requests/month
+  source: https://www.prisma.io/pricing
+  note: >-
+    In the absence of a sandbox mode, the no-card Free plan is the provider's own evaluation
+    path onto the real production API.
+test_data:
+  test_cards: null
+  magic_identifiers: null
+  fixtures: null
+  time_simulation: null
+  note: >-
+    None published. Nothing is invented here — an absent test-value catalogue is the finding.
+console:
+  url: https://console.prisma.io
+  note: >-
+    Prisma Console is the interactive surface for workspaces, databases, service tokens and
+    Prisma Studio. It is a production console, not a sandbox.

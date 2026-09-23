@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Pulse Events API
-  description: API for Prisma Pulse, a managed Change Data Capture (CDC) service that enables real-time database change events and type-safe subscriptions via Prisma Client. Pulse captures PostgreSQL logical replication events and delivers them through stream() and subscribe() methods. The stream() API provides at-least-once delivery with ordering guarantees and resumability, while subscribe() provides at-most-once delivery for simpler use cases. Events include create, update, and delete operations with full or partial record data depending on PostgreSQL REPLICA IDENTITY configuration.
+  description: API for Prisma Pulse, a managed Change Data Capture (CDC) service that enables real-time database change events and type-safe subscriptions via Prisma Client.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -49,25 +49,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
   schemas:
     PulseError:
       type: object
@@ -114,6 +95,25 @@ components:
       - id
       - action
       - modelName
+  responses:
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

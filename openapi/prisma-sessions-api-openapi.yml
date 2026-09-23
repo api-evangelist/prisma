@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Optimize Sessions API
-  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development. Optimize captures query execution data from Prisma Client via the @prisma/extension-optimize extension, analyzes query patterns, and provides AI-powered recommendations to reduce database load and improve application responsiveness. The service records queries during development sessions and provides performance insights through the Prisma Data Platform Console. Supports PostgreSQL, MySQL/MariaDB, CockroachDB, and MS SQL Server.
+  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -147,14 +147,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    InternalServerError:
+      description: An unexpected error occurred
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -165,29 +165,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
     SessionCreate:
       type: object
       description: Request body for creating a new recording session
@@ -207,6 +199,22 @@ components:
           - sqlserver
       required:
       - databaseProvider
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
     Session:
       type: object
       description: A query recording session for performance analysis
@@ -254,14 +262,6 @@ components:
       - databaseProvider
       - queryCount
       - startedAt
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

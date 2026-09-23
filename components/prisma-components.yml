@@ -1,0 +1,40 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://www.prisma.io/studio, https://www.npmjs.com/package/@prisma/studio-core,
+  https://www.prisma.io/docs/llms/studio.txt
+note: >-
+  Prisma's only client-side/embeddable component family is Prisma Studio — the visual database
+  browser — which ships both as a hosted surface inside Prisma Console and as a modular component
+  library an application can embed. These are distinct from the SDKs in packages/.
+families:
+  - family: Prisma Studio
+    kind: embeddable-data-browser
+    description: >-
+      Explore, edit and understand data in a Prisma Postgres database. Available locally, inside
+      Prisma Console, and as embeddable modular components.
+    docs: https://www.prisma.io/studio
+    surfaces:
+      - name: Prisma Studio in Console
+        kind: hosted
+        url: https://console.prisma.io
+        note: The browser runs inside the Console against the workspace's databases.
+      - name: prisma studio (CLI)
+        kind: local
+        note: Launched from the Prisma CLI against a local or remote database.
+      - name: '@prisma/studio-core'
+        kind: component-library
+        registry: npm
+        url: https://www.npmjs.com/package/@prisma/studio-core
+        version: 0.33.0
+        published: '2026-07-14'
+        description: Modular Prisma Studio components for embedding the browser in an application.
+loader_libraries:
+  - '@prisma/studio-core'
+not_found:
+  - web-components
+  - hosted-checkout-or-payment-elements
+  - embedded-dashboard-iframe-sdk
+not_found_note: >-
+    No web-component / custom-element distribution and no drop-in iframe embed SDK are published.
+    Embedding goes through the npm component package.

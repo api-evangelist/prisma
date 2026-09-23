@@ -98,8 +98,8 @@ components:
       - status
       - createdAt
   responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
@@ -110,8 +110,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:

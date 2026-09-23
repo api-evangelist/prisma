@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Client Batch API
-  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
+  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -96,30 +96,21 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
   schemas:
-    BatchPayload:
+    UpdateManyInput:
       type: object
-      description: Result of a batch operation with the count of affected records
+      description: Input data for updating multiple records
       properties:
-        count:
-          type: integer
-          description: Number of records affected by the operation
-          minimum: 0
+        where:
+          type: object
+          description: Filter conditions to select records to update
+          additionalProperties: true
+        data:
+          type: object
+          description: Field values to update
+          additionalProperties: true
       required:
-      - count
+      - data
     CreateManyInput:
       type: object
       description: Input data for creating multiple records
@@ -136,20 +127,16 @@ components:
           default: false
       required:
       - data
-    UpdateManyInput:
+    BatchPayload:
       type: object
-      description: Input data for updating multiple records
+      description: Result of a batch operation with the count of affected records
       properties:
-        where:
-          type: object
-          description: Filter conditions to select records to update
-          additionalProperties: true
-        data:
-          type: object
-          description: Field values to update
-          additionalProperties: true
+        count:
+          type: integer
+          description: Number of records affected by the operation
+          minimum: 0
       required:
-      - data
+      - count
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -171,6 +158,19 @@ components:
       required:
       - code
       - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   parameters:
     ModelName:
       name: model

@@ -109,65 +109,7 @@ paths:
     - url: https://api.cloud.prisma.io
       description: Prisma Data Platform production server
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response from the API
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    WorkspaceUpdate:
-      type: object
-      description: Fields that can be updated on a workspace
-      properties:
-        name:
-          type: string
-          description: New display name for the workspace
     Workspace:
       type: object
       description: A workspace is the top-level organizational unit in the Prisma Data Platform that contains projects, members, and billing configuration.
@@ -210,9 +152,16 @@ components:
       - plan
       - createdAt
       - updatedAt
-    Error_2:
+    WorkspaceUpdate:
       type: object
-      description: Standard error response
+      description: Fields that can be updated on a workspace
+      properties:
+        name:
+          type: string
+          description: New display name for the workspace
+    Error:
+      type: object
+      description: Standard error response from the API
       properties:
         error:
           type: object
@@ -266,6 +215,57 @@ components:
       - plan
       - createdAt
       - updatedAt
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     WorkspaceId:
       name: workspaceId

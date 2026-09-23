@@ -1,30 +1,116 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/prisma-accelerate-openapi.yml, openapi/prisma-data-platform-openapi.yml, openapi/prisma-optimize-openapi.yml,
-  openapi/prisma-postgres-management-openapi.yml, openapi/prisma-pulse-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/docs/rest-api/authentication, https://auth.prisma.io/.well-known/oauth-authorization-server
+  (HTTP 200), openapi/prisma-postgres-management-api-openapi.json
 summary:
   types:
   - apiKey
   - http
+  - oauth2
   api_key_in:
   - header
+  oauth2_flows:
+  - authorizationCode
 schemes:
-- name: apiKeyAuth
-  type: apiKey
-  in: header
-  parameter: Authorization
-  description: API key for Accelerate authentication, provided as a Bearer token. Generated
-    from the Prisma Data Platform Console for each environment.
-  sources:
-  - openapi/prisma-accelerate-openapi.yml
-  - openapi/prisma-optimize-openapi.yml
-  - openapi/prisma-pulse-openapi.yml
 - name: bearerAuth
   type: http
   scheme: bearer
   bearerFormat: JWT
-  description: Authentication via service token or OAuth 2.0 access token. Service tokens are
-    created in the Prisma Console under workspace settings.
+  description: Authentication via service token or OAuth 2.0 access token. Service tokens are created
+    in the Prisma Console under workspace settings.
   sources:
-  - openapi/prisma-data-platform-openapi.yml
-  - openapi/prisma-postgres-management-openapi.yml
+  - openapi/prisma-api-keys-api-openapi.yml
+  - openapi/prisma-connections-api-openapi.yml
+  - openapi/prisma-database-backups-api-openapi.yml
+  - openapi/prisma-database-usage-api-openapi.yml
+  - openapi/prisma-databases-api-openapi.yml
+  - openapi/prisma-environments-api-openapi.yml
+  - openapi/prisma-integrations-api-openapi.yml
+  - openapi/prisma-members-api-openapi.yml
+  - openapi/prisma-postgres-management-api-openapi.json
+  - openapi/prisma-projects-api-openapi.yml
+  - openapi/prisma-workspaces-api-openapi.yml
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: API key for Accelerate authentication, provided as a Bearer token. Generated from the Prisma
+    Data Platform Console for each environment.
+  sources:
+  - openapi/prisma-cache-api-openapi.yml
+  - openapi/prisma-events-api-openapi.yml
+  - openapi/prisma-health-api-openapi.yml
+  - openapi/prisma-metrics-api-openapi.yml
+  - openapi/prisma-queries-api-openapi.yml
+  - openapi/prisma-recommendations-api-openapi.yml
+  - openapi/prisma-sessions-api-openapi.yml
+  - openapi/prisma-streams-api-openapi.yml
+  - openapi/prisma-subscriptions-api-openapi.yml
+- name: OAuth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://auth.prisma.io/authorize
+    tokenUrl: https://auth.prisma.io/token
+    scopes: 2
+  description: OAuth2 authentication
+  sources:
+  - openapi/prisma-postgres-management-api-openapi.json
+docs: https://www.prisma.io/docs/rest-api/authentication
+credentials:
+- kind: service-token
+  header: 'Authorization: Bearer <token>'
+  issued_from: Prisma Console -> workspace Settings -> Service Tokens
+  expiry: none
+  revocation: DELETE /v1/workspaces/{workspaceId}/service-tokens/{serviceTokenId}
+  management_operations:
+  - getV1WorkspacesByWorkspaceIdService-tokens
+  - postV1WorkspacesByWorkspaceIdService-tokens
+  - deleteV1WorkspacesByWorkspaceIdService-tokensByServiceTokenId
+  note: The docs warn explicitly that service tokens NEVER EXPIRE and a leaked token stays valid until
+    revoked. The token value is returned exactly once at creation and is never stored, so a caller that
+    loses it must mint a new one.
+  prefix: null
+  prefix_note: No documented test/live or environment prefix on the token value.
+- kind: oauth2
+  flow: authorization_code
+  pkce: S256
+  pkce_requirement: mandatory for public clients; optional for confidential clients, but a flow started
+    with PKCE must complete with PKCE
+  authorization_url: https://auth.prisma.io/authorize
+  token_url: https://auth.prisma.io/token
+  discovery: https://auth.prisma.io/.well-known/oauth-authorization-server
+  dynamic_client_registration: https://auth.prisma.io/register
+  access_token_ttl: 1 hour
+  refresh: offline_access scope; single-use rotation with replay detection — reusing an invalidated refresh
+    token revokes every token on that authorization
+  scopes:
+  - workspace:admin
+  - offline_access
+  client_registration: Prisma Console -> Integrations -> Published Applications -> New Application
+  dev_redirect_uris:
+  - localhost (any port)
+  - 127.0.0.1 (any port)
+  - '[::1] (any port)'
+  token_endpoint_auth_methods:
+  - client_secret_basic
+  - client_secret_post
+  - none
+- kind: oidc-workload-federation
+  operation: postV1AuthGithub-actionsToken
+  path: /v1/auth/github-actions/token
+  stability: experimental
+  note: Exchanges a GitHub Actions OIDC token for a workspace service token — keyless CI auth.
+deprecated_schemes:
+- name: apiKeyAuth
+  note: Carried only by the nine per-tag specs split from the earlier Accelerate/Pulse/Optimize source
+    documents in openapi/_original/. Those products are no longer in the advertised line and this scheme
+    does not appear in the provider-published Management API contract. Kept as history, not asserted as
+    current.
+mtls: false
+openid_connect: false
+openid_connect_note: No /.well-known/openid-configuration is served on any Prisma host (all 404).
+cross_reference:
+- scopes/prisma-scopes.yml
+- conventions/prisma-conventions.yml
+- well-known/prisma-well-known.yml

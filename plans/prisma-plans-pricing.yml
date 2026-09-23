@@ -3,425 +3,132 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Prisma
 providerId: prisma
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/pricing
+source_markdown: https://www.prisma.io/pricing.md
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: true
+modified: '2026-09-17'
+supersedes: >-
+  The 2026-05-04 bulk-sweep version of this file, which was method: generated and described a
+  Prisma Postgres + Accelerate plan shape that no longer exists. Prisma repriced around Prisma
+  Compute + Prisma Postgres when Compute went GA on 2026-08-28.
 tags:
   - Database
-  - ORM
   - Postgres
   - Developer Tools
-description: Prisma Data Platform offers a tiered subscription with included Prisma Postgres operations,
-  storage, and database counts plus included Prisma Accelerate operations and per-query egress, with
-  per-unit overage pricing once the included allotment is consumed. Higher-volume teams move to a custom
-  enterprise contract with volume discounts.
-sources:
-  - https://www.prisma.io/pricing
+  - Application Hosting
+description: >-
+  Usage-based pricing across both halves of the stack. Prisma Compute bills requests, memory
+  GB-hours, active vCPU-hours and outbound bandwidth; Prisma Postgres bills one operation per
+  query plus storage. Seats, deploys, preview branches and idle time are free, an idle app scales
+  to zero, and every paid plan carries a hard spend limit that is ON BY DEFAULT.
+billing_model: usage-based with a monthly platform fee
+currency: USD
+plan_count: 4
 plans:
   - id: prisma-free
     name: Free
-    type: subscription
-    description: Free tier with included Prisma Postgres and Prisma Accelerate quotas; no credit card
-      required.
-    entries:
-      - label: Subscription
-        name: subscription_fee
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$0/month'
-        userMultiplied: false
-      - label: Prisma Postgres operations
-        name: postgres_operations
-        type: quota
-        metric: operations
-        limit: 100000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres storage
-        name: postgres_storage
-        type: quota
-        metric: gb
-        limit: 0.5
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres databases
-        name: postgres_databases
-        type: quota
-        metric: database
-        limit: 5
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations
-        name: accelerate_operations
-        type: quota
-        metric: operations
-        limit: 60000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate egress per query
-        name: accelerate_egress_per_query
-        type: quota
-        metric: kib
-        limit: 1
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-    elements:
-      - name: Prisma Postgres
-      - name: Prisma Accelerate
-      - name: Community Support
+    price: 0
+    currency: USD
+    period: month
+    signup: https://console.prisma.io/sign-up
+    credit_card_required: false
+    note: Free forever, no time limit.
+    included:
+      compute_requests: 1000000
+      compute_memory_gb_hours: 360
+      compute_active_vcpu_hours: 4
+      compute_outbound_bandwidth_gb: 10
+      postgres_operations: 200000
+      postgres_storage_mb: 500
+      databases: 50
+    backups: none
+    compliance: []
+    overage: none (hard stop at the included quota)
   - id: prisma-starter
     name: Starter
-    type: subscription
-    description: Entry paid tier — 1M Postgres operations, 10 GB storage, 10 databases, daily backups
-      retained 7 days; metered overage above included allotments.
-    entries:
-      - label: Subscription
-        name: subscription_fee
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$10/month'
-        userMultiplied: false
-      - label: Prisma Postgres operations (included)
-        name: postgres_operations_included
-        type: quota
-        metric: operations
-        limit: 1000000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres operations (overage)
-        name: postgres_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.008 per 1,000'
-        userMultiplied: false
-      - label: Prisma Postgres storage (included)
-        name: postgres_storage_included
-        type: quota
-        metric: gb
-        limit: 10
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres storage (overage)
-        name: postgres_storage_overage
-        type: metered
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$2/GB'
-        userMultiplied: false
-      - label: Prisma Postgres databases
-        name: postgres_databases
-        type: quota
-        metric: database
-        limit: 10
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (included)
-        name: accelerate_operations_included
-        type: quota
-        metric: operations
-        limit: 60000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (overage)
-        name: accelerate_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.018 per 1,000'
-        userMultiplied: false
-      - label: Prisma Accelerate egress (overage)
-        name: accelerate_egress_overage
-        type: metered
-        metric: gib
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$0.09/GiB'
-        userMultiplied: false
-    elements:
-      - name: Prisma Postgres
-      - name: Prisma Accelerate
-      - name: Daily backups (7 days)
+    price: 10
+    currency: USD
+    period: month
+    most_popular: true
+    signup: https://console.prisma.io/sign-up
+    included:
+      compute_requests: 5000000
+      postgres_operations: 1000000
+      postgres_storage_gb: 10
+      databases: 1000
+    backups: 7-day daily backups
+    compliance: []
+    platform: [spend limits]
+    overage:
+      compute_requests: $1 per million
+      compute_memory: $0.006 per GB-hour
+      compute_vcpu: $0.064 per active vCPU-hour
+      compute_bandwidth: $0.025 per GB outbound
+      postgres_operations: $8 per million
+      postgres_storage: $2.00 per GB
   - id: prisma-pro
     name: Pro
-    type: subscription
-    description: Marketing-flagged "Popular" plan — 10M Postgres operations, 50 GB storage, 100 databases,
-      reduced overage rates, daily backups for 7 days.
-    entries:
-      - label: Subscription
-        name: subscription_fee
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$49/month'
-        userMultiplied: false
-      - label: Prisma Postgres operations (included)
-        name: postgres_operations_included
-        type: quota
-        metric: operations
-        limit: 10000000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres operations (overage)
-        name: postgres_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.002 per 1,000'
-        userMultiplied: false
-      - label: Prisma Postgres storage (included)
-        name: postgres_storage_included
-        type: quota
-        metric: gb
-        limit: 50
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres storage (overage)
-        name: postgres_storage_overage
-        type: metered
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$1.50/GB'
-        userMultiplied: false
-      - label: Prisma Postgres databases
-        name: postgres_databases
-        type: quota
-        metric: database
-        limit: 100
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (included)
-        name: accelerate_operations_included
-        type: quota
-        metric: operations
-        limit: 60000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (overage)
-        name: accelerate_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.008 per 1,000'
-        userMultiplied: false
-      - label: Prisma Accelerate cache tags
-        name: accelerate_cache_tags
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.008 per 1,000'
-        userMultiplied: false
-    elements:
-      - name: Prisma Postgres
-      - name: Prisma Accelerate
-      - name: Cache tags
-      - name: Daily backups (7 days)
+    price: 49
+    currency: USD
+    period: month
+    signup: https://console.prisma.io/sign-up
+    included:
+      compute_requests: 20000000
+      postgres_operations: 10000000
+      postgres_storage_gb: 50
+      databases: 1000
+    backups: 7-day daily backups
+    compliance: [GDPR, HIPAA]
+    platform: [spend limits]
+    overage:
+      compute_requests: $1 per million
+      compute_memory: $0.006 per GB-hour
+      compute_vcpu: $0.064 per active vCPU-hour
+      compute_bandwidth: $0.025 per GB outbound
+      postgres_operations: $2 per million
+      postgres_storage: $1.50 per GB
   - id: prisma-business
     name: Business
-    type: subscription
-    description: 50M Postgres operations, 100 GB storage, 1,000 databases, 30-day backup retention, lower
-      overage rates, larger Accelerate egress allotment.
-    entries:
-      - label: Subscription
-        name: subscription_fee
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$129/month'
-        userMultiplied: false
-      - label: Prisma Postgres operations (included)
-        name: postgres_operations_included
-        type: quota
-        metric: operations
-        limit: 50000000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres operations (overage)
-        name: postgres_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.001 per 1,000'
-        userMultiplied: false
-      - label: Prisma Postgres storage (included)
-        name: postgres_storage_included
-        type: quota
-        metric: gb
-        limit: 100
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Postgres storage (overage)
-        name: postgres_storage_overage
-        type: metered
-        metric: gb
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: '$1/GB'
-        userMultiplied: false
-      - label: Prisma Postgres databases
-        name: postgres_databases
-        type: quota
-        metric: database
-        limit: 1000
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (included)
-        name: accelerate_operations_included
-        type: quota
-        metric: operations
-        limit: 60000
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-      - label: Prisma Accelerate operations (overage)
-        name: accelerate_operations_overage
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.006 per 1,000'
-        userMultiplied: false
-      - label: Prisma Accelerate cache tags
-        name: accelerate_cache_tags
-        type: metered
-        metric: operations
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1000
-        price: '$0.006 per 1,000'
-        userMultiplied: false
-      - label: Prisma Accelerate egress per query
-        name: accelerate_egress_per_query
-        type: quota
-        metric: kib
-        limit: 2
-        timeFrame: usage
-        geo: global
-        unit: 1
-        price: included
-        userMultiplied: false
-    elements:
-      - name: Prisma Postgres
-      - name: Prisma Accelerate
-      - name: Cache tags
-      - name: Daily backups (30 days)
+    price: 129
+    currency: USD
+    period: month
+    signup: https://console.prisma.io/sign-up
+    included:
+      compute_requests: 100000000
+      postgres_operations: 50000000
+      postgres_storage_gb: 100
+      databases: 1000
+    backups: 30-day retention
+    compliance: [GDPR, HIPAA, SOC 2, ISO 27001]
+    platform: [spend limits]
+    overage:
+      compute_requests: $1 per million
+      compute_memory: $0.006 per GB-hour
+      compute_vcpu: $0.064 per active vCPU-hour
+      compute_bandwidth: $0.025 per GB outbound
+      postgres_operations: $1 per million
+      postgres_storage: $1.00 per GB
   - id: prisma-enterprise
-    name: Custom Enterprise
-    type: enterprise
-    description: Custom-negotiated terms for high-volume teams with volume discounts and dedicated support.
-    entries:
-      - label: Subscription
-        name: subscription_fee
-        type: subscription
-        metric: month
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: custom
-        userMultiplied: false
-    elements:
-      - name: Volume discounts
-      - name: Dedicated support
-      - name: Custom terms
+    name: Custom / Enterprise
+    price: null
+    currency: USD
+    period: null
+    note: >-
+      "Custom pricing is available for high-volume teams" via https://www.prisma.io/contact.
+      Not counted in plan_count because no published price or quota exists.
+    contact: https://www.prisma.io/contact
+included_on_every_plan:
+  - Prisma ORM (always free)
+  - Unlimited Prisma Postgres data transfer
+  - Spend limits
+  - Prisma Studio
+  - CLI + Management API
+agent_relevant_note: >-
+  The pricing page states explicitly that "a request does the same work whether it comes from a
+  person, a script, or an AI agent, so that work is all you're charged for" — there is no agent
+  surcharge and no separate agent tier. Prisma Compute is positioned for deploying AI agents.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

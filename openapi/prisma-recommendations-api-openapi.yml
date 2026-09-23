@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Optimize Recommendations API
-  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development. Optimize captures query execution data from Prisma Client via the @prisma/extension-optimize extension, analyzes query patterns, and provides AI-powered recommendations to reduce database load and improve application responsiveness. The service records queries during development sessions and provides performance insights through the Prisma Data Platform Console. Supports PostgreSQL, MySQL/MariaDB, CockroachDB, and MS SQL Server.
+  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -60,23 +60,34 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
+  responses:
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
     Recommendation:
       type: object
       description: An AI-powered optimization recommendation for a query pattern
@@ -131,33 +142,22 @@ components:
       - category
       - title
       - description
-  responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

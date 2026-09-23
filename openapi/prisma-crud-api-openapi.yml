@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Client CRUD API
-  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access. Prisma Client exposes CRUD operations (findUnique, findMany, create, update, delete, upsert), aggregation functions (count, aggregate, groupBy), and advanced query features including filtering, pagination, sorting, relation loading, and transactions. This specification documents the REST-equivalent operations that Prisma Client generates for database models, supporting PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
+  description: Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -262,26 +262,27 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    NotFound:
-      description: The requested record was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
   schemas:
+    UpdateInput:
+      type: object
+      description: Input data for updating a record
+      properties:
+        data:
+          type: object
+          description: The field values to update
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
     UpsertInput:
       type: object
       description: Input data for upserting a record
@@ -312,6 +313,10 @@ components:
       - where
       - create
       - update
+    Record:
+      type: object
+      description: A database record. The structure depends on the model schema and select/include options used in the query.
+      additionalProperties: true
     CreateInput:
       type: object
       description: Input data for creating a new record
@@ -319,30 +324,6 @@ components:
         data:
           type: object
           description: The field values for the new record
-          additionalProperties: true
-        select:
-          type: object
-          description: Fields to include in the returned record
-          additionalProperties:
-            type: boolean
-        include:
-          type: object
-          description: Relations to eagerly load in the returned record
-          additionalProperties:
-            type: boolean
-      required:
-      - data
-    Record:
-      type: object
-      description: A database record. The structure depends on the model schema and select/include options used in the query.
-      additionalProperties: true
-    UpdateInput:
-      type: object
-      description: Input data for updating a record
-      properties:
-        data:
-          type: object
-          description: The field values to update
           additionalProperties: true
         select:
           type: object
@@ -377,7 +358,33 @@ components:
       required:
       - code
       - message
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    NotFound:
+      description: The requested record was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   parameters:
+    RecordId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the record
+      schema:
+        type: string
     ModelName:
       name: model
       in: path
@@ -388,13 +395,6 @@ components:
         examples:
         - user
         - post
-    RecordId:
-      name: id
-      in: path
-      required: true
-      description: Unique identifier of the record
-      schema:
-        type: string
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

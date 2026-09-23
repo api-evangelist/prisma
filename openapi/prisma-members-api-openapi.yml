@@ -50,35 +50,7 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    WorkspaceId:
-      name: workspaceId
-      in: path
-      required: true
-      description: Unique identifier of the workspace
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
-      description: Standard error response from the API
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
     WorkspaceMember:
       type: object
       description: A member of a workspace with an assigned role
@@ -118,15 +90,35 @@ components:
       - email
       - role
       - status
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
   responses:
-    NotFound:
-      description: The requested resource was not found
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -137,12 +129,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

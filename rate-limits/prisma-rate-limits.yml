@@ -3,60 +3,98 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Prisma
 providerId: prisma
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/prisma-postgres-management-api-openapi.json (https://www.prisma.io/openapi.json),
+  https://www.prisma.io/pricing
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-17'
+supersedes: >-
+  The 2026-05-04 bulk-sweep version, which was method: generated and cited Accelerate-era limits
+  (the P6009 5MB threshold, Accelerate operation quotas) from products no longer in the line.
 tags:
   - Database
-  - ORM
   - Postgres
   - Rate Limiting
-description: Prisma Data Platform (Postgres + Accelerate) does not publish a per-second rate-limit table.
-  The documented quantitative bounds are response-size and connection-related — Accelerate flags retrievals
-  over 5 MB as significantly slowing the application (error P6009), and the default Postgres connection
-  limit is 10 unless `connection_limit` is configured. Plan-level monthly operation quotas (free / starter
-  / pro / business) effectively serve as the consumer-facing rate ceilings.
-notes: Prisma's public docs do not give per-second numbers; the controllable limits are plan-quota operations,
-  the 5 MB response-size threshold (P6009), and the connection_limit setting on the database URL.
-sources:
-  - https://www.prisma.io/docs/accelerate/limitations
-  - https://www.prisma.io/docs/postgres/database/api-reference
-responseCodes:
-  throttled: 429
-limits:
-  - name: Plan monthly operations (Postgres + Accelerate)
-    scope: account
-    metric: operations
-    limit: 'plan-defined (Free 100k Postgres / 60k Accelerate; Starter 1M Postgres; Pro 10M Postgres;
-      Business 50M Postgres)'
-    timeFrame: month
-    notes: Once a plan's included operations are consumed, additional operations bill at the plan's
-      per-1,000 overage rate rather than being throttled.
-  - name: Accelerate response size
-    scope: query
-    metric: varies
-    limit: '5 MB recommended ceiling per response (P6009 P6009 — slows app significantly above this)'
-    notes: Accelerate documentation flags retrievals over 5 MB as the practical response-size bound;
-      query timeout is also configured but the exact value is not published.
-  - name: Postgres connection limit
-    scope: database
-    metric: concurrent_requests
-    limit: '10 (default)'
-    notes: Set by the `connection_limit` parameter on the database URL; raise based on workload and
-      plan capacity.
+description: >-
+  Prisma publishes NO numeric rate limits for the Management API. What it publishes instead is the
+  runtime signal: 38 of 115 operations declare a 429 response, and Retry-After is the only
+  response header modelled anywhere in the contract. Quantitative ceilings are commercial rather
+  than throttle-based — each plan's included monthly operation and request quota, with overage
+  billed per unit and a hard spend limit on by default.
+limit_count: 0
+limit_count_note: >-
+  An honest zero. No published per-second, per-minute or per-hour limit exists for
+  api.prisma.io. The entries below are the RUNTIME SIGNALS and the COMMERCIAL QUOTAS, which are
+  real and measurable, but neither is a documented rate limit.
+response_signals:
+  status_on_exhaustion: 429
+  operations_declaring_429: 38
+  operations_total: 115
+  headers_returned:
+    - name: Retry-After
+      modelled_in_contract: true
+      note: The only response header declared anywhere in the published OpenAPI.
+  headers_absent:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+    - RateLimit-Limit
+    - RateLimit-Remaining
+    - RateLimit-Reset
+  agent_impact: >-
+    An agent can back off CORRECTLY (Retry-After is authoritative) but cannot budget AHEAD —
+    nothing tells it how much headroom remains before the next call is refused.
+  variant_message: >-
+    Compute operations return "Rate limit or Compute resource limit exceeded." on 429, folding a
+    resource ceiling and a rate ceiling into one status with no way to tell them apart.
+commercial_quotas:
+  scope: per-workspace, monthly
+  source: https://www.prisma.io/pricing
+  behaviour_past_quota: >-
+    On paid plans, usage past the included quota BILLS at the plan's overage rate rather than
+    being throttled — until the hard spend limit (on by default) stops it. On Free there is no
+    overage.
+  quotas:
+    - plan: Free
+      postgres_operations_month: 200000
+      compute_requests_month: 1000000
+      storage: 500 MB
+      databases: 50
+    - plan: Starter
+      postgres_operations_month: 1000000
+      compute_requests_month: 5000000
+      storage: 10 GB
+      databases: 1000
+    - plan: Pro
+      postgres_operations_month: 10000000
+      compute_requests_month: 20000000
+      storage: 50 GB
+      databases: 1000
+    - plan: Business
+      postgres_operations_month: 50000000
+      compute_requests_month: 100000000
+      storage: 100 GB
+      databases: 1000
+  metering_note: One database query = one operation; one HTTP request served = one Compute request.
+payload_limits:
+  - status: 413
+    declared_on_operations: 20
+    note: >-
+      A 413 Payload Too Large is declared on 20 operations but no maximum body size is published
+      anywhere in the contract or the docs.
 policies:
-  - name: Plan-Quota Throttling
-    description: Hard request throttling is not the primary lever — plan-level monthly operation quotas
-      cap usage, with overage billed at the plan's per-1,000 rate.
-  - name: Connection Pooling via Accelerate
-    description: Use Prisma Accelerate's connection-pooling and edge cache to reduce direct Postgres
-      connections; cache tags (Pro/Business) let consumers invalidate specific cached queries.
-  - name: Response-Size Discipline
-    description: Keep individual query responses under ~5 MB; paginate large result sets to avoid the
-      P6009 slowdown.
+  - name: Hard spend limit
+    description: >-
+      Every paid plan includes a hard spend limit, enabled by default, so usage-based pricing
+      cannot produce a surprise bill. This is the real ceiling on an agent's spend.
+  - name: Retry-After backoff
+    description: On 429, honour the Retry-After header rather than a fixed backoff.
+cross_reference:
+  - conventions/prisma-conventions.yml
+  - plans/prisma-plans-pricing.yml
+  - errors/prisma-problem-types.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

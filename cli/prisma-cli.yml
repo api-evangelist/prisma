@@ -1,0 +1,102 @@
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/docs/cli
+name: Prisma CLI
+binary: prisma
+package: prisma (npm)
+version: 8.0.0-rc.15
+note: >-
+  One binary carries both halves of the product: the ORM commands and the platform commands for
+  Prisma Composer, Prisma Compute, Prisma Postgres and object-store buckets. It can be run
+  without installing, which makes it directly usable by an agent in a fresh working directory.
+install:
+  - manager: npm
+    command: npx prisma@latest --help
+  - manager: pnpm
+    command: pnpm dlx prisma@latest --help
+  - manager: yarn
+    command: yarn dlx prisma@latest --help
+  - manager: bun
+    command: bunx prisma@latest --help
+  - manager: project-local
+    command: prisma <command>
+    note: available as a plain command once `prisma` is a project dependency
+command_groups:
+  - group: auth
+    docs: https://www.prisma.io/docs/cli/auth
+    purpose: Sign in to the Prisma account the platform commands act as.
+    example: prisma auth login
+  - group: project
+    docs: https://www.prisma.io/docs/cli/project
+    purpose: Create and link Console projects.
+    example: prisma project create my-app
+  - group: branch
+    docs: https://www.prisma.io/docs/cli/branch
+    purpose: Manage project branches (each branch gets its own environment).
+  - group: git
+    docs: https://www.prisma.io/docs/cli/git
+    purpose: Connect and manage the source-repository link that drives deploys.
+    example: prisma git connect
+  - group: deploy
+    docs: https://www.prisma.io/docs/cli/deploy
+    purpose: Deploy a Prisma Composer app to Prisma Compute.
+    example: prisma deploy module.ts
+  - group: dev
+    docs: https://www.prisma.io/docs/cli/dev
+    purpose: Run the app locally, including local Prisma Postgres.
+  - group: service
+    docs: https://www.prisma.io/docs/cli/service
+    purpose: Manage services, their versions, logs and custom domains.
+    example: prisma service logs
+  - group: postgres
+    docs: https://www.prisma.io/docs/cli/postgres
+    purpose: Create and manage Prisma Postgres databases and their connection strings.
+    example: prisma postgres create mydb
+    note: >-
+      `postgres create` prints a ONE-TIME connection URL; `postgres connection create` mints
+      another when one is needed again.
+  - group: bucket
+    docs: https://www.prisma.io/docs/cli/bucket
+    purpose: Create object-store buckets and their S3-compatible access keys.
+    example: prisma bucket create --name my-bucket
+    note: '`bucket key create` prints the key credentials once.'
+  - group: orm
+    purpose: Scaffold and manage the ORM in a project.
+    example: prisma orm init
+  - group: contract
+    purpose: Author, emit and validate the Prisma contract (the Prisma ORM 8 schema surface).
+    example: prisma contract emit
+  - group: db
+    purpose: Database-level commands (init, verify, sign, update, inspect-live-schema).
+  - group: migration
+    purpose: Author, plan, check and apply migrations.
+  - group: skills
+    purpose: Manage the packaged Prisma Agent Skills.
+    cross_reference: skills/
+key_flows:
+  - name: Deploy an app
+    steps:
+      - prisma auth login
+      - prisma project create my-app
+      - prisma git connect
+      - prisma deploy module.ts
+    note: After connecting the repository, every git push deploys; each deploy produces a service version.
+  - name: Create a database
+    steps:
+      - prisma postgres create mydb
+      - prisma postgres connection create mydb
+  - name: Create a bucket
+    steps:
+      - prisma bucket create --name my-bucket
+      - prisma bucket key create <bucket-id>
+exit_codes:
+  '1': internal error (a bug)
+  '2': expected structured failure
+  '3': user abort
+  '4-99': completed with findings (per-command; db verify / db sign / migration check / orm init)
+  note: >-
+    Documented in the error reference. `db verify`, `db sign` and `migration check` answer a
+    question, so a bad answer still exits successfully with diagnostics — exit 4 rather than 2.
+  cross_reference: errors/prisma-error-codes.yml
+versions_note: >-
+  Prisma ORM 7 users install the previous CLI line as `prisma@prev`; its docs live under /orm/v7.

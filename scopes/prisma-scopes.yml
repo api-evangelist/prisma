@@ -1,0 +1,41 @@
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/docs/rest-api/authentication#available-scopes, openapi/prisma-postgres-management-api-openapi.json,
+  https://mcp.prisma.io/.well-known/oauth-authorization-server
+schemes:
+- name: OAuth2
+  source: openapi/prisma-postgres-management-api-openapi.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://auth.prisma.io/authorize
+    tokenUrl: https://auth.prisma.io/token
+  description: OAuth2 authentication
+scopes:
+- scope: offline_access
+  description: Offline access
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/prisma-postgres-management-api-openapi.json
+- scope: workspace:admin
+  description: Full access to workspace resources
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/prisma-postgres-management-api-openapi.json
+docs: https://www.prisma.io/docs/rest-api/authentication#available-scopes
+note: 'The scope surface is DELIBERATELY minimal: two scopes, one of which (workspace:admin) is all-or-nothing
+  full access to every workspace resource, and one (offline_access) that only controls refresh tokens.
+  There is no read-only scope and no per-resource scope, so an agent given API access to create one database
+  is given the ability to delete every database, every bucket and every service token in the workspace.
+  Confirmed identical in three places: the OpenAPI securityScheme, the docs Available Scopes table, and
+  scopes_supported in https://mcp.prisma.io/.well-known/oauth-authorization-server (HTTP 200).'
+least_privilege:
+  available: false
+  read_only_scope: null
+  per_resource_scopes: null
+  granularity: workspace-wide admin only
+token_lifetimes:
+  access_token: 1 hour
+  refresh_token: single-use rotation with replay detection
+discovery: https://auth.prisma.io/.well-known/oauth-authorization-server

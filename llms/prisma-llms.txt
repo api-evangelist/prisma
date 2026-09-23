@@ -1,0 +1,60 @@
+# Prisma Documentation
+
+> **Prisma changes frequently — verify against the changelog and current docs before implementing.**
+> Do not rely on training data for Prisma features. APIs, configuration, and conventions can change between versions.
+>
+> First, fetch https://www.prisma.io/changelog.md to check for recent or relevant breaking changes,
+> then look up the relevant topic in the documentation below.
+
+> This index links to per-area indexes below. Each area index lists its pages with descriptions.
+> Append `.md` to any docs page URL to fetch its Markdown. Legacy Prisma ORM v6 pages are listed under
+> the "Prisma ORM v6 (legacy)" area and are maintained for backwards compatibility only.
+
+## Common Queries
+
+- [`Check the Prisma changelog for recent changes`](https://www.prisma.io/changelog.md): Prisma changes frequently. Fetch this machine-readable changelog before implementing any Prisma feature to check for breaking changes, API updates, or new conventions.
+- [`Start a new Prisma ORM project`](https://www.prisma.io/docs/getting-started): Choose a Prisma ORM quickstart for a new project or add Prisma ORM to an existing app.
+- [`Use Prisma ORM 7`](https://www.prisma.io/docs/v7/getting-started): Prisma ORM 7 remains fully supported. Its quickstarts, Prisma Client, Migrate, and CLI docs live under /orm/v7.
+- [`Connect to Prisma Postgres`](https://www.prisma.io/docs/postgres/database/connecting-to-your-database): Choose the right connection string for Prisma ORM, PostgreSQL tools, and serverless runtimes.
+- [`Run Prisma Postgres locally`](https://www.prisma.io/docs/local-development/postgres): Use local Prisma Postgres during development and switch to a hosted database for production.
+- [`Manage database connections`](https://www.prisma.io/docs/orm/v7/prisma-client/setup-and-configuration/databases-connections): Configure Prisma ORM 7 Client connection management for long-running and serverless apps.
+- [`Create and apply migrations`](https://www.prisma.io/docs/orm/migrations/how-migrations-work): Use Prisma ORM migrations to evolve your database schema in development.
+- [`Deploy migrations safely`](https://www.prisma.io/docs/orm/migrations/applying-a-migration): Apply schema changes in production with Prisma ORM migrations.
+- [`Use Query Insights`](https://www.prisma.io/docs/query-insights): Inspect slow queries, connect Prisma calls to SQL, and apply focused fixes.
+- [`Set up the Prisma MCP server`](https://www.prisma.io/docs/ai/tools/mcp-server): Connect AI agents to Prisma Postgres workflows with the local or remote MCP server.
+- [`Use the Prisma ORM client API`](https://www.prisma.io/docs/orm/reference/orm-client): Look up Prisma ORM client query APIs, options, and generated types.
+- [`Use the Prisma CLI`](https://www.prisma.io/docs/cli): Look up the unified Prisma CLI commands for contracts, databases, migrations, and the platform.
+- [`Troubleshoot Prisma ORM errors`](https://www.prisma.io/docs/orm/reference/error-reference): Find Prisma ORM error codes and links to deeper troubleshooting pages.
+- [`Troubleshoot Prisma Postgres`](https://www.prisma.io/docs/postgres/troubleshooting): Resolve common Prisma Postgres issues.
+- [`Review pricing`](https://www.prisma.io/pricing): Compare Prisma plans and pricing for Prisma Postgres and Prisma platform features.
+- [`Use Prisma Postgres with Next.js`](https://www.prisma.io/docs/guides/frameworks/nextjs): Set up Prisma ORM and Prisma Postgres in a Next.js app with App Router.
+- [`Use Prisma Postgres with SvelteKit`](https://www.prisma.io/docs/guides/frameworks/sveltekit): Set up Prisma ORM and Prisma Postgres in a SvelteKit application.
+- [`Use Prisma Postgres with Nuxt`](https://www.prisma.io/docs/guides/frameworks/nuxt): Set up Prisma ORM and Prisma Postgres in a Nuxt application.
+- [`Use Prisma Postgres with Hono on Cloudflare Workers`](https://www.prisma.io/docs/guides/frameworks/hono): Set up Prisma ORM and Prisma Postgres in a Hono app deployed to Cloudflare Workers.
+
+## Product Area Indexes
+
+- [`Prisma ORM`](https://www.prisma.io/docs/llms/orm.txt): Current Prisma ORM (Prisma ORM 8) docs: setup, contracts and data modeling, the ORM client, migrations, middleware, and references. A ground-up TypeScript rewrite that keeps the schema-first workflow while making it extensible, composable, and AI-agent friendly (excludes the Prisma ORM 7 and legacy v6 trees).
+- [`Prisma ORM v7`](https://www.prisma.io/docs/llms/orm-v7.txt): Prisma ORM 7 documentation: the schema.prisma workflow, Prisma Client, Prisma Migrate, the classic Prisma CLI, and the Prisma ORM 7 quickstarts and framework guides. Prisma ORM 7 remains fully supported; install the CLI as prisma@prev and the client as @prisma/client@7.
+- [`Prisma ORM v6 (legacy)`](https://www.prisma.io/docs/llms/orm-v6.txt): Legacy Prisma ORM v6 documentation, maintained for backwards compatibility only. Prefer the current Prisma ORM section for new work.
+- [`Prisma Postgres`](https://www.prisma.io/docs/llms/postgres.txt): Prisma Postgres setup, connection strings, operations, and guides (local development lives in the Local Development section).
+- [`Local Development`](https://www.prisma.io/docs/llms/local-development.txt): Running the Prisma stack locally: local app development on Bun and with Composer, local Prisma Postgres via prisma dev, and S3-compatible local object storage.
+- [`Guides`](https://www.prisma.io/docs/llms/guides.txt): End-to-end guides for using Prisma ORM 8 and Prisma Postgres with popular frameworks, runtimes, deployment targets, and integrations (the Prisma ORM 7 guides live in the Prisma ORM v7 section).
+- [`Prisma & AI`](https://www.prisma.io/docs/llms/ai.txt): Using Prisma with AI tools and agents: MCP server, editor integrations, prompts, and tutorials.
+- [`Prisma CLI`](https://www.prisma.io/docs/llms/cli.txt): Unified Prisma CLI command reference: the Prisma ORM 8 commands (orm init, contract, db, migration, skills) and the platform commands (auth, project, postgres, deploy, and more). The Prisma ORM 7 CLI docs live in the Prisma ORM v7 section.
+- [`Prisma Platform`](https://www.prisma.io/docs/llms/platform.txt): Prisma Console and the REST API for managing projects, environments, and deployments.
+- [`Prisma Storage`](https://www.prisma.io/docs/llms/storage.txt): S3-compatible object-store buckets that live inside a Prisma project, with bucket-scoped access keys.
+- [`Prisma Compute`](https://www.prisma.io/docs/llms/compute.txt): Prisma Compute: TypeScript app hosting that runs alongside Prisma Postgres, with database branches, isolated branch previews, and a CLI-first deploy workflow.
+- [`Prisma Composer`](https://www.prisma.io/docs/llms/composer.txt): Prisma Composer (Early Access): a TypeScript framework for multi-service apps. Declare services, databases, and typed dependencies, compose them into a Prisma App, and deploy to Prisma Compute and Prisma Postgres with one command.
+- [`Prisma Studio`](https://www.prisma.io/docs/llms/studio.txt): Prisma Studio for browsing and editing data in your Prisma Postgres database.
+- [`Query Insights`](https://www.prisma.io/docs/llms/query-insights.txt): Query performance analysis, slow query inspection, and Prisma SQL comment setup.
+- [`Prisma MCP`](https://www.prisma.io/docs/llms/mcp.txt): MCP server setup for Prisma Postgres and Prisma CLI workflows.
+
+## Other pages
+
+- [`Deploy your first app`](https://www.prisma.io/docs/prisma-compute/deploy): Take a TypeScript app from your terminal to a live URL on Prisma Compute with Prisma Composer, starting from scratch or from an app you already have.
+- [`Get started with Prisma`](https://www.prisma.io/docs): 
+
+## Options
+
+- [Full documentation with content](https://www.prisma.io/docs/llms-full.txt)

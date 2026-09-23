@@ -1,0 +1,242 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/prisma-postgres-management-api-openapi.json
+api: Prisma Postgres Management API
+note: >-
+  The published contract declares components.schemas as EMPTY — every request and response body
+  is an inline schema with no named type and no $ref. So this graph is derived from two things
+  the contract does carry: the path hierarchy (which nests resources) and the id-reference fields
+  and id prefixes that appear inside the inline bodies. Relationship cardinality is read from the
+  path shape (a collection under a parent is has_many); nothing is inferred beyond that.
+contract_observation:
+  named_schemas: 0
+  schema_reuse: none
+  impact: >-
+    A consumer cannot generate a shared type for `Database` or `Project` from this document —
+    every occurrence is a fresh anonymous object. This is the single largest contract-quality
+    gap in an otherwise complete spec, and it is why the provider's own SDK is generated from
+    the document rather than hand-modelled.
+id_prefixes:
+  - prefix: wksp_
+    entity: Workspace
+  - prefix: proj_
+    entity: Project
+  - prefix: db_
+    entity: Database
+  - prefix: con_
+    entity: Connection
+  - prefix: bkt_
+    entity: Bucket
+  - prefix: bkey_
+    entity: BucketKey
+  - prefix: br_
+    entity: Branch
+  - prefix: bld_
+    entity: Build
+  - prefix: dom_
+    entity: Domain
+  - prefix: envvar_
+    entity: EnvironmentVariable
+  - prefix: itgr_
+    entity: Integration
+  - prefix: usr_
+    entity: User
+  - prefix: cps_
+    entity: Compute service
+  - prefix: cpv_
+    entity: Compute service version
+entities:
+  - name: Workspace
+    id_prefix: wksp_
+    collection: /v1/workspaces
+    operations: [getV1Workspaces, getV1WorkspacesById, getV1WorkspacesByIdSubscription]
+  - name: Subscription
+    parent: Workspace
+    operations: [getV1WorkspacesByIdSubscription]
+  - name: ServiceToken
+    parent: Workspace
+    collection: /v1/workspaces/{workspaceId}/service-tokens
+    operations:
+      - getV1WorkspacesByWorkspaceIdService-tokens
+      - postV1WorkspacesByWorkspaceIdService-tokens
+      - deleteV1WorkspacesByWorkspaceIdService-tokensByServiceTokenId
+  - name: Project
+    id_prefix: proj_
+    collection: /v1/projects
+    operations: [getV1Projects, postV1Projects, getV1ProjectsById, patchV1ProjectsById, deleteV1ProjectsById, postV1ProjectsByIdTransfer]
+  - name: Database
+    id_prefix: db_
+    collection: /v1/databases
+    operations: [getV1Databases, postV1Databases, getV1DatabasesByDatabaseId, patchV1DatabasesByDatabaseId, deleteV1DatabasesByDatabaseId, postV1DatabasesByTargetDatabaseIdRestore]
+  - name: Connection
+    id_prefix: con_
+    collection: /v1/connections
+    operations: [getV1Connections, postV1Connections, getV1ConnectionsById, deleteV1ConnectionsById, postV1ConnectionsByIdRotate]
+  - name: Backup
+    parent: Database
+    collection: /v1/databases/{databaseId}/backups
+    operations: [getV1DatabasesByDatabaseIdBackups]
+  - name: DatabaseUsage
+    parent: Database
+    operations: [getV1DatabasesByDatabaseIdUsage]
+  - name: Bucket
+    id_prefix: bkt_
+    collection: /v1/buckets
+    operations: [getV1Buckets, postV1Buckets, getV1BucketsByBucketId, deleteV1BucketsByBucketId]
+  - name: BucketKey
+    id_prefix: bkey_
+    parent: Bucket
+    collection: /v1/buckets/{bucketId}/keys
+    operations: [getV1BucketsByBucketIdKeys, postV1BucketsByBucketIdKeys, deleteV1BucketsByBucketIdKeysByKeyId]
+  - name: Integration
+    id_prefix: itgr_
+    collection: /v1/integrations
+    operations: [getV1Integrations, getV1IntegrationsById, deleteV1IntegrationsById, getV1WorkspacesByWorkspaceIdIntegrations, deleteV1WorkspacesByWorkspaceIdIntegrationsByClientId]
+  - name: Region
+    collection: /v1/regions
+    operations: [getV1Regions, getV1RegionsPostgres, getV1RegionsAccelerate]
+  - name: Principal
+    operations: [getV1Me]
+    note: 'GET /v1/me returns the user, workspace and credential the current token represents.'
+  - name: App
+    stability: experimental
+    collection: /v1/apps
+  - name: Service
+    id_prefix: cps_
+    stability: experimental
+    collection: /v1/services
+  - name: Deployment
+    stability: experimental
+    collection: /v1/apps/{appId}/deployments
+  - name: Branch
+    id_prefix: br_
+    stability: experimental
+    collection: /v1/projects/{projectId}/branches
+  - name: Build
+    id_prefix: bld_
+    stability: experimental
+    collection: /v1/builds
+  - name: Domain
+    id_prefix: dom_
+    stability: experimental
+    collection: /v1/apps/{appId}/domains
+  - name: EnvironmentVariable
+    id_prefix: envvar_
+    stability: experimental
+    collection: /v1/environment-variables
+  - name: SourceRepository
+    stability: experimental
+    collection: /v1/source-repositories
+  - name: SCMInstallation
+    stability: experimental
+    collection: /v1/scm-installations
+relationships:
+  - from: Workspace
+    to: Project
+    type: has_many
+    via: projectId / path nesting (/v1/workspaces/{workspaceId}/projects in the SDK examples)
+  - from: Workspace
+    to: ServiceToken
+    type: has_many
+    via: /v1/workspaces/{workspaceId}/service-tokens
+  - from: Workspace
+    to: Integration
+    type: has_many
+    via: /v1/workspaces/{workspaceId}/integrations
+  - from: Workspace
+    to: Subscription
+    type: has_one
+    via: /v1/workspaces/{id}/subscription
+  - from: Project
+    to: Database
+    type: has_many
+    via: /v1/projects/{projectId}/databases
+  - from: Project
+    to: Branch
+    type: has_many
+    via: /v1/projects/{projectId}/branches
+  - from: Project
+    to: Bucket
+    type: has_many
+    via: projectId query filter on /v1/buckets
+  - from: Database
+    to: Connection
+    type: has_many
+    via: /v1/databases/{databaseId}/connections
+  - from: Database
+    to: Backup
+    type: has_many
+    via: /v1/databases/{databaseId}/backups
+  - from: Database
+    to: Connection
+    type: has_one
+    via: defaultConnectionId
+    note: the default connection is singled out by id field, distinct from the has_many above
+  - from: Database
+    to: DatabaseUsage
+    type: has_one
+    via: /v1/databases/{databaseId}/usage
+  - from: Bucket
+    to: BucketKey
+    type: has_many
+    via: /v1/buckets/{bucketId}/keys
+  - from: App
+    to: Deployment
+    type: has_many
+    via: /v1/apps/{appId}/deployments
+  - from: App
+    to: Deployment
+    type: has_one
+    via: latestDeploymentId
+  - from: App
+    to: Domain
+    type: has_many
+    via: /v1/apps/{appId}/domains
+  - from: Service
+    to: Deployment
+    type: has_many
+    via: /v1/services/{serviceId}/deployments
+  - from: Service
+    to: Domain
+    type: has_many
+    via: /v1/services/{serviceId}/domains
+  - from: Branch
+    to: Build
+    type: has_many
+    via: branchId query filter on /v1/builds
+  - from: SourceRepository
+    to: Project
+    type: belongs_to
+    via: projectId
+  - from: SCMInstallation
+    to: SourceRepository
+    type: has_many
+    via: /v1/scm-installations/{installationId}/repositories
+id_reference_fields:
+  - accessKeyId
+  - accountId
+  - appId
+  - backupId
+  - branchId
+  - computeServiceId
+  - databaseId
+  - defaultConnectionId
+  - deploymentId
+  - existingAppId
+  - foundryVersionId
+  - gitRepoId
+  - installationId
+  - latestDeploymentId
+  - leaseId
+  - logicalId
+  - parentLogicalId
+  - projectId
+  - providerRepositoryId
+  - regionId
+  - repoId
+  - repositoryId
+  - resourceId
+  - runId
+  - serviceId
+  - versionId
+  - workspaceId

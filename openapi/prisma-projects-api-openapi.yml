@@ -132,27 +132,24 @@ paths:
     - url: https://api.cloud.prisma.io
       description: Prisma Data Platform production server
 components:
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
   responses:
     BadRequest:
       description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
       content:
         application/json:
           schema:
@@ -163,27 +160,36 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    ProjectCreate:
       type: object
-      description: Standard error response from the API
+      description: Request body for creating a new project
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My New Application
+      required:
+      - name
     Project:
       type: object
       description: A project represents an application or service within a workspace that contains environments and database connections.
@@ -215,20 +221,9 @@ components:
       - workspaceId
       - createdAt
       - updatedAt
-    ProjectCreate:
+    Error:
       type: object
-      description: Request body for creating a new project
-      properties:
-        name:
-          type: string
-          description: Display name for the new project
-          examples:
-          - My New Application
-      required:
-      - name
-    Error_2:
-      type: object
-      description: Standard error response
+      description: Standard error response from the API
       properties:
         error:
           type: object
@@ -256,96 +251,6 @@ components:
             description: Databases associated with the project
             items:
               $ref: '#/components/schemas/Database'
-    DatabaseApiKey:
-      type: object
-      description: An API key for accessing the database
-      properties:
-        apiKey:
-          type: string
-          description: The API key value
-        connectionString:
-          type: string
-          description: Full connection string incorporating this API key
-      required:
-      - apiKey
-      - connectionString
-    Project_2:
-      type: object
-      description: A project represents an application or service that contains one or more Prisma Postgres databases.
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the project
-        name:
-          type: string
-          description: Display name of the project
-        workspaceId:
-          type: string
-          description: Identifier of the parent workspace
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the project was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the project was last updated
-      required:
-      - id
-      - name
-      - workspaceId
-      - createdAt
-      - updatedAt
-    ProjectCreate_2:
-      type: object
-      description: Request body for creating a new project with a database
-      properties:
-        name:
-          type: string
-          description: Display name for the new project
-          examples:
-          - My Application
-        region:
-          type: string
-          description: Region where the database should be provisioned. Determines the physical location of the database for latency optimization.
-          enum:
-          - us-east-1
-          - us-west-2
-          - eu-west-1
-          - eu-central-1
-          - ap-southeast-1
-          - ap-northeast-1
-          examples:
-          - us-east-1
-      required:
-      - name
-      - region
-    DirectConnection:
-      type: object
-      description: Direct TCP connection details for the database
-      properties:
-        host:
-          type: string
-          description: Database host address
-        port:
-          type: integer
-          description: Database port number
-          default: 5432
-        username:
-          type: string
-          description: Database username
-        password:
-          type: string
-          description: Database password
-        database:
-          type: string
-          description: Database name
-      required:
-      - host
-      - port
-      - username
-      - password
-      - database
     Database:
       type: object
       description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
@@ -398,21 +303,116 @@ components:
       - status
       - createdAt
       - updatedAt
-  parameters:
-    WorkspaceId:
-      name: workspaceId
-      in: path
-      required: true
-      description: Unique identifier of the workspace
-      schema:
-        type: string
-    ProjectId:
-      name: projectId
-      in: path
-      required: true
-      description: Unique identifier of the project
-      schema:
-        type: string
+    ProjectCreate_2:
+      type: object
+      description: Request body for creating a new project with a database
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My Application
+        region:
+          type: string
+          description: Region where the database should be provisioned. Determines the physical location of the database for latency optimization.
+          enum:
+          - us-east-1
+          - us-west-2
+          - eu-west-1
+          - eu-central-1
+          - ap-southeast-1
+          - ap-northeast-1
+          examples:
+          - us-east-1
+      required:
+      - name
+      - region
+    Project_2:
+      type: object
+      description: A project represents an application or service that contains one or more Prisma Postgres databases.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+        name:
+          type: string
+          description: Display name of the project
+        workspaceId:
+          type: string
+          description: Identifier of the parent workspace
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+      - id
+      - name
+      - workspaceId
+      - createdAt
+      - updatedAt
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
   securitySchemes:
     bearerAuth:
       type: http

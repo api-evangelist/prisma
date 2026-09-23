@@ -1,0 +1,152 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  mcp/prisma-mcp.yml (tool names published at https://www.prisma.io/docs/ai/tools/mcp-server)
+  bound against openapi/prisma-postgres-management-api-openapi.json (the provider's OpenAPI 3.1
+  document, 72 paths / 115 operations, fetched from https://www.prisma.io/openapi.json)
+note: >-
+  Binding is by name and semantics only. The live MCP tools/list is OAuth-gated (401), so no
+  inputSchema was observed; where a tool maps to a REST operation, that operation's parameters
+  and requestBody ARE the tool's real input contract and confidence is set accordingly.
+surfaces:
+  openapi:
+    file: openapi/prisma-postgres-management-api-openapi.json
+    base: https://api.prisma.io
+    gated: false
+    note: The document itself is anonymous; every operation requires a bearer token.
+  mcp:
+    url: https://mcp.prisma.io/mcp
+    gated: true
+    note: OAuth 2.0 + PKCE against auth.prisma.io; anonymous tools/list returns 401.
+  graphql: null
+crosswalk:
+  - tool: fetch_workspace_details
+    category: workspace
+    rest: [getV1Workspaces, getV1WorkspacesById]
+    binding: name+semantics
+    confidence: high
+  - tool: list_prisma_postgres_databases
+    category: database
+    rest: [getV1Databases, getV1ProjectsByProjectIdDatabases]
+    binding: name+semantics
+    confidence: high
+  - tool: create_prisma_postgres_database
+    category: database
+    rest: [postV1Databases, postV1ProjectsByProjectIdDatabases]
+    binding: name+semantics
+    confidence: high
+  - tool: delete_prisma_postgres_database
+    category: database
+    rest: [deleteV1DatabasesByDatabaseId]
+    binding: name+semantics
+    confidence: high
+  - tool: list_prisma_postgres_connection_strings
+    category: connection
+    rest: [getV1DatabasesByDatabaseIdConnections, getV1Connections]
+    binding: name+semantics
+    confidence: high
+  - tool: create_prisma_postgres_connection_string
+    category: connection
+    rest: [postV1DatabasesByDatabaseIdConnections, postV1Connections]
+    binding: name+semantics
+    confidence: high
+  - tool: delete_prisma_postgres_connection_string
+    category: connection
+    rest: [deleteV1ConnectionsById]
+    binding: name+semantics
+    confidence: high
+  - tool: list_prisma_postgres_backups
+    category: backup
+    rest: [getV1DatabasesByDatabaseIdBackups]
+    binding: name+semantics
+    confidence: high
+  - tool: create_prisma_postgres_backup
+    category: backup
+    rest: []
+    binding: none
+    confidence: low
+    note: >-
+      The OpenAPI exposes only GET /v1/databases/{databaseId}/backups. There is no POST backup
+      operation in the published document, so this tool has no REST counterpart we can name.
+      Listed here rather than in mcp_only because a create-backup REST operation plausibly
+      exists undocumented; the honest record is that the contract does not carry it.
+  - tool: create_prisma_postgres_recovery
+    category: backup
+    rest: [postV1DatabasesByTargetDatabaseIdRestore]
+    binding: semantics
+    confidence: medium
+    note: >-
+      REST restores INTO an existing target database and is marked "destructive" in its summary;
+      the MCP tool is described as restoring "to a new database". Same capability, different
+      target semantics — verify before treating them as interchangeable.
+  - tool: list_object_store_buckets
+    category: object-store
+    rest: [getV1Buckets]
+    binding: name+semantics
+    confidence: high
+  - tool: create_object_store_bucket
+    category: object-store
+    rest: [postV1Buckets]
+    binding: name+semantics
+    confidence: high
+  - tool: delete_object_store_bucket
+    category: object-store
+    rest: [deleteV1BucketsByBucketId]
+    binding: name+semantics
+    confidence: high
+  - tool: create_object_store_bucket_key
+    category: object-store
+    rest: [postV1BucketsByBucketIdKeys]
+    binding: name+semantics
+    confidence: high
+  - tool: delete_object_store_bucket_key
+    category: object-store
+    rest: [deleteV1BucketsByBucketIdKeysByKeyId]
+    binding: name+semantics
+    confidence: high
+mcp_only:
+  - tool: introspect_database_schema
+    reason: >-
+      Reads the database's own schema over the data-plane connection. The Management API has no
+      schema-introspection operation.
+  - tool: execute_sql_query
+    reason: >-
+      Data-plane operation against the Postgres instance itself, not a control-plane REST call.
+  - tool: execute_prisma_postgres_schema_update
+    reason: Data-plane DDL; no equivalent Management API operation.
+  - tool: search_prisma_documentation
+    reason: >-
+      Retrieval over the Prisma documentation corpus. Not an API surface at all — there is no
+      REST endpoint behind it.
+rest_only_summary:
+  note: >-
+    100 of the 115 published operations have no MCP tool. The gap is concentrated in the whole
+    Prisma Compute control plane, which the MCP server does not expose at all.
+  groups:
+    - group: '[Experimental] (Compute, Composer, Alchemy state, SCM, builds, deployments)'
+      operations: 70
+      example_operations: [postV1Apps, postV1AppsByAppIdRollback, postV1Builds, getV1Services, postV1Source-repositories]
+    - group: Projects
+      operations: 6
+      example_operations: [getV1Projects, postV1Projects, deleteV1ProjectsById, postV1ProjectsByIdTransfer]
+    - group: Service Tokens
+      operations: 3
+      example_operations: [getV1WorkspacesByWorkspaceIdService-tokens, postV1WorkspacesByWorkspaceIdService-tokens]
+    - group: Integrations
+      operations: 5
+    - group: Regions / Misc
+      operations: 4
+      example_operations: [getV1Regions, getV1RegionsPostgres, getV1Me]
+    - group: Database Usage
+      operations: 1
+      example_operations: [getV1DatabasesByDatabaseIdUsage]
+    - group: Connections (rotate)
+      operations: 1
+      example_operations: [postV1ConnectionsByIdRotate]
+coverage:
+  mcp_tools: 19
+  tools_bound_to_rest: 14
+  tools_with_no_rest_counterpart: 5
+  rest_operations_total: 115
+  rest_operations_reachable_via_mcp: 15
+  rest_operations_with_no_tool: 100

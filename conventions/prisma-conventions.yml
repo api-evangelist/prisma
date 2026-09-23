@@ -1,0 +1,172 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/prisma-postgres-management-api-openapi.json (https://www.prisma.io/openapi.json),
+  https://www.prisma.io/docs/rest-api/authentication,
+  https://www.prisma.io/docs/rest-api/getting-started,
+  https://www.prisma.io/docs/console/more/feature-maturity
+api: Prisma Postgres Management API
+base_url: https://api.prisma.io/v1
+authentication:
+  style: bearer
+  header: 'Authorization: Bearer <token>'
+  credentials:
+    - kind: service-token
+      issued_from: Prisma Console → workspace Settings → Service Tokens
+      expiry: none
+      note: >-
+        The docs warn explicitly that service tokens never expire and a leaked token stays valid
+        until revoked. Revocation is DELETE /v1/workspaces/{workspaceId}/service-tokens/{id}.
+    - kind: oauth2
+      flow: authorization_code
+      pkce: S256 (mandatory for public clients, optional for confidential)
+      authorization_url: https://auth.prisma.io/authorize
+      token_url: https://auth.prisma.io/token
+      discovery: https://auth.prisma.io/.well-known/oauth-authorization-server
+      access_token_ttl: 1 hour
+      refresh: >-
+        offline_access scope; single-use refresh-token rotation with replay detection — reusing
+        an invalidated refresh token revokes every token on that authorization.
+  cross_reference: authentication/prisma-authentication.yml, scopes/prisma-scopes.yml
+versioning:
+  style: uri-path
+  current: v1
+  example: https://api.prisma.io/v1/workspaces
+  stability_signal:
+    extension: x-prisma-stability
+    values: [experimental]
+    note: >-
+      70 of 115 operations carry x-prisma-stability: experimental and are tagged
+      "[Experimental]", with a banner in the description warning the API "may change at any time
+      without notice". That is an in-contract per-operation maturity signal — unusually explicit,
+      and it means the unversioned v1 path does NOT imply all 115 operations are stable.
+  product_maturity_ladder:
+    stages: [Early Access, Preview, Public Beta, Generally Available]
+    docs: https://www.prisma.io/docs/console/more/feature-maturity
+pagination:
+  style: cursor
+  request_params:
+    - name: cursor
+      in: query
+      operations_using: 23
+    - name: limit
+      in: query
+      operations_using: 22
+  note: >-
+    Opaque-cursor pagination. No page/offset parameters appear anywhere in the contract.
+error_envelope:
+  shape: 'non-RFC-9457 JSON: {"error": {"code": string, "message": string, "hint": string?}}'
+  required_fields: [error.code, error.message]
+  optional_fields: [error.hint]
+  media_type: application/json
+  rfc9457: false
+  note: >-
+    Not application/problem+json. The `hint` field is a genuinely useful agent affordance — the
+    live 404 on api.prisma.io returns hint "Use GET /v1/{resource} to list available IDs."
+  cross_reference: errors/prisma-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  response_headers:
+    - Retry-After
+  documented_numbers: false
+  note: >-
+    429 is declared on 38 operations and Retry-After is the ONLY response header modelled
+    anywhere in the contract. No RateLimit-* / X-RateLimit-* headers and no published quota
+    numbers — an agent can back off correctly but cannot budget ahead.
+  cross_reference: rate-limits/prisma-rate-limits.yml
+idempotency:
+  coverage: partial
+  mechanism: >-
+    No Idempotency-Key header exists anywhere in the contract. Replay protection is
+    operation-specific and opt-in: POST /v1/builds accepts a `runIdentity` object
+    (provider + repositoryId + runId + runAttempt) which makes creation idempotent — "a repeat
+    call for the same run returns the build that already exists"; the Alchemy state-store
+    operations are natural-key PUT/DELETE and are documented idempotent individually.
+  header: null
+  scope:
+    - postV1Builds
+    - putV1BuildsByBuildIdResourcesByResourceTypeByResourceId
+    - deleteV1ProjectsByProjectIdBranchesByBranchIdAlchemy-stateStateStacksByStackStagesByStageResourcesByFqn
+    - deleteV1ProjectsByProjectIdBranchesByBranchIdAlchemy-stateStateStacksByStack
+    - putV1ProjectsByProjectIdBranchesByBranchIdApplication-topology
+  mutating_operations_total: 61
+  note: >-
+    5 of 61 mutating operations carry a documented replay-safety story, and all five sit inside
+    the [Experimental] Compute/Composer surface. Every stable-tier write — create project,
+    create database, create connection, create service token, create bucket — has no replay
+    protection at all: a retried POST /v1/projects provisions a second project and a second
+    database.
+reversibility:
+  grade: documented
+  note: >-
+    Real reversal paths exist across the write surface, but the contract and docs state no
+    window for any of them. Graded `documented`, not `verified`. No window is asserted here
+    because none is published.
+  reversals:
+    - write: postV1AppsByAppIdDeployments
+      reversal: postV1AppsByAppIdRollback
+      description: Roll an app back to an existing deployment.
+      window: null
+      window_source: null
+    - write: postV1ServicesByServiceIdDeployments
+      reversal: postV1ServicesByServiceIdRollback
+      description: Roll a service back to an existing deployment.
+      window: null
+      window_source: null
+    - write: deleteV1DatabasesByDatabaseId
+      reversal: postV1DatabasesByTargetDatabaseIdRestore
+      description: >-
+        Restore from a backup listed by getV1DatabasesByDatabaseIdBackups. The operation's own
+        summary calls it "(destructive)" — it overwrites the target database.
+      window: null
+      window_source: >-
+        Backup RETENTION is stated on the pricing page (7-day daily backups on Starter and Pro,
+        30-day on Business; Free has none), which bounds how far back a restore can reach, but
+        no docs page states a restore window as such.
+    - write: deleteV1BranchesByBranchId
+      reversal: null
+      description: >-
+        Summary says "Soft-delete a branch", which implies recoverability, but no un-delete or
+        restore operation is published and no retention period is stated.
+      window: null
+      window_source: null
+    - write: postV1ConnectionsByIdRotate
+      reversal: null
+      description: Rotating connection credentials invalidates the previous string irreversibly.
+      window: null
+      window_source: null
+  irreversible:
+    - deleteV1BucketsByBucketId
+    - deleteV1BucketsByBucketIdKeysByKeyId
+    - deleteV1ProjectsById
+    - deleteV1WorkspacesByWorkspaceIdService-tokensByServiceTokenId
+    - deleteV1WorkspacesByWorkspaceIdIntegrationsByClientId
+  irreversible_note: >-
+    Bucket deletion is documented as permanently destroying the bucket, every object in it and
+    all its access keys, and says so in the operation description: "This action cannot be undone."
+dry_run_mode: none
+dry_run_note: No preview/validate/dry-run parameter or endpoint appears in the contract.
+field_expansion: none
+sparse_fieldsets: none
+request_id_tracing: null
+request_id_note: >-
+  No request-id or correlation-id response header is modelled in the contract. Retry-After is
+  the only response header declared anywhere.
+metadata_fields: none
+secret_handling:
+  pattern: show-once
+  operations:
+    - postV1BucketsByBucketIdKeys
+    - postV1WorkspacesByWorkspaceIdService-tokens
+  note: >-
+    Two create operations state the secret is "returned exactly once in this response and is
+    never stored — copy it immediately." An agent that does not persist the first response cannot
+    recover the credential and must rotate.
+identifier_conventions:
+  prefixed_ids: true
+  examples:
+    - prefix: bld_
+      entity: Build
+  note: >-
+    Prefixed, pattern-constrained ids appear on several entities (e.g. build ids match
+    ^(bld_)...), which makes ids self-describing to an agent.

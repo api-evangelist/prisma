@@ -1,0 +1,78 @@
+generated: '2026-09-17'
+method: searched
+source: https://github.com/prisma/skills
+note: >-
+  These are the PROVIDER'S OWN Agent Skills, published by Prisma at github.com/prisma/skills and
+  vendored here verbatim under skills/skills/. None of them was authored by API Evangelist. Prisma
+  also ships them through a Codex plugin marketplace (prisma/codex-plugin) alongside its remote
+  MCP server, and the unified CLI carries a `prisma skills` command group.
+license: MIT
+repository: https://github.com/prisma/skills
+vendored_at: skills/skills/
+vendoring_caveat: >-
+  skills/skills is recorded in this repository's git index as a gitlink (a nested clone) with no
+  .gitmodules entry, so a fresh clone of this profile will see an empty directory. The files are
+  present on disk. Flagged rather than silently repaired — fixing it changes repository
+  structure, which is not an enrichment decision.
+skills:
+  - name: prisma-cli
+    file: skills/skills/prisma-cli/SKILL.md
+    version: 7.6.0
+    author: prisma
+    description: >-
+      Prisma CLI commands reference covering all available commands, options and usage patterns.
+      Triggers on "prisma init", "prisma generate", "prisma migrate", "prisma db",
+      "prisma studio", "prisma mcp".
+  - name: prisma-client-api
+    file: skills/skills/prisma-client-api/SKILL.md
+    version: 7.6.0
+    author: prisma
+    description: >-
+      Prisma Client API reference covering model queries, filters, operators and client methods.
+      Triggers on "prisma query", "findMany", "create", "update", "delete", "$transaction".
+  - name: prisma-database-setup
+    file: skills/skills/prisma-database-setup/SKILL.md
+    version: 7.6.0
+    author: prisma
+    description: >-
+      Configuring Prisma with different database providers (PostgreSQL, MySQL, SQLite, MongoDB).
+  - name: prisma-driver-adapter-implementation
+    file: skills/skills/prisma-driver-adapter-implementation/SKILL.md
+    version: 7.6.0
+    author: Tyler Benfield
+    description: >-
+      Required reference for Prisma v7 driver-adapter work — transaction lifecycle protocol,
+      error mapping requirements, verification checklist.
+  - name: prisma-postgres
+    file: skills/skills/prisma-postgres/SKILL.md
+    version: 7.6.0
+    author: prisma
+    description: >-
+      Prisma Postgres setup and operations across Console, the create-db CLI, the Management API
+      and the Management API SDK, including service-token and OAuth provisioning.
+    api: Prisma Postgres Management API
+  - name: prisma-postgres-setup
+    file: skills/skills/prisma-postgres-setup/SKILL.md
+    version: 1.1.0
+    author: prisma
+    description: >-
+      Set up a new Prisma Postgres database and connect it to a local project USING THE
+      MANAGEMENT API — the one skill that is directly grounded in the REST contract in
+      openapi/prisma-postgres-management-api-openapi.json.
+    api: Prisma Postgres Management API
+  - name: prisma-upgrade-v7
+    file: skills/skills/prisma-upgrade-v7/SKILL.md
+    version: 7.6.0
+    author: prisma
+    description: Complete migration guide from Prisma ORM v6 to v7 covering all breaking changes.
+supporting_files:
+  - skills/skills/AGENTS.md
+  - skills/skills/CLAUDE.md
+  - skills/skills/README.md
+  - skills/skills/LICENSE
+skill_count: 7
+currency_note: >-
+  Six of the seven skills are stamped version 7.6.0 — the Prisma ORM 7 line. Prisma ORM 8 is now
+  shipping as a release candidate (npm prisma@8.0.0-rc.15, 2026-09-14) with a renamed command
+  surface (orm init, contract emit, migration) and a completely new dotted-namespace error
+  scheme. The published skills have not been refreshed for it.

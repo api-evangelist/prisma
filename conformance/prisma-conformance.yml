@@ -1,0 +1,155 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  openapi/prisma-postgres-management-api-openapi.json,
+  https://auth.prisma.io/.well-known/oauth-authorization-server,
+  https://mcp.prisma.io/.well-known/oauth-authorization-server,
+  https://www.prisma.io/.well-known/security.txt,
+  https://www.prisma.io/docs/rest-api/authentication,
+  https://www.prisma.io/pricing
+note: >-
+  Every entry below is anchored to a document that was fetched or to a location in the published
+  contract. Standards Prisma's market has no shared vocabulary for are recorded as not-applicable
+  rather than as failures.
+conformance:
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749) authorization code grant
+    conforms: true
+    evidence: >-
+      components.securitySchemes.OAuth2 in openapi/prisma-postgres-management-api-openapi.json
+      declares an authorizationCode flow with authorizationUrl https://auth.prisma.io/authorize
+      and tokenUrl https://auth.prisma.io/token.
+  - id: oauth2-pkce
+    name: PKCE (RFC 7636), S256
+    conforms: true
+    evidence: >-
+      https://auth.prisma.io/.well-known/oauth-authorization-server (HTTP 200) declares
+      code_challenge_methods_supported ["S256"]; the docs state PKCE is mandatory for public
+      clients.
+  - id: rfc8414
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: true
+    evidence: >-
+      https://auth.prisma.io/.well-known/oauth-authorization-server returns HTTP 200 with
+      issuer, authorization_endpoint, token_endpoint, jwks_uri and registration_endpoint. The
+      REST API authentication docs name it as the discovery endpoint.
+  - id: rfc7591
+    name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+    conforms: true
+    evidence: >-
+      registration_endpoint https://auth.prisma.io/register is advertised in the RFC 8414
+      metadata document.
+  - id: rfc9728
+    name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+    conforms: false
+    evidence: >-
+      https://mcp.prisma.io/.well-known/oauth-protected-resource returns HTTP 404 and the MCP
+      endpoint's 401 challenge carries no resource_metadata pointer — an MCP client cannot
+      discover the authorization server from the challenge alone.
+  - id: rfc9116
+    name: security.txt (RFC 9116)
+    conforms: true
+    evidence: >-
+      https://www.prisma.io/.well-known/security.txt returns HTTP 200 with Contact, Expires
+      (2027-04-28), Preferred-Languages, Canonical and Policy fields.
+  - id: rfc9457
+    name: 'Problem Details for HTTP APIs (RFC 9457 / application/problem+json)'
+    conforms: false
+    evidence: >-
+      Errors use a custom envelope {"error":{"code","message","hint"}} served as
+      application/json; no problem+json media type appears anywhere in the contract.
+  - id: rfc6750
+    name: 'OAuth 2.0 Bearer Token Usage (RFC 6750)'
+    conforms: true
+    evidence: >-
+      components.securitySchemes.Bearer is type http / scheme bearer / bearerFormat JWT; tokens
+      are passed as `Authorization: Bearer <token>` per
+      https://www.prisma.io/docs/rest-api/authentication.
+  - id: openapi-3.1
+    name: OpenAPI 3.1.0
+    conforms: true
+    evidence: >-
+      openapi/prisma-postgres-management-api-openapi.json declares openapi 3.1.0 with 72 paths
+      and 115 operations; served first-party at https://www.prisma.io/openapi.json and
+      https://api.prisma.io/v1/doc.
+  - id: mcp
+    name: Model Context Protocol (streamable HTTP transport)
+    conforms: true
+    evidence: >-
+      https://mcp.prisma.io/mcp accepts JSON-RPC 2.0 POSTs (probed 2026-09-17, HTTP 401
+      invalid_token — reachable and protocol-shaped, auth-gated); 19 tools are published at
+      https://www.prisma.io/docs/ai/tools/mcp-server.
+  - id: agent-skills
+    name: Agent Skills (SKILL.md packaging)
+    conforms: true
+    evidence: >-
+      Prisma publishes first-party Agent Skills at https://github.com/prisma/skills, vendored in
+      this repo under skills/. Also surfaced through the Codex plugin and a `prisma skills` CLI
+      command group.
+  - id: llms-txt
+    name: llms.txt
+    conforms: true
+    evidence: >-
+      https://www.prisma.io/llms.txt and https://www.prisma.io/docs/llms.txt both return HTTP
+      200, plus per-area indexes under /docs/llms/*.txt and a machine-readable changelog.md.
+      Every docs and blog page additionally serves text/markdown at its .md URL and on an
+      Accept: text/markdown request — content negotiation, not just a static index.
+  - id: cursor-pagination
+    name: Opaque cursor pagination
+    conforms: true
+    evidence: cursor + limit query parameters on 23 and 22 operations respectively.
+  - id: idempotency
+    name: Idempotent write semantics
+    conforms: partial
+    evidence: >-
+      No Idempotency-Key header. Replay safety is operation-scoped — POST /v1/builds accepts a
+      runIdentity that makes creation idempotent, and the Alchemy state operations are
+      natural-key PUT/DELETE documented as idempotent. See conventions/prisma-conventions.yml.
+  - id: s3
+    name: S3-compatible object storage API
+    conforms: true
+    evidence: >-
+      The Object Store surface issues "S3-compatible access keys" for buckets
+      (postV1BucketsByBucketIdKeys) and the docs describe buckets as S3-compatible storage —
+      i.e. the data plane speaks a de facto industry interface rather than a bespoke one.
+  - id: opentelemetry
+    name: OpenTelemetry tracing
+    conforms: true
+    evidence: >-
+      First-party @prisma/instrumentation package (npm, 7.10.0, 2026-08-25) provides
+      OpenTelemetry instrumentation for Prisma Client.
+  - id: oidc-workload-federation
+    name: OIDC workload identity federation
+    conforms: true
+    evidence: >-
+      POST /v1/auth/github-actions/token exchanges a GitHub Actions OIDC token for a workspace
+      service token — keyless CI authentication. Marked x-prisma-stability experimental.
+domain_standard:
+  applicable: false
+  note: >-
+    Developer-tooling / managed-database is a market with no ratified interoperability standard
+    for its control plane. The nearest thing Prisma does speak is the S3 object-storage
+    interface, recorded above. Nothing is asserted here to fill the slot.
+compliance:
+  published: true
+  source: https://www.prisma.io/pricing
+  note: >-
+    Compliance coverage is tiered on the pricing page rather than published as a standalone
+    compliance page, and a trust center exists at https://trust.prisma.io (HTTP 200) but is fully
+    JS-rendered, so no certification list could be read from it without a browser.
+  certifications:
+    - name: GDPR
+      available_from_plan: Pro
+      evidence: 'Pricing table, Platform column: "Spend limits; GDPR, HIPAA" (Pro).'
+    - name: HIPAA
+      available_from_plan: Pro
+      evidence: 'Pricing table, Platform column: "Spend limits; GDPR, HIPAA" (Pro).'
+    - name: SOC 2
+      available_from_plan: Business
+      evidence: 'Pricing table, Platform column: "Spend limits; GDPR, HIPAA, SOC 2, ISO 27001" (Business).'
+    - name: ISO 27001
+      available_from_plan: Business
+      evidence: 'Pricing table, Platform column: "Spend limits; GDPR, HIPAA, SOC 2, ISO 27001" (Business).'
+  caveat: >-
+    These are stated as plan entitlements, not as attestation reports. No SOC 2 report date,
+    ISO certificate number or auditor is published on a page reachable without a browser.

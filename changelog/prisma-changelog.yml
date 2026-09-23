@@ -1,0 +1,157 @@
+generated: '2026-09-17'
+method: searched
+source: https://www.prisma.io/changelog.md
+canonical: https://www.prisma.io/changelog
+machine_readable: https://www.prisma.io/changelog.md
+note: Prisma publishes its changelog as a first-class machine-readable document at changelog.md and tells
+  agents, in both llms.txt files and in the changelog header itself, to fetch it BEFORE implementing any
+  Prisma feature rather than relying on training data. Entries are dated and product-tagged but not version-numbered;
+  the ORM version line is carried on npm instead. Breaking-change flags are prose inside each entry, not
+  a field.
+scheme: dated, product-tagged entries (no semantic version per entry)
+current_versions:
+  orm: 8.0.0-rc.15 (release candidate)
+  orm_supported_previous: 7.10.0
+  management_api: v1
+  management_api_sdk: 1.74.0
+window:
+  newest: '2026-08-28'
+  oldest: '2026-04-22'
+  entries_captured: 14
+entries:
+- date: '2026-08-28'
+  title: Prisma Compute is now generally available
+  tags:
+  - Prisma
+  - Prisma Compute
+  - Prisma Composer
+  - Prisma 8
+  - Prisma Postgres
+  - REST API
+  url: https://www.prisma.io/changelog/2026-08-28
+  summary: You can now run production apps on Prisma Compute. Pricing is published, the Free plan covers
+    a million requests a month, and every branch gets its own environment. This release al...
+- date: '2026-08-02'
+  title: Author expression and partial indexes in Prisma 8 and import any GitHub repository to Prisma
+    Compute
+  tags:
+  - Prisma
+  - Prisma 8
+  - Prisma Compute
+  - Prisma Postgres
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-08-02
+  summary: You can now author expression, partial, and unique indexes directly in Prisma 8, in Prisma
+    Schema Language or TypeScript. Prisma 8 also reads an existing database's indexes and row...
+- date: '2026-07-24'
+  title: Store files with Object Store buckets and see your workspace at a glance
+  tags:
+  - Prisma
+  - Prisma Compute
+  - Prisma 8
+  url: https://www.prisma.io/changelog/2026-07-24
+  summary: Prisma projects can now store files. Object Store buckets are S3-compatible storage that lives
+    next to your Prisma Postgres databases and Prisma Compute apps, managed from the Pris...
+- date: '2026-07-17'
+  title: Use Prisma 8 with Supabase and pin Prisma Compute preview branches
+  tags:
+  - Prisma
+  - Prisma 8
+  - Prisma Compute
+  - Prisma Postgres
+  - Prisma Studio
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-07-17
+  summary: Prisma 8 now runs a stock Supabase project end to end through @prisma/orm-extension-supabase,
+    and adds Row-Level Security policy authoring in the schema and in TypeScript, plus man...
+- date: '2026-07-09'
+  title: Learn Prisma 8 from its expanded docs and use native PostgreSQL enums
+  tags:
+  - Prisma
+  - Prisma 8
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-07-09
+  summary: Prisma 8 docs now cover Fundamentals, data modeling, migrations, middleware and extensions,
+    contract authoring, and an API reference. The schema also reads native PostgreSQL enums,...
+- date: '2026-07-03'
+  title: Set up Prisma 8 with new guides and debug failed Prisma Compute builds
+  tags:
+  - Prisma
+  - Prisma 8
+  - Prisma Compute
+  - Prisma Postgres
+  url: https://www.prisma.io/changelog/2026-07-03
+  summary: Prisma 8 publishes setup guides for new and existing projects on PostgreSQL and MongoDB, and
+    extends the schema language with scalar list fields and MongoDB enums.
+- date: '2026-06-24'
+  title: Manage Prisma Compute apps through the API
+  tags:
+  - Prisma
+  - Prisma Compute
+  - Prisma 8
+  url: https://www.prisma.io/changelog/2026-06-24
+  summary: 'Prisma Compute (Public Beta) services can now be managed end to end without the dashboard:
+    the Management API gains /v1/apps and /v1/deployments surfaces with a deployment logs end...'
+- date: '2026-06-19'
+  title: Configure Prisma Compute in TypeScript and roll back bad deploys
+  tags:
+  - Prisma
+  - Prisma Compute
+  - Prisma 8
+  - Prisma Studio
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-06-19
+  summary: Prisma Compute (Public Beta) deploys are now configured in TypeScript with a prisma.compute.ts
+    file, and services can be rolled back to any prior version from the Prisma Console. N...
+- date: '2026-06-11'
+  title: 'Deploy TypeScript apps next to Prisma Postgres: Prisma Compute is now in Public Beta'
+  tags:
+  - Prisma
+  - Prisma Compute
+  - Prisma 8
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-06-11
+  summary: 'Prisma Compute is now in Public Beta: deploy a TypeScript app right next to your Prisma Postgres
+    database, with custom domains and database branches.'
+- date: '2026-06-05'
+  title: Debug slow queries from Prisma Studio and preview migrations in Prisma 8
+  tags:
+  - Prisma
+  - Prisma Studio
+  - Query Insights
+  - Prisma 8
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-06-05
+  summary: Query Insights now lives inside Prisma Studio, so you can inspect slow queries next to the
+    data you are browsing.
+- date: '2026-05-19'
+  title: Upgrade Node.js without Buffer deprecation warnings from Prisma ORM
+  tags:
+  - Prisma
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-05-19
+  summary: Prisma ORM no longer calls the deprecated Buffer() constructor, so recent Node.js versions
+    stop logging the DEP0005 warning.
+- date: '2026-05-15'
+  title: Browse wide tables again in Prisma Studio on Safari
+  tags:
+  - Prisma
+  - Prisma Studio
+  url: https://www.prisma.io/changelog/2026-05-15
+  summary: Prisma Studio restores horizontal scrolling in Safari, so wide tables are usable again.
+- date: '2026-04-27'
+  title: Catch more database driver errors in Prisma ORM
+  tags:
+  - Prisma
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-04-27
+  summary: Prisma ORM now surfaces unmapped database driver errors as a catchable P2039 error instead
+    of crashing the client. This week also ships a MongoDB setup fix and patched bundled depe...
+- date: '2026-04-22'
+  title: Set the query plan cache size in Prisma ORM
+  tags:
+  - Prisma
+  - Prisma ORM
+  url: https://www.prisma.io/changelog/2026-04-22
+  summary: Prisma ORM adds a parameter that sets the query plan cache size. It also fixes JSON equality
+    evaluation and stops the Cloudflare D1 adapter from attempting unsupported savepoint op...

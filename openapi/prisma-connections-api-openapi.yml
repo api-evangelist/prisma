@@ -113,14 +113,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -131,43 +131,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    ConnectionWithCredentials:
-      allOf:
-      - $ref: '#/components/schemas/Connection'
-      - type: object
-        properties:
-          connectionString:
-            type: string
-            description: The full connection string with credentials. Only returned once during creation.
-        required:
-        - connectionString
     ConnectionCreate:
       type: object
       description: Request body for creating a new connection string
@@ -211,6 +181,36 @@ components:
       - databaseId
       - type
       - createdAt
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    ConnectionWithCredentials:
+      allOf:
+      - $ref: '#/components/schemas/Connection'
+      - type: object
+        properties:
+          connectionString:
+            type: string
+            description: The full connection string with credentials. Only returned once during creation.
+        required:
+        - connectionString
   parameters:
     DatabaseId:
       name: databaseId

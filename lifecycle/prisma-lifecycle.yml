@@ -1,0 +1,93 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://www.prisma.io/changelog, https://www.prisma.io/docs/console/more/feature-maturity,
+  https://www.prisma-status.com, https://www.prisma.io/terms,
+  openapi/prisma-postgres-management-api-openapi.json
+versioning:
+  api:
+    style: uri-path
+    current: v1
+    base: https://api.prisma.io/v1
+  product:
+    current_orm_line: 'Prisma ORM 8 (release candidate, npm prisma@8.0.0-rc.15)'
+    supported_previous: 'Prisma ORM 7 (fully supported; install prisma@prev / @prisma/client@7)'
+    legacy: 'Prisma ORM v6 (docs maintained for backwards compatibility only)'
+    docs: https://www.prisma.io/docs/orm/release-status
+  cadence:
+    console: multiple releases per week
+    orm: set schedule every few weeks
+    source: https://www.prisma.io/docs/console/more/feature-maturity
+maturity_ladder:
+  stages:
+    - name: Early Access
+      meaning: >-
+        Ready to try; may evolve on feedback. Prisma reserves the right to throttle or remove
+        access to preserve platform stability.
+    - name: Preview
+      meaning: Refined after Early Access, invite gate lifted, close to production ready.
+    - name: Public Beta
+      meaning: >-
+        Open to anyone, core model stable, documented happy paths work. Limits, pricing,
+        retention, runtime guardrails and some CLI/API details can still change. Not recommended
+        for mission-critical workloads.
+    - name: Generally Available
+      meaning: Full release.
+  docs: https://www.prisma.io/docs/console/more/feature-maturity
+  in_contract_signal:
+    extension: x-prisma-stability
+    value_seen: experimental
+    operations_marked: 70
+    of_total: 115
+    note: >-
+      The OpenAPI itself marks 70 of 115 operations experimental and repeats a per-operation
+      warning that the API "may change at any time without notice". Stability is machine-readable
+      per operation, which is rare and materially useful to an agent.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations_in_spec: 0
+  note: >-
+    No RFC 8594 Sunset/Deprecation header, no dated deprecation policy page, and no operation
+    in the published OpenAPI carries `deprecated: true`. What the provider does publish instead
+    is forward-looking: the maturity ladder above plus the x-prisma-stability marker, which tell
+    a consumer what MIGHT change but never that something WILL be removed, or when.
+  observed_retirements:
+    - product: Prisma Accelerate
+      evidence: >-
+        Absent from the current https://www.prisma.io/llms.txt product list; its npm extension
+        @prisma/extension-accelerate last published 2025-12-03. Two Accelerate regions endpoints
+        (getV1RegionsAccelerate) remain in the v1 contract.
+      announced_retirement: null
+    - product: Prisma Optimize
+      evidence: >-
+        Superseded in the docs by Query Insights (https://www.prisma.io/docs/query-insights);
+        @prisma/extension-optimize last published 2025-11-08.
+      announced_retirement: null
+    - product: Prisma Pulse
+      evidence: >-
+        No longer named in llms.txt, the docs index, or the v1 contract. This repo still carries
+        Pulse-era artifacts from an earlier round.
+      announced_retirement: null
+  retirement_note: >-
+    Three products this repo profiled in 2024-2026 have left the advertised product line with no
+    dated deprecation notice found on the provider's own surface. Recorded as an observation, not
+    as a claimed sunset — absence from a docs index is evidence of de-emphasis, not of shutdown.
+status_page:
+  url: https://www.prisma-status.com
+  http_status: 200
+  checked: '2026-09-17'
+changelog:
+  url: https://www.prisma.io/changelog
+  machine_readable: https://www.prisma.io/changelog.md
+  cross_reference: changelog/prisma-changelog.yml
+sla:
+  published: false
+  note: >-
+    No numeric uptime SLA is published on the pricing page or the terms. Enterprise terms are
+    negotiated (https://www.prisma.io/enterprise).
+support:
+  url: https://www.prisma.io/support
+  community: https://pris.ly/discord
+terms_of_service: https://www.prisma.io/terms

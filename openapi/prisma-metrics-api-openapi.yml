@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Prisma Optimize Metrics API
-  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development. Optimize captures query execution data from Prisma Client via the @prisma/extension-optimize extension, analyzes query patterns, and provides AI-powered recommendations to reduce database load and improve application responsiveness. The service records queries during development sessions and provides performance insights through the Prisma Data Platform Console. Supports PostgreSQL, MySQL/MariaDB, CockroachDB, and MS SQL Server.
+  description: API for Prisma Optimize, a query performance analysis tool for debugging and improving database queries during development.
   version: 1.0.0
   contact:
     name: Prisma Support
@@ -44,69 +44,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
-    SessionMetrics:
-      type: object
-      description: Aggregated performance metrics for a recording session
-      properties:
-        sessionId:
-          type: string
-          description: Identifier of the session
-        totalQueries:
-          type: integer
-          description: Total number of queries in the session
-        totalDuration:
-          type: number
-          format: float
-          description: Total execution time of all queries in milliseconds
-        averageDuration:
-          type: number
-          format: float
-          description: Average query execution time in milliseconds
-        maxDuration:
-          type: number
-          format: float
-          description: Maximum single query execution time in milliseconds
-        minDuration:
-          type: number
-          format: float
-          description: Minimum single query execution time in milliseconds
-        queryTypeDistribution:
-          type: object
-          description: Count of queries by operation type
-          additionalProperties:
-            type: integer
-        modelDistribution:
-          type: object
-          description: Count of queries by model name
-          additionalProperties:
-            type: integer
-        slowestQueries:
-          type: array
-          description: Top 10 slowest queries by execution duration
-          items:
-            $ref: '#/components/schemas/RecordedQuery'
-          maxItems: 10
-      required:
-      - sessionId
-      - totalQueries
-      - totalDuration
-      - averageDuration
     RecordedQuery:
       type: object
       description: A query captured during a recording session
@@ -163,7 +100,84 @@ components:
       - operation
       - duration
       - timestamp
+    SessionMetrics:
+      type: object
+      description: Aggregated performance metrics for a recording session
+      properties:
+        sessionId:
+          type: string
+          description: Identifier of the session
+        totalQueries:
+          type: integer
+          description: Total number of queries in the session
+        totalDuration:
+          type: number
+          format: float
+          description: Total execution time of all queries in milliseconds
+        averageDuration:
+          type: number
+          format: float
+          description: Average query execution time in milliseconds
+        maxDuration:
+          type: number
+          format: float
+          description: Maximum single query execution time in milliseconds
+        minDuration:
+          type: number
+          format: float
+          description: Minimum single query execution time in milliseconds
+        queryTypeDistribution:
+          type: object
+          description: Count of queries by operation type
+          additionalProperties:
+            type: integer
+        modelDistribution:
+          type: object
+          description: Count of queries by model name
+          additionalProperties:
+            type: integer
+        slowestQueries:
+          type: array
+          description: Top 10 slowest queries by execution duration
+          items:
+            $ref: '#/components/schemas/RecordedQuery'
+          maxItems: 10
+      required:
+      - sessionId
+      - totalQueries
+      - totalDuration
+      - averageDuration
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   responses:
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found
       content:
@@ -176,20 +190,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

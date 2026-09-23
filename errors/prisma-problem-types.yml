@@ -1,0 +1,74 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/prisma-postgres-management-api-openapi.json
+api: Prisma Postgres Management API
+format: custom-json
+rfc9457: false
+envelope:
+  media_type: application/json
+  schema:
+    error:
+      code: string (required)
+      message: string (required)
+      hint: string (optional)
+  observed_live:
+    url: https://api.prisma.io/v1/openapi.json
+    http_status: 404
+    body: '{"error":{"code":"resource-not-found","message":"Resource Not Found","hint":"Use GET /v1/{resource} to list available IDs."}}'
+    fetched: '2026-09-17'
+note: >-
+  The contract models error STATUS CODES exhaustively but does not enumerate the `code` string
+  values. The one code observed on a live anonymous request is `resource-not-found`. Titles and
+  meanings below are the descriptions the contract itself gives each status, not invented text.
+problem_types:
+  - status: 400
+    declared_on_operations: 8
+    title: Bad request
+    remediation: Correct the request body or query parameters and retry.
+  - status: 401
+    declared_on_operations: 114
+    title: Missing or invalid authorization token.
+    remediation: >-
+      Supply a valid service token or OAuth access token in the Authorization header. Access
+      tokens expire after 1 hour; refresh with the offline_access refresh token.
+  - status: 403
+    declared_on_operations: 40
+    title: Forbidden — the token lacks access to this resource.
+    remediation: >-
+      The resource must belong to the caller's workspace. Check the token's workspace and the
+      workspace:admin scope.
+  - status: 404
+    declared_on_operations: 95
+    title: Resource not found.
+    remediation: 'Follow the envelope hint: GET /v1/{resource} to list available IDs.'
+  - status: 409
+    declared_on_operations: 32
+    title: Conflict.
+    remediation: >-
+      The resource already exists or is in a state that forbids the operation (for example a
+      held Alchemy deploy lease). Re-read the resource before retrying.
+  - status: 413
+    declared_on_operations: 20
+    title: Payload too large.
+    remediation: Reduce the request body size.
+  - status: 422
+    declared_on_operations: 31
+    title: Unprocessable entity — validation failed.
+    remediation: The request parsed but failed semantic validation; read message and hint.
+  - status: 429
+    declared_on_operations: 38
+    title: Rate limit exceeded. (On Compute operations, "Rate limit or Compute resource limit exceeded.")
+    remediation: Back off for the number of seconds in the Retry-After response header and retry.
+    response_headers: [Retry-After]
+  - status: 500
+    declared_on_operations: 5
+    title: Internal server error.
+    remediation: Retry with backoff; the operation may or may not have taken effect.
+  - status: 503
+    declared_on_operations: 1
+    title: Service unavailable.
+    remediation: Retry with backoff.
+coverage:
+  operations_total: 115
+  operations_with_at_least_one_4xx: 115
+  distinct_error_statuses: 10

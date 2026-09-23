@@ -96,97 +96,22 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    DatabaseApiKey:
-      type: object
-      description: An API key for accessing the database
-      properties:
-        apiKey:
-          type: string
-          description: The API key value
-        connectionString:
-          type: string
-          description: Full connection string incorporating this API key
-      required:
-      - apiKey
-      - connectionString
-    DirectConnection:
-      type: object
-      description: Direct TCP connection details for the database
-      properties:
-        host:
-          type: string
-          description: Database host address
-        port:
-          type: integer
-          description: Database port number
-          default: 5432
-        username:
-          type: string
-          description: Database username
-        password:
-          type: string
-          description: Database password
-        database:
-          type: string
-          description: Database name
-      required:
-      - host
-      - port
-      - username
-      - password
-      - database
     DatabaseCreate:
       type: object
       description: Request body for creating a new database
@@ -258,21 +183,96 @@ components:
       - status
       - createdAt
       - updatedAt
-  parameters:
-    ProjectId:
-      name: projectId
-      in: path
-      required: true
-      description: Unique identifier of the project
-      schema:
-        type: string
-    DatabaseId:
-      name: databaseId
-      in: path
-      required: true
-      description: Unique identifier of the database
-      schema:
-        type: string
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
