@@ -82,25 +82,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
   schemas:
     AccelerateError:
       type: object
@@ -122,6 +103,18 @@ components:
       required:
       - code
       - message
+    CacheInvalidationResponse:
+      type: object
+      description: Confirmation of cache invalidation
+      properties:
+        success:
+          type: boolean
+          description: Whether the invalidation was successful
+        invalidatedTags:
+          type: array
+          description: Tags that were successfully invalidated
+          items:
+            type: string
     CacheInvalidationRequest:
       type: object
       description: Request to invalidate cache entries by their associated tags
@@ -136,18 +129,25 @@ components:
           maxItems: 5
       required:
       - tags
-    CacheInvalidationResponse:
-      type: object
-      description: Confirmation of cache invalidation
-      properties:
-        success:
-          type: boolean
-          description: Whether the invalidation was successful
-        invalidatedTags:
-          type: array
-          description: Tags that were successfully invalidated
-          items:
-            type: string
+  responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -1,0 +1,331 @@
+openapi: 3.2.0
+info:
+  title: Prisma Postgres Management Service Tokens API
+  description: REST API for managing Prisma Postgres projects, databases, backups, and workspaces.
+  version: v1
+servers:
+- url: https://api.prisma.io
+security:
+- OAuth2:
+  - workspace:admin
+  - offline_access
+- Bearer: []
+tags:
+- name: Service Tokens
+paths:
+  /v1/workspaces/{workspaceId}/service-tokens:
+    get:
+      responses:
+        '200':
+          description: Returns the list of service tokens. Empty when the workspace does not exist or the caller is not a member of it.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^(itgr_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        type:
+                          type: string
+                          const: serviceToken
+                        name:
+                          type: string
+                        valueHint:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        expiresAt:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                      required:
+                      - id
+                      - type
+                      - name
+                      - valueHint
+                      - createdAt
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1WorkspacesByWorkspaceIdService-tokens
+      tags:
+      - Service Tokens
+      parameters:
+      - in: path
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 100
+          description: Page size, 1-100
+      summary: List service tokens
+      description: Returns the service tokens for the given workspace, newest first.
+    post:
+      responses:
+        '201':
+          description: Created a new service token. The token value is returned once in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(itgr_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: serviceToken
+                      name:
+                        type: string
+                      valueHint:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      expiresAt:
+                        type:
+                        - string
+                        - 'null'
+                        format: date-time
+                      value:
+                        type: string
+                    required:
+                    - id
+                    - type
+                    - name
+                    - valueHint
+                    - createdAt
+                    - value
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Workspace with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1WorkspacesByWorkspaceIdService-tokens
+      tags:
+      - Service Tokens
+      parameters:
+      - in: path
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Create service token
+      description: Creates a new service token for the given workspace. The `value` field is returned exactly once in this response and is never stored — copy it immediately.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+                  description: Display name for the service token.
+              required:
+              - name
+  /v1/workspaces/{workspaceId}/service-tokens/{serviceTokenId}:
+    delete:
+      responses:
+        '204':
+          description: Deleted the service token successfully.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Workspace not found, or the service token does not exist in it.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1WorkspacesByWorkspaceIdService-tokensByServiceTokenId
+      tags:
+      - Service Tokens
+      parameters:
+      - in: path
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: path
+        name: serviceTokenId
+        schema:
+          type: string
+          pattern: ^(itgr_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete service token
+      description: Revokes the service token with the given ID by deleting it.
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication

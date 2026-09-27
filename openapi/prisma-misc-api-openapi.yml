@@ -1,0 +1,248 @@
+openapi: 3.2.0
+info:
+  title: Prisma Postgres Management Misc API
+  description: REST API for managing Prisma Postgres projects, databases, backups, and workspaces.
+  version: v1
+servers:
+- url: https://api.prisma.io
+security:
+- OAuth2:
+  - workspace:admin
+  - offline_access
+- Bearer: []
+tags:
+- name: Misc
+paths:
+  /v1/me:
+    get:
+      responses:
+        '200':
+          description: Current authenticated principal retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                            pattern: ^(usr_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                          email:
+                            type: string
+                            format: email
+                          name:
+                            type:
+                            - string
+                            - 'null'
+                        required:
+                        - id
+                        - email
+                        - name
+                      workspace:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                            pattern: ^(wksp_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      credential:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                            - oauth
+                            - service_token
+                            - management_token
+                          id:
+                            type:
+                            - string
+                            - 'null'
+                          name:
+                            type:
+                            - string
+                            - 'null'
+                        required:
+                        - type
+                        - id
+                        - name
+                    required:
+                    - user
+                    - workspace
+                    - credential
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Me
+      tags:
+      - Misc
+      parameters: []
+      summary: Get current authenticated principal
+      description: Returns the user, workspace, and credential represented by the current token.
+  /v1/regions/postgres:
+    get:
+      responses:
+        '200':
+          description: Returns all available regions for Prisma Postgres.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: region
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - available
+                          - unavailable
+                      required:
+                      - id
+                      - type
+                      - name
+                      - status
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1RegionsPostgres
+      tags:
+      - Misc
+      parameters: []
+      summary: Get Prisma Postgres regions
+      description: Returns all available regions for Prisma Postgres.
+  /v1/regions/accelerate:
+    get:
+      responses:
+        '200':
+          description: Returns all available regions for Prisma Accelerate.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: region
+                        name:
+                          type: string
+                      required:
+                      - id
+                      - type
+                      - name
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1RegionsAccelerate
+      tags:
+      - Misc
+      parameters: []
+      summary: Get Prisma Accelerate regions
+      description: Returns all available regions for Prisma Accelerate.
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication

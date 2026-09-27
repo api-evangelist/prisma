@@ -1,23 +1,14 @@
 openapi: 3.2.0
 info:
   title: Prisma Projects API
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
-  description: 'Operations tagged Projects across 2 of this provider''s published API definitions: prisma-data-platform-openapi.yml, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
+  version: '1.0'
+  description: 'Operations tagged Projects across 3 of this provider''s published API definitions: prisma-data-platform-openapi.yml, prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.cloud.prisma.io
   description: Prisma Data Platform production server
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Projects
   description: Operations for managing projects within workspaces
@@ -51,6 +42,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     post:
       operationId: createProject
       summary: Prisma Create a project
@@ -82,6 +75,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     servers:
     - url: https://api.cloud.prisma.io
       description: Prisma Data Platform production server
@@ -109,6 +104,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     delete:
       operationId: deleteProject
       summary: Prisma Delete a project
@@ -128,56 +125,1057 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     servers:
     - url: https://api.cloud.prisma.io
       description: Prisma Data Platform production server
+  /v1/projects:
+    get:
+      responses:
+        '200':
+          description: Returns the list of projects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: project
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        logicalId:
+                          type:
+                          - string
+                          - 'null'
+                        createdAt:
+                          type: string
+                          format: date-time
+                        defaultRegion:
+                          type:
+                          - string
+                          - 'null'
+                        workspace:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - url
+                          - name
+                      required:
+                      - id
+                      - type
+                      - url
+                      - name
+                      - logicalId
+                      - createdAt
+                      - defaultRegion
+                      - workspace
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Projects
+      tags:
+      - Projects
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+      - in: query
+        name: logicalId
+        schema:
+          type: string
+      summary: Get list of projects
+      description: Returns the list of projects the token has access to.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    post:
+      responses:
+        '201':
+          description: New project created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: project
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      logicalId:
+                        type:
+                        - string
+                        - 'null'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      defaultRegion:
+                        type:
+                        - string
+                        - 'null'
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      database:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                          type:
+                            type: string
+                            const: database
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                          status:
+                            type: string
+                            enum:
+                            - provisioning
+                            - ready
+                          createdAt:
+                            type: string
+                            format: date-time
+                          isDefault:
+                            type: boolean
+                          defaultConnectionId:
+                            type:
+                            - string
+                            - 'null'
+                            pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                          connections:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                                type:
+                                  type: string
+                                  const: connection
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                                createdAt:
+                                  type: string
+                                  format: date-time
+                                kind:
+                                  type: string
+                                  enum:
+                                  - postgres
+                                  - accelerate
+                                endpoints:
+                                  type: object
+                                  properties:
+                                    direct:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                        connectionString:
+                                          type: string
+                                      required:
+                                      - host
+                                      - port
+                                    pooled:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                        connectionString:
+                                          type: string
+                                      required:
+                                      - host
+                                      - port
+                                    accelerate:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                        connectionString:
+                                          type: string
+                                      required:
+                                      - host
+                                      - port
+                                directConnection:
+                                  type:
+                                  - object
+                                  - 'null'
+                                  properties:
+                                    host:
+                                      type: string
+                                    pass:
+                                      type: string
+                                    user:
+                                      type: string
+                                  required:
+                                  - host
+                                  - pass
+                                  - user
+                                  deprecated: true
+                                  description: 'Deprecated: use `endpoints.direct` instead.'
+                                database:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: string
+                                    url:
+                                      type: string
+                                      format: uri
+                                    name:
+                                      type: string
+                                  required:
+                                  - id
+                                  - url
+                                  - name
+                              required:
+                              - id
+                              - type
+                              - url
+                              - name
+                              - createdAt
+                              - kind
+                              - endpoints
+                              - database
+                          region:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                              name:
+                                type: string
+                            required:
+                            - id
+                            - name
+                          source:
+                            oneOf:
+                            - type: object
+                              properties:
+                                type:
+                                  type: string
+                                  const: empty
+                              required:
+                              - type
+                            - type: object
+                              properties:
+                                type:
+                                  type: string
+                                  const: backup
+                                databaseId:
+                                  type: string
+                                backupId:
+                                  type: string
+                                  description: ID of the backup to restore from
+                              required:
+                              - type
+                              - databaseId
+                              - backupId
+                            - type: object
+                              properties:
+                                type:
+                                  type: string
+                                  const: database
+                                databaseId:
+                                  type: string
+                              required:
+                              - type
+                              - databaseId
+                            - type: 'null'
+                          branchId:
+                            type:
+                            - string
+                            - 'null'
+                          apiKeys:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                  pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                                type:
+                                  type: string
+                                  const: connection
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                                createdAt:
+                                  type: string
+                                  format: date-time
+                                kind:
+                                  type: string
+                                  enum:
+                                  - postgres
+                                  - accelerate
+                                endpoints:
+                                  type: object
+                                  properties:
+                                    direct:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                      required:
+                                      - host
+                                      - port
+                                    pooled:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                      required:
+                                      - host
+                                      - port
+                                    accelerate:
+                                      type: object
+                                      properties:
+                                        host:
+                                          type: string
+                                        port:
+                                          type: number
+                                      required:
+                                      - host
+                                      - port
+                                connectionString:
+                                  type: string
+                                  deprecated: true
+                                  description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                                directConnection:
+                                  type:
+                                  - object
+                                  - 'null'
+                                  properties:
+                                    host:
+                                      type: string
+                                    pass:
+                                      type: string
+                                    user:
+                                      type: string
+                                  required:
+                                  - host
+                                  - pass
+                                  - user
+                                  deprecated: true
+                                  description: 'Deprecated: use `endpoints.direct` instead.'
+                              required:
+                              - id
+                              - type
+                              - url
+                              - name
+                              - createdAt
+                              - kind
+                              - endpoints
+                              - connectionString
+                            deprecated: true
+                            description: 'Deprecated: use `connections[]` instead.'
+                          connectionString:
+                            type:
+                            - string
+                            - 'null'
+                            deprecated: true
+                            description: 'Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`.'
+                          directConnection:
+                            type:
+                            - object
+                            - 'null'
+                            properties:
+                              host:
+                                type: string
+                              pass:
+                                type: string
+                              user:
+                                type: string
+                            required:
+                            - host
+                            - pass
+                            - user
+                            deprecated: true
+                            description: 'Deprecated: use `connections[].endpoints.direct` instead.'
+                        required:
+                        - id
+                        - type
+                        - url
+                        - name
+                        - status
+                        - createdAt
+                        - isDefault
+                        - defaultConnectionId
+                        - connections
+                        - region
+                        - source
+                        - branchId
+                        - apiKeys
+                        - connectionString
+                        - directConnection
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - logicalId
+                    - createdAt
+                    - defaultRegion
+                    - workspace
+                    - database
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1Projects
+      tags:
+      - Projects
+      parameters: []
+      summary: Create project with a postgres database
+      description: Creates a new project with a postgres database.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                createDatabase:
+                  type: boolean
+                  default: true
+                name:
+                  type: string
+                  minLength: 1
+                region:
+                  type: string
+                  enum:
+                  - us-east-1
+                  - us-west-1
+                  - eu-west-3
+                  - eu-central-1
+                  - ap-northeast-1
+                  - ap-southeast-1
+                logicalId:
+                  type: string
+                  pattern: ^[a-z0-9][-_a-z0-9]*$
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/projects/{id}:
+    delete:
+      responses:
+        '204':
+          description: Project deleted.
+        '400':
+          description: Project cannot be deleted due to existing dependencies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project with the specified ID was not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1ProjectsById
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete project
+      description: Deletes the project with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    get:
+      responses:
+        '200':
+          description: Project retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: project
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      logicalId:
+                        type:
+                        - string
+                        - 'null'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      defaultRegion:
+                        type:
+                        - string
+                        - 'null'
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - logicalId
+                    - createdAt
+                    - defaultRegion
+                    - workspace
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project with the specified ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1ProjectsById
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get project
+      description: Returns the project with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    patch:
+      responses:
+        '200':
+          description: Project updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: project
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      logicalId:
+                        type:
+                        - string
+                        - 'null'
+                      createdAt:
+                        type: string
+                        format: date-time
+                      defaultRegion:
+                        type:
+                        - string
+                        - 'null'
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - logicalId
+                    - createdAt
+                    - defaultRegion
+                    - workspace
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the project.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project with the specified ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          description: Validation failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: patchV1ProjectsById
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Update project
+      description: Updates the project with the given ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 256
+                settings:
+                  type: object
+                  additionalProperties: {}
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/projects/{id}/transfer:
+    post:
+      responses:
+        '204':
+          description: Project transferred
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '409':
+          description: The project cannot be transferred in its current state.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '413':
+          description: Request body exceeds this endpoint's size cap.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1ProjectsByIdTransfer
+      tags:
+      - Projects
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Transfer project
+      description: Transfer the project with the given ID to the new owner's workspace
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipientAccessToken:
+                  type: string
+              required:
+              - recipientAccessToken
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
 components:
-  parameters:
-    ProjectId:
-      name: projectId
-      in: path
-      required: true
-      description: Unique identifier of the project
-      schema:
-        type: string
-    WorkspaceId:
-      name: workspaceId
-      in: path
-      required: true
-      description: Unique identifier of the workspace
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     ProjectCreate:
       type: object
@@ -190,6 +1188,26 @@ components:
           - My New Application
       required:
       - name
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
     Project:
       type: object
       description: A project represents an application or service within a workspace that contains environments and database connections.
@@ -221,36 +1239,6 @@ components:
       - workspaceId
       - createdAt
       - updatedAt
-    Error:
-      type: object
-      description: Standard error response from the API
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    ProjectWithDatabase:
-      allOf:
-      - $ref: '#/components/schemas/Project_2'
-      - type: object
-        properties:
-          databases:
-            type: array
-            description: Databases associated with the project
-            items:
-              $ref: '#/components/schemas/Database'
     Database:
       type: object
       description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
@@ -303,6 +1291,32 @@ components:
       - status
       - createdAt
       - updatedAt
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
     ProjectCreate_2:
       type: object
       description: Request body for creating a new project with a database
@@ -327,6 +1341,49 @@ components:
       required:
       - name
       - region
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
+    ProjectWithDatabase:
+      allOf:
+      - $ref: '#/components/schemas/Project_2'
+      - type: object
+        properties:
+          databases:
+            type: array
+            description: Databases associated with the project
+            items:
+              $ref: '#/components/schemas/Database'
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
     Project_2:
       type: object
       description: A project represents an application or service that contains one or more Prisma Postgres databases.
@@ -354,71 +1411,75 @@ components:
       - workspaceId
       - createdAt
       - updatedAt
-    DirectConnection:
-      type: object
-      description: Direct TCP connection details for the database
-      properties:
-        host:
-          type: string
-          description: Database host address
-        port:
-          type: integer
-          description: Database port number
-          default: 5432
-        username:
-          type: string
-          description: Database username
-        password:
-          type: string
-          description: Database password
-        database:
-          type: string
-          description: Database name
-      required:
-      - host
-      - port
-      - username
-      - password
-      - database
-    Error_2:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    DatabaseApiKey:
-      type: object
-      description: An API key for accessing the database
-      properties:
-        apiKey:
-          type: string
-          description: The API key value
-        connectionString:
-          type: string
-          description: Full connection string incorporating this API key
-      required:
-      - apiKey
-      - connectionString
+  responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    WorkspaceId:
+      name: workspaceId
+      in: path
+      required: true
+      description: Unique identifier of the workspace
+      schema:
+        type: string
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
       description: Authentication via service token or OAuth 2.0 access token. Service tokens are created in the Prisma Console under workspace settings.
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
 x-refined-from:
 - prisma-data-platform-openapi.yml
+- prisma-postgres-management-api-openapi.json
 - prisma-postgres-management-openapi.yml

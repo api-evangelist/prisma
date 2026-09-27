@@ -1,25 +1,835 @@
 openapi: 3.2.0
 info:
-  title: Prisma Postgres Management Connections API
-  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
+  title: Prisma Connections API
+  version: '1.0'
+  description: 'Operations tagged Connections across 2 of this provider''s published API definitions: prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Connections
-  description: Operations for managing database connection strings
 paths:
+  /v1/connections:
+    get:
+      responses:
+        '200':
+          description: Returned list of connections.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        type:
+                          type: string
+                          const: connection
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        kind:
+                          type: string
+                          enum:
+                          - postgres
+                          - accelerate
+                        endpoints:
+                          type: object
+                          properties:
+                            direct:
+                              type: object
+                              properties:
+                                host:
+                                  type: string
+                                port:
+                                  type: number
+                              required:
+                              - host
+                              - port
+                            pooled:
+                              type: object
+                              properties:
+                                host:
+                                  type: string
+                                port:
+                                  type: number
+                              required:
+                              - host
+                              - port
+                            accelerate:
+                              type: object
+                              properties:
+                                host:
+                                  type: string
+                                port:
+                                  type: number
+                              required:
+                              - host
+                              - port
+                        directConnection:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            host:
+                              type: string
+                            pass:
+                              type: string
+                            user:
+                              type: string
+                          required:
+                          - host
+                          - pass
+                          - user
+                          deprecated: true
+                          description: 'Deprecated: use `endpoints.direct` instead.'
+                        database:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - url
+                          - name
+                      required:
+                      - id
+                      - type
+                      - url
+                      - name
+                      - createdAt
+                      - kind
+                      - endpoints
+                      - database
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Connections
+      tags:
+      - Connections
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+      - in: query
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+      summary: List connections
+      description: Returns all connections the actor has access to, with optional database filter.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    post:
+      responses:
+        '201':
+          description: Created a new connection.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: connection
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      kind:
+                        type: string
+                        enum:
+                        - postgres
+                        - accelerate
+                      endpoints:
+                        type: object
+                        properties:
+                          direct:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                          pooled:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                          accelerate:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                      connectionString:
+                        type: string
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                      directConnection:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          host:
+                            type: string
+                          pass:
+                            type: string
+                          user:
+                            type: string
+                        required:
+                        - host
+                        - pass
+                        - user
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct` instead.'
+                      database:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      host:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct` instead.'
+                      pass:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                      user:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - createdAt
+                    - kind
+                    - endpoints
+                    - connectionString
+                    - database
+                    - host
+                    - pass
+                    - user
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1Connections
+      tags:
+      - Connections
+      parameters: []
+      summary: Create connection
+      description: Creates a new connection for the specified database.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                databaseId:
+                  type: string
+                  pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                name:
+                  type: string
+                  minLength: 3
+                  maxLength: 65
+              required:
+              - databaseId
+              - name
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/connections/{id}:
+    get:
+      responses:
+        '200':
+          description: Returned the connection.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: connection
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      kind:
+                        type: string
+                        enum:
+                        - postgres
+                        - accelerate
+                      endpoints:
+                        type: object
+                        properties:
+                          direct:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                            required:
+                            - host
+                            - port
+                          pooled:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                            required:
+                            - host
+                            - port
+                          accelerate:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                            required:
+                            - host
+                            - port
+                      directConnection:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          host:
+                            type: string
+                          pass:
+                            type: string
+                          user:
+                            type: string
+                        required:
+                        - host
+                        - pass
+                        - user
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct` instead.'
+                      database:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - createdAt
+                    - kind
+                    - endpoints
+                    - database
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Connection with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1ConnectionsById
+      tags:
+      - Connections
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(con_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get connection
+      description: Returns the connection with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    delete:
+      responses:
+        '204':
+          description: Deleted the connection.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Connection with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1ConnectionsById
+      tags:
+      - Connections
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(con_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete connection
+      description: Deletes the connection with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/connections/{id}/rotate:
+    post:
+      responses:
+        '200':
+          description: Rotated connection credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: connection
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      kind:
+                        type: string
+                        enum:
+                        - postgres
+                        - accelerate
+                      endpoints:
+                        type: object
+                        properties:
+                          direct:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                          pooled:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                          accelerate:
+                            type: object
+                            properties:
+                              host:
+                                type: string
+                              port:
+                                type: number
+                              connectionString:
+                                type: string
+                            required:
+                            - host
+                            - port
+                            - connectionString
+                      connectionString:
+                        type: string
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                      directConnection:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          host:
+                            type: string
+                          pass:
+                            type: string
+                          user:
+                            type: string
+                        required:
+                        - host
+                        - pass
+                        - user
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct` instead.'
+                      database:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      host:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct` instead.'
+                      pass:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                      user:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - createdAt
+                    - kind
+                    - endpoints
+                    - connectionString
+                    - database
+                    - host
+                    - pass
+                    - user
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Connection with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1ConnectionsByIdRotate
+      tags:
+      - Connections
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(con_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Rotate connection credentials
+      description: Generates new credentials for the connection with the given ID. Revocation of the previous credentials is best-effort.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
   /databases/{databaseId}/connections:
     get:
       operationId: listConnections
@@ -49,6 +859,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     post:
       operationId: createConnection
       summary: Prisma Create a database connection string
@@ -80,6 +892,11 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
   /connections/{connectionId}:
     delete:
       operationId: deleteConnection
@@ -105,8 +922,31 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
 components:
   responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -119,40 +959,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ConnectionCreate:
-      type: object
-      description: Request body for creating a new connection string
-      properties:
-        name:
-          type: string
-          description: Display name for the connection
-        type:
-          type: string
-          description: Type of connection to create
-          enum:
-          - prisma
-          - direct
-      required:
-      - type
     Connection:
       type: object
       description: A database connection string configuration
@@ -181,6 +988,21 @@ components:
       - databaseId
       - type
       - createdAt
+    ConnectionCreate:
+      type: object
+      description: Request body for creating a new connection string
+      properties:
+        name:
+          type: string
+          description: Display name for the connection
+        type:
+          type: string
+          description: Type of connection to create
+          enum:
+          - prisma
+          - direct
+      required:
+      - type
     Error:
       type: object
       description: Standard error response
@@ -220,6 +1042,22 @@ components:
       schema:
         type: string
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
     bearerAuth:
       type: http
       scheme: bearer
@@ -228,3 +1066,6 @@ components:
 externalDocs:
   description: Prisma Postgres Management API Documentation
   url: https://www.prisma.io/docs/postgres/introduction/management-api
+x-refined-from:
+- prisma-postgres-management-api-openapi.json
+- prisma-postgres-management-openapi.yml

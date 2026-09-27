@@ -1,0 +1,106 @@
+openapi: 3.2.0
+info:
+  title: Prisma Postgres Management Regions API
+  description: REST API for managing Prisma Postgres projects, databases, backups, and workspaces.
+  version: v1
+servers:
+- url: https://api.prisma.io
+security:
+- OAuth2:
+  - workspace:admin
+  - offline_access
+- Bearer: []
+tags:
+- name: Regions
+paths:
+  /v1/regions:
+    get:
+      responses:
+        '200':
+          description: Returns all available regions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: region
+                        name:
+                          type: string
+                        product:
+                          type: string
+                          enum:
+                          - postgres
+                          - accelerate
+                        status:
+                          type: string
+                          enum:
+                          - available
+                          - unavailable
+                      required:
+                      - id
+                      - type
+                      - name
+                      - product
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Regions
+      tags:
+      - Regions
+      parameters:
+      - in: query
+        name: product
+        schema:
+          type: string
+          enum:
+          - postgres
+          - accelerate
+      summary: Get all regions
+      description: Returns all available regions across products. Optionally filter by product.
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication

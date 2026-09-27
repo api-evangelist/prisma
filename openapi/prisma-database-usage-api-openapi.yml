@@ -1,25 +1,214 @@
 openapi: 3.2.0
 info:
-  title: Prisma Postgres Management Database Usage API
-  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
+  title: Prisma Database Usage API
+  version: '1.0'
+  description: 'Operations tagged Database Usage across 2 of this provider''s published API definitions: prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Database Usage
-  description: Operations for retrieving database usage metrics and statistics
 paths:
+  /v1/databases/{databaseId}/usage:
+    get:
+      responses:
+        '200':
+          description: Returned usage metrics for the given database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  period:
+                    type: object
+                    properties:
+                      start:
+                        type: string
+                        format: date-time
+                      end:
+                        type: string
+                        format: date-time
+                    required:
+                    - start
+                    - end
+                  metrics:
+                    type: object
+                    properties:
+                      operations:
+                        type: object
+                        properties:
+                          used:
+                            type: number
+                          unit:
+                            type: string
+                            const: ops
+                        required:
+                        - used
+                        - unit
+                      storage:
+                        type: object
+                        properties:
+                          used:
+                            type: number
+                          unit:
+                            type: string
+                            const: GiB
+                        required:
+                        - used
+                        - unit
+                    required:
+                    - operations
+                    - storage
+                  generatedAt:
+                    type: string
+                    format: date-time
+                required:
+                - period
+                - metrics
+                - generatedAt
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '500':
+          description: Error occurred while fetching metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '503':
+          description: Usage metrics are temporarily unavailable
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying the request
+              schema:
+                type: integer
+                minimum: 1
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1DatabasesByDatabaseIdUsage
+      tags:
+      - Database Usage
+      parameters:
+      - in: path
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date-time
+          description: Start date for metrics query. Defaults to start of current month if not provided.
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date-time
+          description: End date for metrics query. Will be set to end of day if a future date is provided. Defaults to current date if not provided.
+      summary: Get database usage metrics
+      description: Returns usage metrics for the specified database.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
   /databases/{databaseId}/usage:
     get:
       operationId: getDatabaseUsage
@@ -56,6 +245,11 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
 components:
   schemas:
     DatabaseUsage:
@@ -139,14 +333,8 @@ components:
           - code
           - message
   responses:
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -157,8 +345,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
@@ -172,6 +366,22 @@ components:
       schema:
         type: string
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
     bearerAuth:
       type: http
       scheme: bearer
@@ -180,3 +390,6 @@ components:
 externalDocs:
   description: Prisma Postgres Management API Documentation
   url: https://www.prisma.io/docs/postgres/introduction/management-api
+x-refined-from:
+- prisma-postgres-management-api-openapi.json
+- prisma-postgres-management-openapi.yml

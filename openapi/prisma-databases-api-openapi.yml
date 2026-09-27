@@ -1,25 +1,2558 @@
 openapi: 3.2.0
 info:
-  title: Prisma Postgres Management Databases API
-  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
+  title: Prisma Databases API
+  version: '1.0'
+  description: 'Operations tagged Databases across 2 of this provider''s published API definitions: prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Databases
-  description: Operations for provisioning and managing Prisma Postgres databases
 paths:
+  /v1/databases:
+    get:
+      responses:
+        '200':
+          description: Returns the list of databases.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: database
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - failure
+                          - provisioning
+                          - ready
+                          - recovering
+                        createdAt:
+                          type: string
+                          format: date-time
+                        isDefault:
+                          type: boolean
+                        defaultConnectionId:
+                          type:
+                          - string
+                          - 'null'
+                          pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        connections:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                              type:
+                                type: string
+                                const: connection
+                              url:
+                                type: string
+                                format: uri
+                              name:
+                                type: string
+                              createdAt:
+                                type: string
+                                format: date-time
+                              kind:
+                                type: string
+                                enum:
+                                - postgres
+                                - accelerate
+                              endpoints:
+                                type: object
+                                properties:
+                                  direct:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                                  pooled:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                                  accelerate:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                              directConnection:
+                                type:
+                                - object
+                                - 'null'
+                                properties:
+                                  host:
+                                    type: string
+                                  pass:
+                                    type: string
+                                  user:
+                                    type: string
+                                required:
+                                - host
+                                - pass
+                                - user
+                                deprecated: true
+                                description: 'Deprecated: use `endpoints.direct` instead.'
+                              database:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  url:
+                                    type: string
+                                    format: uri
+                                  name:
+                                    type: string
+                                required:
+                                - id
+                                - url
+                                - name
+                            required:
+                            - id
+                            - type
+                            - url
+                            - name
+                            - createdAt
+                            - kind
+                            - endpoints
+                            - database
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - url
+                          - name
+                        region:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - name
+                        source:
+                          oneOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: empty
+                            required:
+                            - type
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: backup
+                              databaseId:
+                                type: string
+                              backupId:
+                                type: string
+                                description: ID of the backup to restore from
+                            required:
+                            - type
+                            - databaseId
+                            - backupId
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: database
+                              databaseId:
+                                type: string
+                            required:
+                            - type
+                            - databaseId
+                          - type: 'null'
+                        branchId:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - id
+                      - type
+                      - url
+                      - name
+                      - status
+                      - createdAt
+                      - isDefault
+                      - defaultConnectionId
+                      - connections
+                      - project
+                      - region
+                      - source
+                      - branchId
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the requested databases.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Databases
+      tags:
+      - Databases
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+      - in: query
+        name: projectId
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+          description: Filter databases by project ID
+      - in: query
+        name: branchId
+        schema:
+          anyOf:
+          - type: string
+            const: unassigned
+          - type: string
+            pattern: ^(br_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+      - in: query
+        name: branchGitName
+        schema:
+          type: string
+          minLength: 1
+      summary: List databases
+      description: Returns all databases the token has access to. Optionally filter by project ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    post:
+      responses:
+        '201':
+          description: Created a new database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: database
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                        - failure
+                        - provisioning
+                        - ready
+                        - recovering
+                      createdAt:
+                        type: string
+                        format: date-time
+                      isDefault:
+                        type: boolean
+                      defaultConnectionId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      connections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                            database:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                              required:
+                              - id
+                              - url
+                              - name
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - database
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      region:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      source:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: empty
+                          required:
+                          - type
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: backup
+                            databaseId:
+                              type: string
+                            backupId:
+                              type: string
+                              description: ID of the backup to restore from
+                          required:
+                          - type
+                          - databaseId
+                          - backupId
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: database
+                            databaseId:
+                              type: string
+                          required:
+                          - type
+                          - databaseId
+                        - type: 'null'
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - status
+                    - createdAt
+                    - isDefault
+                    - defaultConnectionId
+                    - connections
+                    - project
+                    - region
+                    - source
+                    - branchId
+                required:
+                - data
+        '400':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the specified project.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1Databases
+      tags:
+      - Databases
+      parameters: []
+      summary: Create database
+      description: Creates a new database in the specified project.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                  description: ID of the project to create the database in
+                region:
+                  type: string
+                  enum:
+                  - us-east-1
+                  - us-west-1
+                  - eu-west-3
+                  - eu-central-1
+                  - ap-northeast-1
+                  - ap-southeast-1
+                  - inherit
+                  default: us-east-1
+                  description: Use "inherit" to use the project's default region (falls back to the default database's region for projects without one).
+                name:
+                  type: string
+                  minLength: 1
+                  description: Display name for the database
+                isDefault:
+                  type: boolean
+                  default: false
+                  description: Whether this is the default database
+                source:
+                  oneOf:
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: empty
+                    required:
+                    - type
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: backup
+                      databaseId:
+                        type: string
+                        pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                        description: ID of the database the backup belongs to
+                      backupId:
+                        type: string
+                        description: ID of the backup to restore from
+                    required:
+                    - type
+                    - databaseId
+                    - backupId
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: database
+                      databaseId:
+                        type: string
+                        pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                        description: ID of the database to clone from
+                    required:
+                    - type
+                    - databaseId
+                  description: Source to create the database from. Omit to create an empty database.
+                branchId:
+                  type:
+                  - string
+                  - 'null'
+                  pattern: ^(br_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                  description: ID of the Branch to attach the database to. Omit to attach the database to the project's default Branch. Every database belongs to a Branch, so null is rejected.
+                branchGitName:
+                  type:
+                  - string
+                  - 'null'
+                  minLength: 1
+                  description: Git name of the Branch to attach the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Omit to attach to the project's default Branch. Every database belongs to a Branch, so null is rejected.
+              required:
+              - projectId
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/databases/{databaseId}:
+    get:
+      responses:
+        '200':
+          description: Returned the database with the given ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: database
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                        - failure
+                        - provisioning
+                        - ready
+                        - recovering
+                      createdAt:
+                        type: string
+                        format: date-time
+                      isDefault:
+                        type: boolean
+                      defaultConnectionId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      connections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                            database:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                              required:
+                              - id
+                              - url
+                              - name
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - database
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      region:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      source:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: empty
+                          required:
+                          - type
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: backup
+                            databaseId:
+                              type: string
+                            backupId:
+                              type: string
+                              description: ID of the backup to restore from
+                          required:
+                          - type
+                          - databaseId
+                          - backupId
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: database
+                            databaseId:
+                              type: string
+                          required:
+                          - type
+                          - databaseId
+                        - type: 'null'
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - status
+                    - createdAt
+                    - isDefault
+                    - defaultConnectionId
+                    - connections
+                    - project
+                    - region
+                    - source
+                    - branchId
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1DatabasesByDatabaseId
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get database
+      description: Returns the database with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    patch:
+      responses:
+        '200':
+          description: Updated the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: database
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                        - failure
+                        - provisioning
+                        - ready
+                        - recovering
+                      createdAt:
+                        type: string
+                        format: date-time
+                      isDefault:
+                        type: boolean
+                      defaultConnectionId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      connections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                            database:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                              required:
+                              - id
+                              - url
+                              - name
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - database
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      region:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      source:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: empty
+                          required:
+                          - type
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: backup
+                            databaseId:
+                              type: string
+                            backupId:
+                              type: string
+                              description: ID of the backup to restore from
+                          required:
+                          - type
+                          - databaseId
+                          - backupId
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: database
+                            databaseId:
+                              type: string
+                          required:
+                          - type
+                          - databaseId
+                        - type: 'null'
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - status
+                    - createdAt
+                    - isDefault
+                    - defaultConnectionId
+                    - connections
+                    - project
+                    - region
+                    - source
+                    - branchId
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: patchV1DatabasesByDatabaseId
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Update database
+      description: Updates the database with the given ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: New display name for the database
+                branchId:
+                  type:
+                  - string
+                  - 'null'
+                  pattern: ^(br_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                  description: ID of the Branch to move the database to. Every database belongs to a Branch, so null (detach) is rejected.
+                branchGitName:
+                  type:
+                  - string
+                  - 'null'
+                  minLength: 1
+                  description: Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    delete:
+      responses:
+        '204':
+          description: Deleted the database successfully.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Cannot delete the default environment.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1DatabasesByDatabaseId
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete database
+      description: Deletes the database with the given ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/databases/{targetDatabaseId}/restore:
+    post:
+      responses:
+        '200':
+          description: Database restore initiated. The database status will be "recovering" until the restore completes.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: database
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                        - failure
+                        - provisioning
+                        - ready
+                        - recovering
+                      createdAt:
+                        type: string
+                        format: date-time
+                      isDefault:
+                        type: boolean
+                      defaultConnectionId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      connections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                            database:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                              required:
+                              - id
+                              - url
+                              - name
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - database
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      region:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      source:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            const: backup
+                          databaseId:
+                            type: string
+                          backupId:
+                            type: string
+                        required:
+                        - type
+                        - databaseId
+                        - backupId
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - status
+                    - createdAt
+                    - isDefault
+                    - defaultConnectionId
+                    - connections
+                    - project
+                    - region
+                    - source
+                    - branchId
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Target database, source database, or backup not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '409':
+          description: Target database is currently provisioning or recovering and cannot be restored.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          description: Invalid source type or backup not usable.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1DatabasesByTargetDatabaseIdRestore
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: targetDatabaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Restore database (destructive)
+      description: '⚠️ **Destructive operation** — this immediately and irreversibly overwrites all data in the target database with the contents of the specified backup. Any data written since the backup was taken will be lost. Ensure you have a recent backup of the target database before proceeding.
+
+
+        Replaces the data in an existing database from a backup. Connections and credentials are preserved — only the data layer is replaced.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      const: backup
+                    databaseId:
+                      type: string
+                      pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                      description: ID of the database the backup belongs to
+                    backupId:
+                      type: string
+                      description: ID of the backup to restore from
+                  required:
+                  - type
+                  - databaseId
+                  - backupId
+              required:
+              - source
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/projects/{projectId}/databases:
+    get:
+      responses:
+        '200':
+          description: Returned the databases for the given project ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        type:
+                          type: string
+                          const: database
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                          - failure
+                          - provisioning
+                          - ready
+                          - recovering
+                        createdAt:
+                          type: string
+                          format: date-time
+                        isDefault:
+                          type: boolean
+                        defaultConnectionId:
+                          type:
+                          - string
+                          - 'null'
+                          pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        connections:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                              type:
+                                type: string
+                                const: connection
+                              url:
+                                type: string
+                                format: uri
+                              name:
+                                type: string
+                              createdAt:
+                                type: string
+                                format: date-time
+                              kind:
+                                type: string
+                                enum:
+                                - postgres
+                                - accelerate
+                              endpoints:
+                                type: object
+                                properties:
+                                  direct:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                                  pooled:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                                  accelerate:
+                                    type: object
+                                    properties:
+                                      host:
+                                        type: string
+                                      port:
+                                        type: number
+                                    required:
+                                    - host
+                                    - port
+                              directConnection:
+                                type:
+                                - object
+                                - 'null'
+                                properties:
+                                  host:
+                                    type: string
+                                  pass:
+                                    type: string
+                                  user:
+                                    type: string
+                                required:
+                                - host
+                                - pass
+                                - user
+                                deprecated: true
+                                description: 'Deprecated: use `endpoints.direct` instead.'
+                              database:
+                                type: object
+                                properties:
+                                  id:
+                                    type: string
+                                  url:
+                                    type: string
+                                    format: uri
+                                  name:
+                                    type: string
+                                required:
+                                - id
+                                - url
+                                - name
+                            required:
+                            - id
+                            - type
+                            - url
+                            - name
+                            - createdAt
+                            - kind
+                            - endpoints
+                            - database
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - url
+                          - name
+                        region:
+                          type:
+                          - object
+                          - 'null'
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - name
+                        source:
+                          oneOf:
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: empty
+                            required:
+                            - type
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: backup
+                              databaseId:
+                                type: string
+                              backupId:
+                                type: string
+                                description: ID of the backup to restore from
+                            required:
+                            - type
+                            - databaseId
+                            - backupId
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                const: database
+                              databaseId:
+                                type: string
+                            required:
+                            - type
+                            - databaseId
+                          - type: 'null'
+                        branchId:
+                          type:
+                          - string
+                          - 'null'
+                      required:
+                      - id
+                      - type
+                      - url
+                      - name
+                      - status
+                      - createdAt
+                      - isDefault
+                      - defaultConnectionId
+                      - connections
+                      - project
+                      - region
+                      - source
+                      - branchId
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1ProjectsByProjectIdDatabases
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+      summary: Get list of databases
+      description: Returns databases for the given project.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    post:
+      responses:
+        '201':
+          description: Created a new database for the project.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: string
+                        const: database
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      status:
+                        type: string
+                        enum:
+                        - provisioning
+                        - ready
+                      createdAt:
+                        type: string
+                        format: date-time
+                      isDefault:
+                        type: boolean
+                      defaultConnectionId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      connections:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                    connectionString:
+                                      type: string
+                                  required:
+                                  - host
+                                  - port
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                            database:
+                              type: object
+                              properties:
+                                id:
+                                  type: string
+                                url:
+                                  type: string
+                                  format: uri
+                                name:
+                                  type: string
+                              required:
+                              - id
+                              - url
+                              - name
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - database
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      region:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - name
+                      source:
+                        oneOf:
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: empty
+                          required:
+                          - type
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: backup
+                            databaseId:
+                              type: string
+                            backupId:
+                              type: string
+                              description: ID of the backup to restore from
+                          required:
+                          - type
+                          - databaseId
+                          - backupId
+                        - type: object
+                          properties:
+                            type:
+                              type: string
+                              const: database
+                            databaseId:
+                              type: string
+                          required:
+                          - type
+                          - databaseId
+                        - type: 'null'
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                      apiKeys:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(con_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            type:
+                              type: string
+                              const: connection
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                            kind:
+                              type: string
+                              enum:
+                              - postgres
+                              - accelerate
+                            endpoints:
+                              type: object
+                              properties:
+                                direct:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                pooled:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                                accelerate:
+                                  type: object
+                                  properties:
+                                    host:
+                                      type: string
+                                    port:
+                                      type: number
+                                  required:
+                                  - host
+                                  - port
+                            connectionString:
+                              type: string
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct.connectionString` or `endpoints.pooled.connectionString` instead.'
+                            directConnection:
+                              type:
+                              - object
+                              - 'null'
+                              properties:
+                                host:
+                                  type: string
+                                pass:
+                                  type: string
+                                user:
+                                  type: string
+                              required:
+                              - host
+                              - pass
+                              - user
+                              deprecated: true
+                              description: 'Deprecated: use `endpoints.direct` instead.'
+                          required:
+                          - id
+                          - type
+                          - url
+                          - name
+                          - createdAt
+                          - kind
+                          - endpoints
+                          - connectionString
+                        deprecated: true
+                        description: 'Deprecated: use `connections[]` instead.'
+                      connectionString:
+                        type:
+                        - string
+                        - 'null'
+                        deprecated: true
+                        description: 'Deprecated: use `connections[].endpoints.direct.connectionString` or `connections[].endpoints.pooled.connectionString`.'
+                      directConnection:
+                        type:
+                        - object
+                        - 'null'
+                        properties:
+                          host:
+                            type: string
+                          pass:
+                            type: string
+                          user:
+                            type: string
+                        required:
+                        - host
+                        - pass
+                        - user
+                        deprecated: true
+                        description: 'Deprecated: use `connections[].endpoints.direct` instead.'
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - status
+                    - createdAt
+                    - isDefault
+                    - defaultConnectionId
+                    - connections
+                    - project
+                    - region
+                    - source
+                    - branchId
+                    - apiKeys
+                    - connectionString
+                    - directConnection
+                required:
+                - data
+        '400':
+          description: The request is invalid due to missing or invalid parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Project does not belong to the service token’s workspace.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1ProjectsByProjectIdDatabases
+      tags:
+      - Databases
+      parameters:
+      - in: path
+        name: projectId
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Create database
+      description: Creates a new database for the given project.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                region:
+                  type: string
+                  enum:
+                  - us-east-1
+                  - us-west-1
+                  - eu-west-3
+                  - eu-central-1
+                  - ap-northeast-1
+                  - ap-southeast-1
+                  - inherit
+                  default: us-east-1
+                  description: Use "inherit" to use the project's default region (falls back to the default database's region for projects without one).
+                name:
+                  type: string
+                  minLength: 1
+                isDefault:
+                  type: boolean
+                  default: false
+                fromDatabase:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                    backupId:
+                      type: string
+                  required:
+                  - id
+                  deprecated: true
+                  description: 'Deprecated: use `source` instead.'
+                source:
+                  oneOf:
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: empty
+                    required:
+                    - type
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: backup
+                      databaseId:
+                        type: string
+                        pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                        description: ID of the database the backup belongs to
+                      backupId:
+                        type: string
+                        description: ID of the backup to restore from
+                    required:
+                    - type
+                    - databaseId
+                    - backupId
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        const: database
+                      databaseId:
+                        type: string
+                        pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                        description: ID of the database to clone from
+                    required:
+                    - type
+                    - databaseId
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
   /projects/{projectId}/databases:
     post:
       operationId: createDatabase
@@ -52,6 +2585,11 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
   /databases/{databaseId}:
     get:
       operationId: getDatabase
@@ -76,6 +2614,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     delete:
       operationId: deleteDatabase
       summary: Prisma Delete a database
@@ -95,42 +2635,13 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
 components:
-  parameters:
-    ProjectId:
-      name: projectId
-      in: path
-      required: true
-      description: Unique identifier of the project
-      schema:
-        type: string
-    DatabaseId:
-      name: databaseId
-      in: path
-      required: true
-      description: Unique identifier of the database
-      schema:
-        type: string
   schemas:
-    DatabaseCreate:
-      type: object
-      description: Request body for creating a new database
-      properties:
-        name:
-          type: string
-          description: Display name for the database
-        region:
-          type: string
-          description: Region where the database should be provisioned
-          enum:
-          - us-east-1
-          - us-west-2
-          - eu-west-1
-          - eu-central-1
-          - ap-southeast-1
-          - ap-northeast-1
-      required:
-      - region
     Database:
       type: object
       description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
@@ -209,6 +2720,19 @@ components:
       - username
       - password
       - database
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
     Error:
       type: object
       description: Standard error response
@@ -229,20 +2753,44 @@ components:
           required:
           - code
           - message
-    DatabaseApiKey:
+    DatabaseCreate:
       type: object
-      description: An API key for accessing the database
+      description: Request body for creating a new database
       properties:
-        apiKey:
+        name:
           type: string
-          description: The API key value
-        connectionString:
+          description: Display name for the database
+        region:
           type: string
-          description: Full connection string incorporating this API key
+          description: Region where the database should be provisioned
+          enum:
+          - us-east-1
+          - us-west-2
+          - eu-west-1
+          - eu-central-1
+          - ap-southeast-1
+          - ap-northeast-1
       required:
-      - apiKey
-      - connectionString
+      - region
   responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -255,25 +2803,38 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      description: Unique identifier of the project
+      schema:
+        type: string
+    DatabaseId:
+      name: databaseId
+      in: path
+      required: true
+      description: Unique identifier of the database
+      schema:
+        type: string
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
     bearerAuth:
       type: http
       scheme: bearer
@@ -282,3 +2843,6 @@ components:
 externalDocs:
   description: Prisma Postgres Management API Documentation
   url: https://www.prisma.io/docs/postgres/introduction/management-api
+x-refined-from:
+- prisma-postgres-management-api-openapi.json
+- prisma-postgres-management-openapi.yml

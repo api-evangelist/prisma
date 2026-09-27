@@ -60,17 +60,9 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   responses:
-    InternalServerError:
-      description: An unexpected error occurred
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
@@ -81,13 +73,37 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key
+    InternalServerError:
+      description: An unexpected error occurred
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
     Recommendation:
       type: object
       description: An AI-powered optimization recommendation for a query pattern
@@ -142,22 +158,6 @@ components:
       - category
       - title
       - description
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

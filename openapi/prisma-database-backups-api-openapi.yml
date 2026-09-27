@@ -1,25 +1,171 @@
 openapi: 3.2.0
 info:
-  title: Prisma Postgres Management Database Backups API
-  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
+  title: Prisma Database Backups API
+  version: '1.0'
+  description: 'Operations tagged Database Backups across 2 of this provider''s published API definitions: prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Database Backups
-  description: Operations for managing database backup and restore operations
 paths:
+  /v1/databases/{databaseId}/backups:
+    get:
+      responses:
+        '200':
+          description: Returned backups for the given database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        backupType:
+                          type: string
+                          enum:
+                          - full
+                          - incremental
+                          - differential
+                        createdAt:
+                          type: string
+                        size:
+                          type: number
+                        status:
+                          type: string
+                          enum:
+                          - running
+                          - completed
+                          - failed
+                          - unknown
+                        type:
+                          type: string
+                          const: backup
+                      required:
+                      - id
+                      - backupType
+                      - createdAt
+                      - status
+                  meta:
+                    type: object
+                    properties:
+                      backupRetentionDays:
+                        type: number
+                    required:
+                    - backupRetentionDays
+                  pagination:
+                    type: object
+                    properties:
+                      hasMore:
+                        type: boolean
+                      limit:
+                        anyOf:
+                        - type: integer
+                          minimum: 1
+                          maximum: 100
+                        - type: 'null'
+                    required:
+                    - hasMore
+                    - limit
+                required:
+                - data
+                - meta
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Database with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '422':
+          description: Remote database backups are not supported
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1DatabasesByDatabaseIdBackups
+      tags:
+      - Database Backups
+      parameters:
+      - in: path
+        name: databaseId
+        schema:
+          type: string
+          pattern: ^(db_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      summary: Get list of backups
+      description: Returns backups for the specified database.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
   /databases/{databaseId}/backups:
     get:
       operationId: listDatabaseBackups
@@ -49,6 +195,8 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
     post:
       operationId: createDatabaseBackup
       summary: Prisma Create a manual database backup
@@ -77,6 +225,11 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
   /databases/{databaseId}/backups/{backupId}/restore:
     post:
       operationId: restoreDatabaseBackup
@@ -116,15 +269,13 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
 components:
   schemas:
-    BackupCreate:
-      type: object
-      description: Request body for creating a manual backup
-      properties:
-        label:
-          type: string
-          description: Optional label for the backup
     DatabaseBackup:
       type: object
       description: A backup of a Prisma Postgres database
@@ -167,6 +318,13 @@ components:
       - type
       - status
       - createdAt
+    BackupCreate:
+      type: object
+      description: Request body for creating a manual backup
+      properties:
+        label:
+          type: string
+          description: Optional label for the backup
     Error:
       type: object
       description: Standard error response
@@ -188,14 +346,8 @@ components:
           - code
           - message
   responses:
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -206,8 +358,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
@@ -221,6 +379,22 @@ components:
       schema:
         type: string
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
     bearerAuth:
       type: http
       scheme: bearer
@@ -229,3 +403,6 @@ components:
 externalDocs:
   description: Prisma Postgres Management API Documentation
   url: https://www.prisma.io/docs/postgres/introduction/management-api
+x-refined-from:
+- prisma-postgres-management-api-openapi.json
+- prisma-postgres-management-openapi.yml

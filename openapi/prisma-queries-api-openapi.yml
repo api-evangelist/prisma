@@ -206,6 +206,26 @@ paths:
       description: Prisma Optimize production endpoint
 components:
   schemas:
+    AccelerateError:
+      type: object
+      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
+      properties:
+        code:
+          type: string
+          description: Accelerate-specific error code (P6xxx format)
+          pattern: ^P6[0-9]{3}$
+          examples:
+          - P6003
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
     AccelerateInfo:
       type: object
       description: Cache metadata returned alongside query results
@@ -255,26 +275,6 @@ components:
               $ref: '#/components/schemas/CacheStrategy'
       required:
       - query
-    AccelerateError:
-      type: object
-      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
-      properties:
-        code:
-          type: string
-          description: Accelerate-specific error code (P6xxx format)
-          pattern: ^P6[0-9]{3}$
-          examples:
-          - P6003
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
     QueryResponse:
       type: object
       description: Response from a proxied query through Accelerate
@@ -320,6 +320,43 @@ components:
           examples:
           - - user_list
             - active_users
+    QueryIngestPayload:
+      type: object
+      description: Payload sent by the Optimize extension containing query execution data
+      properties:
+        sessionId:
+          type: string
+          description: Active session to associate the queries with
+        queries:
+          type: array
+          description: Array of query execution records
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                description: Prisma Client operation name
+              model:
+                type: string
+                description: Model name
+              sql:
+                type: string
+                description: Generated SQL
+              duration:
+                type: number
+                format: float
+                description: Execution duration in milliseconds
+              timestamp:
+                type: string
+                format: date-time
+                description: Execution timestamp
+            required:
+            - operation
+            - duration
+            - timestamp
+      required:
+      - sessionId
+      - queries
     RecordedQuery:
       type: object
       description: A query captured during a recording session
@@ -376,43 +413,6 @@ components:
       - operation
       - duration
       - timestamp
-    QueryIngestPayload:
-      type: object
-      description: Payload sent by the Optimize extension containing query execution data
-      properties:
-        sessionId:
-          type: string
-          description: Active session to associate the queries with
-        queries:
-          type: array
-          description: Array of query execution records
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                description: Prisma Client operation name
-              model:
-                type: string
-                description: Model name
-              sql:
-                type: string
-                description: Generated SQL
-              duration:
-                type: number
-                format: float
-                description: Execution duration in milliseconds
-              timestamp:
-                type: string
-                format: date-time
-                description: Execution timestamp
-            required:
-            - operation
-            - duration
-            - timestamp
-      required:
-      - sessionId
-      - queries
     Error:
       type: object
       description: Standard error response
@@ -430,6 +430,12 @@ components:
           - code
           - message
   responses:
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -442,26 +448,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/AccelerateError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    BadRequest_2:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError_2:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -472,8 +460,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest_2:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError_2:
+      description: An unexpected error occurred
       content:
         application/json:
           schema:

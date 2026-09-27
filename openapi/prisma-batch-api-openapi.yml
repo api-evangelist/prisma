@@ -111,6 +111,27 @@ components:
           additionalProperties: true
       required:
       - data
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
     CreateManyInput:
       type: object
       description: Input data for creating multiple records
@@ -137,27 +158,17 @@ components:
           minimum: 0
       required:
       - count
-    PrismaError:
-      type: object
-      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
-      properties:
-        code:
-          type: string
-          description: Prisma error code (e.g., P2002 for unique constraint violation)
-          pattern: ^P[0-9]{4}$
-          examples:
-          - P2002
-          - P2025
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
+  parameters:
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
   responses:
     BadRequest:
       description: The request was invalid or malformed
@@ -171,17 +182,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PrismaError'
-  parameters:
-    ModelName:
-      name: model
-      in: path
-      required: true
-      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
-      schema:
-        type: string
-        examples:
-        - user
-        - post
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

@@ -1,0 +1,861 @@
+openapi: 3.2.0
+info:
+  title: Prisma Postgres Management Buckets API
+  description: REST API for managing Prisma Postgres projects, databases, backups, and workspaces.
+  version: v1
+servers:
+- url: https://api.prisma.io
+security:
+- OAuth2:
+  - workspace:admin
+  - offline_access
+- Bearer: []
+tags:
+- name: Buckets
+paths:
+  /v1/buckets:
+    get:
+      responses:
+        '200':
+          description: Returns the list of buckets.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^(bkt_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        type:
+                          type: string
+                          const: bucket
+                        url:
+                          type: string
+                          format: uri
+                        name:
+                          type: string
+                        providerName:
+                          type: string
+                        status:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        project:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              pattern: ^(proj_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                            url:
+                              type: string
+                              format: uri
+                            name:
+                              type: string
+                          required:
+                          - id
+                          - url
+                          - name
+                        branchId:
+                          type:
+                          - string
+                          - 'null'
+                          pattern: ^(br_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      required:
+                      - id
+                      - type
+                      - url
+                      - name
+                      - providerName
+                      - status
+                      - createdAt
+                      - project
+                      - branchId
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Buckets
+      tags:
+      - Buckets
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 100
+          description: Page size, 1-100
+      - in: query
+        name: projectId
+        schema:
+          type: string
+          pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+          description: Filter buckets by project ID
+      - in: query
+        name: branchId
+        schema:
+          anyOf:
+          - type: string
+            const: unassigned
+          - type: string
+            pattern: ^(br_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+      - in: query
+        name: branchGitName
+        schema:
+          type: string
+          minLength: 1
+      summary: List buckets
+      description: Returns all object-store buckets the token has access to. Optionally filter by project ID.
+    post:
+      responses:
+        '201':
+          description: Created a new bucket.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(bkt_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: bucket
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      providerName:
+                        type: string
+                      status:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: ^(proj_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(br_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - providerName
+                    - status
+                    - createdAt
+                    - project
+                    - branchId
+                required:
+                - data
+        '400':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '403':
+          description: Actor does not have access to the specified project.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Project or branch not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1Buckets
+      tags:
+      - Buckets
+      parameters: []
+      summary: Create bucket
+      description: Creates a new object-store bucket in the specified project.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                projectId:
+                  type: string
+                  pattern: ^(proj_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                  description: ID of the project to create the bucket in
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  description: Display name for the bucket. Generated if omitted.
+                branchId:
+                  type: string
+                  pattern: ^(br_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+                  description: ID of the branch to associate the bucket with. Mutually exclusive with branchGitName.
+                branchGitName:
+                  type: string
+                  minLength: 1
+                  description: Git name of the branch to associate the bucket with. Mutually exclusive with branchId.
+              required:
+              - projectId
+  /v1/buckets/{bucketId}:
+    get:
+      responses:
+        '200':
+          description: Returned the bucket with the given ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(bkt_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: bucket
+                      url:
+                        type: string
+                        format: uri
+                      name:
+                        type: string
+                      providerName:
+                        type: string
+                      status:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      project:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            pattern: ^(proj_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                          url:
+                            type: string
+                            format: uri
+                          name:
+                            type: string
+                        required:
+                        - id
+                        - url
+                        - name
+                      branchId:
+                        type:
+                        - string
+                        - 'null'
+                        pattern: ^(br_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                    required:
+                    - id
+                    - type
+                    - url
+                    - name
+                    - providerName
+                    - status
+                    - createdAt
+                    - project
+                    - branchId
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Bucket with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1BucketsByBucketId
+      tags:
+      - Buckets
+      parameters:
+      - in: path
+        name: bucketId
+        schema:
+          type: string
+          pattern: ^(bkt_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get bucket
+      description: Returns the bucket with the given ID.
+    delete:
+      responses:
+        '204':
+          description: Deleted the bucket successfully.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Bucket with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1BucketsByBucketId
+      tags:
+      - Buckets
+      parameters:
+      - in: path
+        name: bucketId
+        schema:
+          type: string
+          pattern: ^(bkt_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete bucket
+      description: Permanently deletes the bucket with the given ID, all objects stored in it, and all its access keys. This action cannot be undone.
+  /v1/buckets/{bucketId}/keys:
+    get:
+      responses:
+        '200':
+          description: Returns the list of bucket keys.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          pattern: ^(bkey_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                        type:
+                          type: string
+                          const: bucketKey
+                        name:
+                          type: string
+                        valueHint:
+                          type: string
+                        role:
+                          type: string
+                          enum:
+                          - read
+                          - read_write
+                        createdAt:
+                          type: string
+                          format: date-time
+                      required:
+                      - id
+                      - type
+                      - name
+                      - valueHint
+                      - role
+                      - createdAt
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Bucket with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1BucketsByBucketIdKeys
+      tags:
+      - Buckets
+      parameters:
+      - in: path
+        name: bucketId
+        schema:
+          type: string
+          pattern: ^(bkt_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 100
+          description: Page size, 1-100
+      summary: List bucket keys
+      description: Returns all access keys for the given bucket.
+    post:
+      responses:
+        '201':
+          description: Created a new bucket key. The secret is returned once in the response body.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        pattern: ^(bkey_)([cC][^\s-]{8,}|[a-z0-9]+)$
+                      type:
+                        type: string
+                        const: bucketKey
+                      name:
+                        type: string
+                      valueHint:
+                        type: string
+                      role:
+                        type: string
+                        enum:
+                        - read
+                        - read_write
+                      createdAt:
+                        type: string
+                        format: date-time
+                      secretAccessKey:
+                        type: string
+                      accessKeyId:
+                        type: string
+                      endpoint:
+                        type: string
+                      bucketName:
+                        type: string
+                    required:
+                    - id
+                    - type
+                    - name
+                    - valueHint
+                    - role
+                    - createdAt
+                    - secretAccessKey
+                    - accessKeyId
+                    - endpoint
+                    - bucketName
+                required:
+                - data
+        '400':
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Bucket with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: postV1BucketsByBucketIdKeys
+      tags:
+      - Buckets
+      parameters:
+      - in: path
+        name: bucketId
+        schema:
+          type: string
+          pattern: ^(bkt_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Create bucket key
+      description: Creates a new access key for the given bucket. The `secretAccessKey` field is returned exactly once in this response and is never stored — copy it immediately.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Display name for the key. Generated if omitted.
+                role:
+                  type: string
+                  enum:
+                  - read
+                  - read_write
+                  description: 'Access role for the key: "read" or "read_write".'
+              required:
+              - role
+  /v1/buckets/{bucketId}/keys/{keyId}:
+    delete:
+      responses:
+        '204':
+          description: Deleted the bucket key successfully.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Bucket key not found or does not belong to the given bucket.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1BucketsByBucketIdKeysByKeyId
+      tags:
+      - Buckets
+      parameters:
+      - in: path
+        name: bucketId
+        schema:
+          type: string
+          pattern: ^(bkt_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: path
+        name: keyId
+        schema:
+          type: string
+          pattern: ^(bkey_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete bucket key
+      description: Revokes and deletes the bucket key with the given ID.
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication

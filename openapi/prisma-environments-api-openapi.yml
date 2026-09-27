@@ -140,20 +140,8 @@ components:
       schema:
         type: string
   responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -164,13 +152,60 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    EnvironmentCreate:
+      type: object
+      description: Request body for creating a new environment
+      properties:
+        name:
+          type: string
+          description: Display name for the new environment
+          examples:
+          - Staging
+        connectionString:
+          type: string
+          description: Database connection string for the environment
+      required:
+      - name
+      - connectionString
+    Error:
+      type: object
+      description: Standard error response from the API
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
     Environment:
       type: object
       description: An environment represents a deployment stage within a project, such as development, staging, or production, with its own database connection and API keys.
@@ -207,41 +242,6 @@ components:
       - projectId
       - createdAt
       - updatedAt
-    EnvironmentCreate:
-      type: object
-      description: Request body for creating a new environment
-      properties:
-        name:
-          type: string
-          description: Display name for the new environment
-          examples:
-          - Staging
-        connectionString:
-          type: string
-          description: Database connection string for the environment
-      required:
-      - name
-      - connectionString
-    Error:
-      type: object
-      description: Standard error response from the API
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
   securitySchemes:
     bearerAuth:
       type: http

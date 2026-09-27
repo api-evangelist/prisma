@@ -36,57 +36,6 @@ created: '2024-01-01'
 modified: '2026-09-17'
 specificationVersion: '0.23'
 apis:
-- aid: prisma:prisma-postgres-management-api
-  name: Prisma Postgres Management API
-  description: The provider-published REST control plane for Prisma. 115 operations across 72 paths covering workspaces,
-    projects, Prisma Postgres databases, connection strings, backups, usage, object-store buckets and keys, service
-    tokens, integrations and regions, plus the Prisma Compute surface (apps, services, deployments, branches, builds,
-    domains, environment variables and source repositories) marked experimental in the contract itself. Authenticated
-    with a never-expiring service token or OAuth 2.0 + PKCE against auth.prisma.io.
-  humanURL: https://www.prisma.io/docs/rest-api
-  baseURL: https://api.prisma.io/v1
-  tags:
-  - Database
-  - Postgres
-  - Developer Tools
-  - Application Hosting
-  - Object Storage
-  - Provisioning
-  properties:
-  - type: OpenAPI
-    url: openapi/prisma-postgres-management-api-openapi.json
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://www.prisma.io/openapi.json
-  - type: OpenAPI
-    name: OpenAPI (API host)
-    url: https://api.prisma.io/v1/doc
-  - type: Documentation
-    url: https://www.prisma.io/docs/rest-api
-  - type: APIReference
-    url: https://api.prisma.io/v1/swagger-editor
-  - type: GettingStarted
-    url: https://www.prisma.io/docs/rest-api/getting-started
-  - type: Authentication
-    url: https://www.prisma.io/docs/rest-api/authentication
-  - type: SDKs
-    url: https://www.prisma.io/docs/rest-api/sdk
-  - type: Overlay
-    url: overlays/prisma-postgres-management-api-overlay.yaml
-  - type: DataModel
-    url: data-model/prisma-data-model.yml
-  - type: ErrorCatalog
-    url: errors/prisma-problem-types.yml
-  - type: Conventions
-    url: conventions/prisma-conventions.yml
-  - type: Idempotency
-    url: conventions/prisma-conventions.yml
-  - type: RateLimits
-    url: rate-limits/prisma-rate-limits.yml
-  - type: OAuthScopes
-    url: scopes/prisma-scopes.yml
-  - type: ToolCrosswalk
-    url: mcp/prisma-tool-crosswalk.yml
 - aid: prisma:prisma-aggregation-api
   name: Prisma Aggregation API
   description: Count, aggregate, and groupBy operations for analytics
@@ -817,7 +766,8 @@ apis:
   humanURL: https://www.prisma.io/docs/query-insights
 - aid: prisma:prisma-streams-api
   name: Prisma Streams API
-  description: Resumable event streams with at-least-once delivery and ordering guarantees. Requires event persistence
+  description: >-
+    Resumable event streams with at-least-once delivery and ordering guarantees. Requires event persistence
     to be enabled.
   tags:
   - Streams
@@ -853,7 +803,8 @@ apis:
   baseURL: https://pulse.prisma-data.net
 - aid: prisma:prisma-subscriptions-api
   name: Prisma Subscriptions API
-  description: Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
+  description: >-
+    Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
   tags:
   - Subscription
   tags_raw:
@@ -926,6 +877,211 @@ apis:
     url: https://www.npmjs.com/package/@prisma/extension-optimize
   baseURL: https://api.prisma.io/v1
   humanURL: https://www.prisma.io/docs/rest-api
+- aid: prisma:prisma-buckets-api
+  name: Prisma Buckets API
+  description: The Buckets API from Prisma — 4 operation(s) for buckets.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - Buckets
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-buckets-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
+- aid: prisma:prisma-databases-connections-api
+  name: Prisma Databases Connections API
+  description: The Databases Connections API from Prisma — 1 operation(s) for databases connections.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - Databases Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-databases-connections-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
+- aid: prisma:prisma-experimental-api
+  name: Prisma [Experimental] API
+  description: >-
+    Experimental endpoints are in active development and may change at any time without notice.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - '[Experimental]'
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-experimental-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
+- aid: prisma:prisma-misc-api
+  name: Prisma Misc API
+  description: The Misc API from Prisma — 3 operation(s) for misc.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - Misc
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-misc-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
+- aid: prisma:prisma-regions-api
+  name: Prisma Regions API
+  description: The Regions API from Prisma — 1 operation(s) for regions.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - Regions
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-regions-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
+- aid: prisma:prisma-service-tokens-api
+  name: Prisma Service Tokens API
+  description: The Service Tokens API from Prisma — 2 operation(s) for service tokens.
+  humanURL: https://www.prisma.io/docs/rest-api
+  baseURL: https://api.prisma.io/v1
+  tags:
+  - Service Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/prisma-service-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://www.prisma.io/docs/rest-api
+  - type: APIReference
+    url: https://api.prisma.io/v1/swagger-editor
+  - type: GettingStarted
+    url: https://www.prisma.io/docs/rest-api/getting-started
+  - type: Authentication
+    url: https://www.prisma.io/docs/rest-api/authentication
+  - type: SDKs
+    url: https://www.prisma.io/docs/rest-api/sdk
+  - type: DataModel
+    url: data-model/prisma-data-model.yml
+  - type: ErrorCatalog
+    url: errors/prisma-problem-types.yml
+  - type: Conventions
+    url: conventions/prisma-conventions.yml
+  - type: Idempotency
+    url: conventions/prisma-conventions.yml
+  - type: RateLimits
+    url: rate-limits/prisma-rate-limits.yml
+  - type: OAuthScopes
+    url: scopes/prisma-scopes.yml
+  - type: ToolCrosswalk
+    url: mcp/prisma-tool-crosswalk.yml
 common:
 - type: OAuthScopes
   url: scopes/prisma-scopes.yml
@@ -1120,6 +1276,19 @@ maintainers:
   email: kin@apievangelist.com
   url: https://www.prisma.io
 tags:
+- Database
+- PostgreSQL
+- ORM
+- Developer Tools
+- Application Hosting
+- Serverless
+- Object Storage
+- TypeScript
+- MCP
+- AI Agents
+- Provisioning
+- Data Platform
+tags_raw:
 - Database
 - Postgres
 - ORM

@@ -1,25 +1,563 @@
 openapi: 3.2.0
 info:
-  title: Prisma Postgres Management Integrations API
-  description: REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces. Supports automation, CI/CD workflows, and partner integrations. The API provides endpoints for managing workspaces, projects, databases, database backups, database usage metrics, connections, and integrations. Authentication is handled via service tokens or OAuth 2.0 with PKCE support.
-  version: 1.0.0
-  contact:
-    name: Prisma Support
-    email: support@prisma.io
-    url: https://www.prisma.io/support
-  license:
-    name: Proprietary
-    url: https://www.prisma.io/terms
-  termsOfService: https://www.prisma.io/terms
+  title: Prisma Integrations API
+  version: '1.0'
+  description: 'Operations tagged Integrations across 2 of this provider''s published API definitions: prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
+- url: https://api.prisma.io
 - url: https://api.prisma.io/v1
   description: Prisma Management API production server
-security:
-- bearerAuth: []
 tags:
 - name: Integrations
-  description: Operations for managing third-party integrations
 paths:
+  /v1/integrations:
+    get:
+      responses:
+        '200':
+          description: Returned the integrations for the given workspace.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        createdAt:
+                          type: string
+                          format: date-time
+                        scopes:
+                          type: array
+                          items:
+                            type: string
+                        client:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                          required:
+                          - id
+                          - name
+                          - createdAt
+                        createdByUser:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            email:
+                              type: string
+                            displayName:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - id
+                          - email
+                          - displayName
+                      required:
+                      - id
+                      - url
+                      - createdAt
+                      - scopes
+                      - client
+                      - createdByUser
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1Integrations
+      tags:
+      - Integrations
+      parameters:
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+        required: false
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+        required: false
+      - in: query
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get list of integrations
+      description: Returns integrations filtered by workspace ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/integrations/{id}:
+    get:
+      responses:
+        '200':
+          description: Returned the integration.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      url:
+                        type: string
+                        format: uri
+                      createdAt:
+                        type: string
+                        format: date-time
+                      scopes:
+                        type: array
+                        items:
+                          type: string
+                      client:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          name:
+                            type: string
+                          createdAt:
+                            type: string
+                            format: date-time
+                        required:
+                        - id
+                        - name
+                        - createdAt
+                      createdByUser:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          email:
+                            type: string
+                          displayName:
+                            type:
+                            - string
+                            - 'null'
+                        required:
+                        - id
+                        - email
+                        - displayName
+                    required:
+                    - id
+                    - url
+                    - createdAt
+                    - scopes
+                    - client
+                    - createdByUser
+                required:
+                - data
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Integration with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1IntegrationsById
+      tags:
+      - Integrations
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(itgr_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Get integration by ID
+      description: Returns a single integration by its ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    delete:
+      responses:
+        '204':
+          description: Revoked the integration tokens.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Integration with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1IntegrationsById
+      tags:
+      - Integrations
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^(itgr_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Delete integration
+      description: Revokes the integration tokens by integration ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/workspaces/{workspaceId}/integrations:
+    get:
+      responses:
+        '200':
+          description: Returned the integrations for the given workspace ID.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                        createdAt:
+                          type: string
+                          format: date-time
+                        scopes:
+                          type: array
+                          items:
+                            type: string
+                        client:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            name:
+                              type: string
+                            createdAt:
+                              type: string
+                              format: date-time
+                          required:
+                          - id
+                          - name
+                          - createdAt
+                        createdByUser:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                            email:
+                              type: string
+                            displayName:
+                              type:
+                              - string
+                              - 'null'
+                          required:
+                          - id
+                          - email
+                          - displayName
+                      required:
+                      - id
+                      - url
+                      - createdAt
+                      - scopes
+                      - client
+                      - createdByUser
+                  pagination:
+                    type: object
+                    properties:
+                      nextCursor:
+                        type:
+                        - string
+                        - 'null'
+                        description: Next cursor to continue pagination
+                      hasMore:
+                        type: boolean
+                        description: Whether there are more items to paginate
+                    required:
+                    - nextCursor
+                    - hasMore
+                required:
+                - data
+                - pagination
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Workspace with the given ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: getV1WorkspacesByWorkspaceIdIntegrations
+      tags:
+      - Integrations
+      parameters:
+      - in: path
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: query
+        name: cursor
+        schema:
+          type:
+          - string
+          - 'null'
+          description: Cursor for pagination
+      - in: query
+        name: limit
+        schema:
+          type: number
+          default: 100
+          description: Limit for pagination
+      summary: Get list of integrations
+      description: Returns integrations for the given workspace.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
+  /v1/workspaces/{workspaceId}/integrations/{clientId}:
+    delete:
+      responses:
+        '204':
+          description: Revoked the integration tokens.
+        '401':
+          description: Missing or invalid authorization token.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+        '404':
+          description: Integration with the given client ID was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                      message:
+                        type: string
+                      hint:
+                        type: string
+                    required:
+                    - code
+                    - message
+                required:
+                - error
+      operationId: deleteV1WorkspacesByWorkspaceIdIntegrationsByClientId
+      tags:
+      - Integrations
+      parameters:
+      - in: path
+        name: clientId
+        schema:
+          type: string
+          pattern: ^(itgr_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      - in: path
+        name: workspaceId
+        schema:
+          type: string
+          pattern: ^(wksp_)?([cC][^\s-]{8,}|[a-z0-9]+)$
+        required: true
+      summary: Revoke integration tokens
+      description: Revokes the integration tokens with the given client ID.
+      security:
+      - OAuth2:
+        - workspace:admin
+        - offline_access
+      - Bearer: []
+    servers:
+    - url: https://api.prisma.io
   /integrations:
     get:
       operationId: listIntegrations
@@ -45,28 +583,32 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalServerError'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.prisma.io/v1
+      description: Prisma Management API production server
 components:
+  responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
     Integration:
       type: object
       description: A third-party integration configuration
@@ -97,26 +639,43 @@ components:
       - provider
       - status
       - createdAt
-  responses:
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
   securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: OAuth2 authentication
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.prisma.io/authorize
+          tokenUrl: https://auth.prisma.io/token
+          refreshUrl: https://auth.prisma.io/token
+          scopes:
+            workspace:admin: Full access to workspace resources
+            offline_access: Offline access
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 token for API authentication
     bearerAuth:
       type: http
       scheme: bearer
@@ -125,3 +684,6 @@ components:
 externalDocs:
   description: Prisma Postgres Management API Documentation
   url: https://www.prisma.io/docs/postgres/introduction/management-api
+x-refined-from:
+- prisma-postgres-management-api-openapi.json
+- prisma-postgres-management-openapi.yml
