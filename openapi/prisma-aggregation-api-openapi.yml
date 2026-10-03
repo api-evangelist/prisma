@@ -149,10 +149,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    GroupByResult:
-      type: object
-      description: A single group result from a groupBy operation
-      additionalProperties: true
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -201,17 +197,10 @@ components:
           type: object
           description: Maximum values per field
           additionalProperties: true
-  parameters:
-    ModelName:
-      name: model
-      in: path
-      required: true
-      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
-      schema:
-        type: string
-        examples:
-        - user
-        - post
+    GroupByResult:
+      type: object
+      description: A single group result from a groupBy operation
+      additionalProperties: true
   responses:
     BadRequest:
       description: The request was invalid or malformed
@@ -225,6 +214,17 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PrismaError'
+  parameters:
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

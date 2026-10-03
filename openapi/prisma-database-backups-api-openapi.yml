@@ -318,13 +318,6 @@ components:
       - type
       - status
       - createdAt
-    BackupCreate:
-      type: object
-      description: Request body for creating a manual backup
-      properties:
-        label:
-          type: string
-          description: Optional label for the backup
     Error:
       type: object
       description: Standard error response
@@ -345,6 +338,13 @@ components:
           required:
           - code
           - message
+    BackupCreate:
+      type: object
+      description: Request body for creating a manual backup
+      properties:
+        label:
+          type: string
+          description: Optional label for the backup
   responses:
     RateLimited:
       description: Too many requests - rate limit exceeded
@@ -352,8 +352,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:
@@ -364,8 +364,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
       content:
         application/json:
           schema:

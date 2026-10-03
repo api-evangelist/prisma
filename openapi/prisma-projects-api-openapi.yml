@@ -1176,18 +1176,38 @@ paths:
     servers:
     - url: https://api.prisma.io
 components:
+  responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ProjectCreate:
-      type: object
-      description: Request body for creating a new project
-      properties:
-        name:
-          type: string
-          description: Display name for the new project
-          examples:
-          - My New Application
-      required:
-      - name
     Error:
       type: object
       description: Standard error response from the API
@@ -1239,6 +1259,103 @@ components:
       - workspaceId
       - createdAt
       - updatedAt
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project
+      properties:
+        name:
+          type: string
+          description: Display name for the new project
+          examples:
+          - My New Application
+      required:
+      - name
+    DatabaseApiKey:
+      type: object
+      description: An API key for accessing the database
+      properties:
+        apiKey:
+          type: string
+          description: The API key value
+        connectionString:
+          type: string
+          description: Full connection string incorporating this API key
+      required:
+      - apiKey
+      - connectionString
+    Error_2:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    Project_2:
+      type: object
+      description: A project represents an application or service that contains one or more Prisma Postgres databases.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the project
+        name:
+          type: string
+          description: Display name of the project
+        workspaceId:
+          type: string
+          description: Identifier of the parent workspace
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the project was last updated
+      required:
+      - id
+      - name
+      - workspaceId
+      - createdAt
+      - updatedAt
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
+          type: string
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
+          type: string
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
+      required:
+      - host
+      - port
+      - username
+      - password
+      - database
     Database:
       type: object
       description: A Prisma Postgres database instance running PostgreSQL v17 on unikernel-based infrastructure with built-in connection pooling, caching, and real-time subscription capabilities.
@@ -1291,32 +1408,16 @@ components:
       - status
       - createdAt
       - updatedAt
-    DirectConnection:
-      type: object
-      description: Direct TCP connection details for the database
-      properties:
-        host:
-          type: string
-          description: Database host address
-        port:
-          type: integer
-          description: Database port number
-          default: 5432
-        username:
-          type: string
-          description: Database username
-        password:
-          type: string
-          description: Database password
-        database:
-          type: string
-          description: Database name
-      required:
-      - host
-      - port
-      - username
-      - password
-      - database
+    ProjectWithDatabase:
+      allOf:
+      - $ref: '#/components/schemas/Project_2'
+      - type: object
+        properties:
+          databases:
+            type: array
+            description: Databases associated with the project
+            items:
+              $ref: '#/components/schemas/Database'
     ProjectCreate_2:
       type: object
       description: Request body for creating a new project with a database
@@ -1341,107 +1442,6 @@ components:
       required:
       - name
       - region
-    DatabaseApiKey:
-      type: object
-      description: An API key for accessing the database
-      properties:
-        apiKey:
-          type: string
-          description: The API key value
-        connectionString:
-          type: string
-          description: Full connection string incorporating this API key
-      required:
-      - apiKey
-      - connectionString
-    ProjectWithDatabase:
-      allOf:
-      - $ref: '#/components/schemas/Project_2'
-      - type: object
-        properties:
-          databases:
-            type: array
-            description: Databases associated with the project
-            items:
-              $ref: '#/components/schemas/Database'
-    Error_2:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    Project_2:
-      type: object
-      description: A project represents an application or service that contains one or more Prisma Postgres databases.
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the project
-        name:
-          type: string
-          description: Display name of the project
-        workspaceId:
-          type: string
-          description: Identifier of the parent workspace
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the project was created
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the project was last updated
-      required:
-      - id
-      - name
-      - workspaceId
-      - createdAt
-      - updatedAt
-  responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     WorkspaceId:
       name: workspaceId

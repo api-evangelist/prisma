@@ -262,25 +262,27 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    RecordId:
-      name: id
-      in: path
-      required: true
-      description: Unique identifier of the record
-      schema:
-        type: string
-    ModelName:
-      name: model
-      in: path
-      required: true
-      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
-      schema:
-        type: string
-        examples:
-        - user
-        - post
   schemas:
+    UpdateInput:
+      type: object
+      description: Input data for updating a record
+      properties:
+        data:
+          type: object
+          description: The field values to update
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -302,6 +304,10 @@ components:
       required:
       - code
       - message
+    Record:
+      type: object
+      description: A database record. The structure depends on the model schema and select/include options used in the query.
+      additionalProperties: true
     CreateInput:
       type: object
       description: Input data for creating a new record
@@ -309,26 +315,6 @@ components:
         data:
           type: object
           description: The field values for the new record
-          additionalProperties: true
-        select:
-          type: object
-          description: Fields to include in the returned record
-          additionalProperties:
-            type: boolean
-        include:
-          type: object
-          description: Relations to eagerly load in the returned record
-          additionalProperties:
-            type: boolean
-      required:
-      - data
-    UpdateInput:
-      type: object
-      description: Input data for updating a record
-      properties:
-        data:
-          type: object
-          description: The field values to update
           additionalProperties: true
         select:
           type: object
@@ -372,19 +358,15 @@ components:
       - where
       - create
       - update
-    Record:
-      type: object
-      description: A database record. The structure depends on the model schema and select/include options used in the query.
-      additionalProperties: true
   responses:
-    NotFound:
-      description: The requested record was not found
+    BadRequest:
+      description: The request was invalid or malformed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/PrismaError'
-    BadRequest:
-      description: The request was invalid or malformed
+    NotFound:
+      description: The requested record was not found
       content:
         application/json:
           schema:
@@ -395,6 +377,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/PrismaError'
+  parameters:
+    RecordId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the record
+      schema:
+        type: string
+    ModelName:
+      name: model
+      in: path
+      required: true
+      description: The Prisma model name (e.g., user, post, comment) as defined in the Prisma schema file
+      schema:
+        type: string
+        examples:
+        - user
+        - post
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

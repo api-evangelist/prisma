@@ -140,21 +140,17 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   responses:
     RateLimited:
       description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -165,21 +161,60 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: An unexpected error occurred
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   schemas:
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
+    SessionCreate:
+      type: object
+      description: Request body for creating a new recording session
+      properties:
+        name:
+          type: string
+          description: Optional display name for the session
+          examples:
+          - Feature development session
+        databaseProvider:
+          type: string
+          description: The database provider being used
+          enum:
+          - postgresql
+          - mysql
+          - cockroachdb
+          - sqlserver
+      required:
+      - databaseProvider
     Session:
       type: object
       description: A query recording session for performance analysis
@@ -227,41 +262,6 @@ components:
       - databaseProvider
       - queryCount
       - startedAt
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
-    SessionCreate:
-      type: object
-      description: Request body for creating a new recording session
-      properties:
-        name:
-          type: string
-          description: Optional display name for the session
-          examples:
-          - Feature development session
-        databaseProvider:
-          type: string
-          description: The database provider being used
-          enum:
-          - postgresql
-          - mysql
-          - cockroachdb
-          - sqlserver
-      required:
-      - databaseProvider
   securitySchemes:
     apiKeyAuth:
       type: apiKey

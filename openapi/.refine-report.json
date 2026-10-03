@@ -40,9 +40,7 @@
     "prisma-streams-api-openapi.yml",
     "prisma-subscriptions-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -64,30 +62,34 @@
     "tag 'Database Usage' spans 2 source specs (prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml): per-path servers applied",
     "tag 'Databases' spans 2 source specs (prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml): per-path servers applied",
     "tag 'Integrations' spans 2 source specs (prisma-postgres-management-api-openapi.json, prisma-postgres-management-openapi.yml): per-path servers applied",
-    "superseded outputs removed: prisma-postgres-management-api-openapi.json",
-    "apis.yml register: written (+6 apis, 29 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "prisma-aggregation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-batch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "prisma-buckets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-cache-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-crud-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-database-backups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-database-usage-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-databases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "prisma-databases-connections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-environments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "prisma-experimental-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-members-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-metrics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "prisma-postgres-management-api-openapi.json: previously refined output, superseded by openapi/_original/",
+    "prisma-misc-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-raw-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-recommendations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "prisma-regions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "prisma-service-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-streams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "prisma-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/",

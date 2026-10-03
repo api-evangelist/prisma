@@ -388,45 +388,7 @@ paths:
     servers:
     - url: https://api.prisma.io
 components:
-  responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    WorkspaceUpdate:
-      type: object
-      description: Fields that can be updated on a workspace
-      properties:
-        name:
-          type: string
-          description: New display name for the workspace
     Workspace:
       type: object
       description: A workspace is the top-level organizational unit in the Prisma Data Platform that contains projects, members, and billing configuration.
@@ -489,6 +451,13 @@ components:
           required:
           - code
           - message
+    WorkspaceUpdate:
+      type: object
+      description: Fields that can be updated on a workspace
+      properties:
+        name:
+          type: string
+          description: New display name for the workspace
     Workspace_2:
       type: object
       description: A workspace is the top-level organizational unit containing projects, databases, and team members with shared billing.
@@ -545,6 +514,37 @@ components:
           required:
           - code
           - message
+  responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     WorkspaceId:
       name: workspaceId
