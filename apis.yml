@@ -952,6 +952,8 @@ apis:
   humanURL: https://www.prisma.io/docs/rest-api
   baseURL: https://api.prisma.io/v1
   tags:
+  - Experimental
+  tags_raw:
   - '[Experimental]'
   properties:
   - type: OpenAPI
@@ -985,7 +987,8 @@ apis:
   description: The Misc API from Prisma — 3 operation(s) for misc.
   humanURL: https://www.prisma.io/docs/rest-api
   baseURL: https://api.prisma.io/v1
-  tags:
+  tags: []
+  tags_raw:
   - Misc
   properties:
   - type: OpenAPI
@@ -1083,6 +1086,9 @@ apis:
   - type: ToolCrosswalk
     url: mcp/prisma-tool-crosswalk.yml
 common:
+- type: CapabilityMap
+  url: capabilities/prisma-capability-edges.yml
+  name: Prisma Business Capability Map
 - type: OAuthScopes
   url: scopes/prisma-scopes.yml
 - type: AgenticAccess
