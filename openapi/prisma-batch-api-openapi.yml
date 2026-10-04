@@ -96,7 +96,50 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   schemas:
+    CreateManyInput:
+      type: object
+      description: Input data for creating multiple records
+      properties:
+        data:
+          type: array
+          description: Array of records to create
+          items:
+            type: object
+            additionalProperties: true
+        skipDuplicates:
+          type: boolean
+          description: Skip records that violate unique constraints
+          default: false
+      required:
+      - data
+    UpdateManyInput:
+      type: object
+      description: Input data for updating multiple records
+      properties:
+        where:
+          type: object
+          description: Filter conditions to select records to update
+          additionalProperties: true
+        data:
+          type: object
+          description: Field values to update
+          additionalProperties: true
+      required:
+      - data
     PrismaError:
       type: object
       description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
@@ -128,49 +171,6 @@ components:
           minimum: 0
       required:
       - count
-    CreateManyInput:
-      type: object
-      description: Input data for creating multiple records
-      properties:
-        data:
-          type: array
-          description: Array of records to create
-          items:
-            type: object
-            additionalProperties: true
-        skipDuplicates:
-          type: boolean
-          description: Skip records that violate unique constraints
-          default: false
-      required:
-      - data
-    UpdateManyInput:
-      type: object
-      description: Input data for updating multiple records
-      properties:
-        where:
-          type: object
-          description: Filter conditions to select records to update
-          additionalProperties: true
-        data:
-          type: object
-          description: Field values to update
-          additionalProperties: true
-      required:
-      - data
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
   parameters:
     ModelName:
       name: model

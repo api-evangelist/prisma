@@ -47,24 +47,59 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
   schemas:
-    PulseError:
+    EventFilter:
       type: object
-      description: Error response from the Pulse service
+      description: Filters to apply to event subscriptions. Filters can target specific event types and field values.
       properties:
-        code:
-          type: string
-          description: Machine-readable error code
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
+        create:
           type: object
-          description: Additional error context
+          description: Filter conditions for create events based on scalar fields
           additionalProperties: true
+        update:
+          type: object
+          description: Filter conditions for update events. Uses the after field to filter on post-update values.
+          properties:
+            after:
+              type: object
+              description: Filter on field values after the update
+              additionalProperties: true
+        delete:
+          type: object
+          description: Filter conditions for delete events based on scalar fields
+          additionalProperties: true
+    SubscriptionRequest:
+      type: object
+      description: Request to create a transient event subscription
+      properties:
+        model:
+          type: string
+          description: The Prisma model name to subscribe to
+          examples:
+          - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
       required:
-      - code
-      - message
+      - model
     PulseEvent:
       type: object
       description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
@@ -93,58 +128,23 @@ components:
       - id
       - action
       - modelName
-    SubscriptionRequest:
+    PulseError:
       type: object
-      description: Request to create a transient event subscription
+      description: Error response from the Pulse service
       properties:
-        model:
+        code:
           type: string
-          description: The Prisma model name to subscribe to
-          examples:
-          - User
-        filter:
-          $ref: '#/components/schemas/EventFilter'
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
       required:
-      - model
-    EventFilter:
-      type: object
-      description: Filters to apply to event subscriptions. Filters can target specific event types and field values.
-      properties:
-        create:
-          type: object
-          description: Filter conditions for create events based on scalar fields
-          additionalProperties: true
-        update:
-          type: object
-          description: Filter conditions for update events. Uses the after field to filter on post-update values.
-          properties:
-            after:
-              type: object
-              description: Filter on field values after the update
-              additionalProperties: true
-        delete:
-          type: object
-          description: Filter conditions for delete events based on scalar fields
-          additionalProperties: true
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
+      - code
+      - message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

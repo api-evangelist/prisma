@@ -127,52 +127,61 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
   schemas:
-    PulseError:
+    StreamInfo:
       type: object
-      description: Error response from the Pulse service
+      description: Information about a named event stream
       properties:
-        code:
+        name:
           type: string
-          description: Machine-readable error code
-        message:
+          description: Name of the stream
+        model:
           type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
-    PulseEvent:
-      type: object
-      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
-      discriminator:
-        propertyName: action
-        mapping:
-          create: '#/components/schemas/PulseCreateEvent'
-          update: '#/components/schemas/PulseUpdateEvent'
-          delete: '#/components/schemas/PulseDeleteEvent'
-      properties:
-        id:
+          description: Model being streamed
+        status:
           type: string
-          description: Unique ULID identifier for the event
-          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
-        action:
-          type: string
-          description: The type of database operation that triggered the event
+          description: Current status of the stream
           enum:
-          - create
-          - update
-          - delete
-        modelName:
+          - active
+          - paused
+          - stopped
+        cursor:
           type: string
-          description: Name of the Prisma model the event relates to
+          description: Current cursor position (ULID of last processed event)
+        createdAt:
+          type: string
+          format: date-time
+          description: When the stream was created
       required:
-      - id
-      - action
-      - modelName
+      - name
+      - model
+      - status
+      - createdAt
     StreamCreateRequest:
       type: object
       description: Request to create a new named event stream
@@ -212,60 +221,51 @@ components:
           type: object
           description: Filter conditions for delete events based on scalar fields
           additionalProperties: true
-    StreamInfo:
+    PulseEvent:
       type: object
-      description: Information about a named event stream
+      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
       properties:
-        name:
+        id:
           type: string
-          description: Name of the stream
-        model:
+          description: Unique ULID identifier for the event
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+        action:
           type: string
-          description: Model being streamed
-        status:
-          type: string
-          description: Current status of the stream
+          description: The type of database operation that triggered the event
           enum:
-          - active
-          - paused
-          - stopped
-        cursor:
+          - create
+          - update
+          - delete
+        modelName:
           type: string
-          description: Current cursor position (ULID of last processed event)
-        createdAt:
-          type: string
-          format: date-time
-          description: When the stream was created
+          description: Name of the Prisma model the event relates to
       required:
-      - name
-      - model
-      - status
-      - createdAt
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
+      - id
+      - action
+      - modelName
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
   securitySchemes:
     apiKeyAuth:
       type: apiKey

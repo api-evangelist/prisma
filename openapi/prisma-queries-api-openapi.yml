@@ -205,7 +205,121 @@ paths:
     - url: https://optimize.prisma-data.net
       description: Prisma Optimize production endpoint
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    BadRequest_2:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized_2:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError_2:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    QueryRequest:
+      type: object
+      description: A Prisma query request routed through the Accelerate proxy
+      properties:
+        query:
+          type: string
+          description: The Prisma query operation serialized as a GraphQL query string
+        variables:
+          type: object
+          description: Variables for the query operation
+          additionalProperties: true
+        extensions:
+          type: object
+          description: Query extensions including cache strategy configuration
+          properties:
+            cacheStrategy:
+              $ref: '#/components/schemas/CacheStrategy'
+      required:
+      - query
+    AccelerateError:
+      type: object
+      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
+      properties:
+        code:
+          type: string
+          description: Accelerate-specific error code (P6xxx format)
+          pattern: ^P6[0-9]{3}$
+          examples:
+          - P6003
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    CacheStrategy:
+      type: object
+      description: Cache configuration for a specific query. Defines how long results should be cached and how stale data should be handled.
+      properties:
+        ttl:
+          type: integer
+          description: Time-to-live in seconds. Cached results are served directly for this duration without querying the database.
+          minimum: 1
+          examples:
+          - 60
+        swr:
+          type: integer
+          description: Stale-while-revalidate time in seconds. After TTL expires, stale cached results are served while a background refresh occurs.
+          minimum: 1
+          examples:
+          - 60
+        tags:
+          type: array
+          description: Cache tags for targeted invalidation. Each tag must be alphanumeric with underscores, maximum 64 characters.
+          items:
+            type: string
+            pattern: ^[a-zA-Z0-9_]{1,64}$
+          maxItems: 5
+          examples:
+          - - user_list
+            - active_users
     AccelerateInfo:
       type: object
       description: Cache metadata returned alongside query results
@@ -236,51 +350,6 @@ components:
       required:
       - cacheStatus
       - requestId
-    CacheStrategy:
-      type: object
-      description: Cache configuration for a specific query. Defines how long results should be cached and how stale data should be handled.
-      properties:
-        ttl:
-          type: integer
-          description: Time-to-live in seconds. Cached results are served directly for this duration without querying the database.
-          minimum: 1
-          examples:
-          - 60
-        swr:
-          type: integer
-          description: Stale-while-revalidate time in seconds. After TTL expires, stale cached results are served while a background refresh occurs.
-          minimum: 1
-          examples:
-          - 60
-        tags:
-          type: array
-          description: Cache tags for targeted invalidation. Each tag must be alphanumeric with underscores, maximum 64 characters.
-          items:
-            type: string
-            pattern: ^[a-zA-Z0-9_]{1,64}$
-          maxItems: 5
-          examples:
-          - - user_list
-            - active_users
-    QueryRequest:
-      type: object
-      description: A Prisma query request routed through the Accelerate proxy
-      properties:
-        query:
-          type: string
-          description: The Prisma query operation serialized as a GraphQL query string
-        variables:
-          type: object
-          description: Variables for the query operation
-          additionalProperties: true
-        extensions:
-          type: object
-          description: Query extensions including cache strategy configuration
-          properties:
-            cacheStrategy:
-              $ref: '#/components/schemas/CacheStrategy'
-      required:
-      - query
     QueryResponse:
       type: object
       description: Response from a proxied query through Accelerate
@@ -300,26 +369,6 @@ components:
           properties:
             accelerateInfo:
               $ref: '#/components/schemas/AccelerateInfo'
-    AccelerateError:
-      type: object
-      description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
-      properties:
-        code:
-          type: string
-          description: Accelerate-specific error code (P6xxx format)
-          pattern: ^P6[0-9]{3}$
-          examples:
-          - P6003
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
     Error:
       type: object
       description: Standard error response
@@ -336,6 +385,43 @@ components:
           required:
           - code
           - message
+    QueryIngestPayload:
+      type: object
+      description: Payload sent by the Optimize extension containing query execution data
+      properties:
+        sessionId:
+          type: string
+          description: Active session to associate the queries with
+        queries:
+          type: array
+          description: Array of query execution records
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                description: Prisma Client operation name
+              model:
+                type: string
+                description: Model name
+              sql:
+                type: string
+                description: Generated SQL
+              duration:
+                type: number
+                format: float
+                description: Execution duration in milliseconds
+              timestamp:
+                type: string
+                format: date-time
+                description: Execution timestamp
+            required:
+            - operation
+            - duration
+            - timestamp
+      required:
+      - sessionId
+      - queries
     RecordedQuery:
       type: object
       description: A query captured during a recording session
@@ -392,92 +478,6 @@ components:
       - operation
       - duration
       - timestamp
-    QueryIngestPayload:
-      type: object
-      description: Payload sent by the Optimize extension containing query execution data
-      properties:
-        sessionId:
-          type: string
-          description: Active session to associate the queries with
-        queries:
-          type: array
-          description: Array of query execution records
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                description: Prisma Client operation name
-              model:
-                type: string
-                description: Model name
-              sql:
-                type: string
-                description: Generated SQL
-              duration:
-                type: number
-                format: float
-                description: Execution duration in milliseconds
-              timestamp:
-                type: string
-                format: date-time
-                description: Execution timestamp
-            required:
-            - operation
-            - duration
-            - timestamp
-      required:
-      - sessionId
-      - queries
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError_2:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest_2:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized_2:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     SessionId:
       name: sessionId

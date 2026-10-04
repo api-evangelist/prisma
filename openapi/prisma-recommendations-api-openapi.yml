@@ -60,14 +60,6 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   schemas:
     Error:
       type: object
@@ -140,14 +132,14 @@ components:
       - title
       - description
   responses:
-    NotFound:
-      description: The requested resource was not found
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -158,6 +150,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -140,23 +140,15 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  parameters:
-    SessionId:
-      name: sessionId
-      in: path
-      required: true
-      description: Unique identifier of the recording session
-      schema:
-        type: string
   responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    BadRequest:
+      description: The request was invalid or malformed
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
+    Unauthorized:
+      description: Invalid or missing API key
       content:
         application/json:
           schema:
@@ -167,8 +159,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid or missing API key
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -180,22 +172,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
     SessionCreate:
       type: object
       description: Request body for creating a new recording session
@@ -215,6 +191,22 @@ components:
           - sqlserver
       required:
       - databaseProvider
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
     Session:
       type: object
       description: A query recording session for performance analysis
@@ -262,6 +254,14 @@ components:
       - databaseProvider
       - queryCount
       - startedAt
+  parameters:
+    SessionId:
+      name: sessionId
+      in: path
+      required: true
+      description: Unique identifier of the recording session
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -50,23 +50,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   schemas:
-    PulseError:
-      type: object
-      description: Error response from the Pulse service
-      properties:
-        code:
-          type: string
-          description: Machine-readable error code
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
     PulseEvent:
       type: object
       description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
@@ -95,13 +78,24 @@ components:
       - id
       - action
       - modelName
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
   responses:
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
     Unauthorized:
       description: Invalid or missing API key
       content:
@@ -110,6 +104,12 @@ components:
             $ref: '#/components/schemas/PulseError'
     NotFound:
       description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
       content:
         application/json:
           schema:

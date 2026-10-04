@@ -929,18 +929,6 @@ paths:
       description: Prisma Management API production server
 components:
   responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -959,27 +947,34 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    ConnectionCreate:
       type: object
-      description: Standard error response
+      description: Request body for creating a new connection string
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
+        name:
+          type: string
+          description: Display name for the connection
+        type:
+          type: string
+          description: Type of connection to create
+          enum:
+          - prisma
+          - direct
+      required:
+      - type
     Connection:
       type: object
       description: A database connection string configuration
@@ -1018,21 +1013,26 @@ components:
             description: The full connection string with credentials. Only returned once during creation.
         required:
         - connectionString
-    ConnectionCreate:
+    Error:
       type: object
-      description: Request body for creating a new connection string
+      description: Standard error response
       properties:
-        name:
-          type: string
-          description: Display name for the connection
-        type:
-          type: string
-          description: Type of connection to create
-          enum:
-          - prisma
-          - direct
-      required:
-      - type
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
   parameters:
     DatabaseId:
       name: databaseId

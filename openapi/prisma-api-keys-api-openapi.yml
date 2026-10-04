@@ -106,7 +106,50 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    ApiKeyWithValue:
+      allOf:
+      - $ref: '#/components/schemas/ApiKey'
+      - type: object
+        properties:
+          apiKey:
+            type: string
+            description: The full API key value. This is only returned once during creation and cannot be retrieved later.
+            examples:
+            - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        required:
+        - apiKey
     ApiKeyCreate:
       type: object
       description: Request body for creating a new API key
@@ -138,18 +181,6 @@ components:
           required:
           - code
           - message
-    ApiKeyWithValue:
-      allOf:
-      - $ref: '#/components/schemas/ApiKey'
-      - type: object
-        properties:
-          apiKey:
-            type: string
-            description: The full API key value. This is only returned once during creation and cannot be retrieved later.
-            examples:
-            - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        required:
-        - apiKey
     ApiKey:
       type: object
       description: An API key used to authenticate Prisma Client requests to Data Platform resources. The key value is only available at creation time.
@@ -178,37 +209,6 @@ components:
       - hint
       - environmentId
       - createdAt
-  responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     EnvironmentId:
       name: environmentId

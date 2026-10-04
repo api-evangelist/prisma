@@ -276,6 +276,33 @@ paths:
       description: Prisma Management API production server
 components:
   schemas:
+    BackupCreate:
+      type: object
+      description: Request body for creating a manual backup
+      properties:
+        label:
+          type: string
+          description: Optional label for the backup
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
     DatabaseBackup:
       type: object
       description: A backup of a Prisma Postgres database
@@ -318,42 +345,9 @@ components:
       - type
       - status
       - createdAt
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
-    BackupCreate:
-      type: object
-      description: Request body for creating a manual backup
-      properties:
-        label:
-          type: string
-          description: Optional label for the backup
   responses:
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
       content:
         application/json:
           schema:
@@ -364,8 +358,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
       content:
         application/json:
           schema:

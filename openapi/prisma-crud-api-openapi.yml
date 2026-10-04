@@ -262,52 +262,26 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    NotFound:
+      description: The requested record was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   schemas:
-    UpdateInput:
-      type: object
-      description: Input data for updating a record
-      properties:
-        data:
-          type: object
-          description: The field values to update
-          additionalProperties: true
-        select:
-          type: object
-          description: Fields to include in the returned record
-          additionalProperties:
-            type: boolean
-        include:
-          type: object
-          description: Relations to eagerly load in the returned record
-          additionalProperties:
-            type: boolean
-      required:
-      - data
-    PrismaError:
-      type: object
-      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
-      properties:
-        code:
-          type: string
-          description: Prisma error code (e.g., P2002 for unique constraint violation)
-          pattern: ^P[0-9]{4}$
-          examples:
-          - P2002
-          - P2025
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
-    Record:
-      type: object
-      description: A database record. The structure depends on the model schema and select/include options used in the query.
-      additionalProperties: true
     CreateInput:
       type: object
       description: Input data for creating a new record
@@ -328,6 +302,10 @@ components:
             type: boolean
       required:
       - data
+    Record:
+      type: object
+      description: A database record. The structure depends on the model schema and select/include options used in the query.
+      additionalProperties: true
     UpsertInput:
       type: object
       description: Input data for upserting a record
@@ -358,25 +336,47 @@ components:
       - where
       - create
       - update
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    NotFound:
-      description: The requested record was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
+    PrismaError:
+      type: object
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
+      properties:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    UpdateInput:
+      type: object
+      description: Input data for updating a record
+      properties:
+        data:
+          type: object
+          description: The field values to update
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
   parameters:
     RecordId:
       name: id
