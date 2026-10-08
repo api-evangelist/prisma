@@ -1086,6 +1086,8 @@ apis:
   - type: ToolCrosswalk
     url: mcp/prisma-tool-crosswalk.yml
 common:
+- type: FinOps
+  url: finops/prisma-finops.yml
 - type: CapabilityMap
   url: capabilities/prisma-capability-edges.yml
   name: Prisma Business Capability Map
