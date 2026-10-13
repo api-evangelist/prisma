@@ -1,0 +1,19 @@
+edges:
+- partner_name: PostgreSQL
+  partner: postgresql
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: postgres-wire
+  type: docs
+  degree: declared-unqualified
+  evidence: https://www.prisma.io/docs/postgres
+  evidence_kind: own-docs
+  evidence_file: https://github.com/api-evangelist/prisma/blob/main/evidence/compatibility/prisma-postgres-wire-1.md
+  quote: 'Any PostgreSQL client works: Prisma ORM, psql , Kysely, Drizzle, node-postgres , or anything else that
+    speaks Postgres.'
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-13'
+generated: '2026-10-13'
+method: searched

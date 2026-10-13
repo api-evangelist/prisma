@@ -1,0 +1,13 @@
+fetched: '2026-10-13'
+method: fetched
+source: https://www.prisma.io/docs/postgres
+page: https://www.prisma.io/docs/postgres
+file: prisma-postgres-wire-1.md
+bytes: 6199
+sha256: 635d156f9c0fd0d535e85ce99fbea2981bbd955a4fcb33d83aaf5d65b6300d43
+anchor: postgresql
+shape: postgres-wire
+classification: declares-compatibility
+quote: 'Any PostgreSQL client works: Prisma ORM, psql , Kysely, Drizzle, node-postgres , or anything else that speaks
+  Postgres.'
+note: text extracted from the provider's own page (tags stripped), saved for evidence
