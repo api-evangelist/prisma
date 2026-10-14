@@ -15,5 +15,49 @@ edges:
     speaks Postgres.'
   detected_by: sweep-shape-compat.py
   first_seen: '2026-10-13'
+- partner_name: GitHub Marketplace (actions)
+  partner: github-actions
+  partner_match: aggregator
+  type: marketplace
+  marketplace: github-actions
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://github.com/marketplace/actions/create-prisma-postgres-database
+  listing_count: 2
+  apps:
+  - Create Prisma Postgres Database
+  - Delete Prisma Postgres Database
+  publisher_name: Prisma
+  badges:
+  - Verified creator
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
+- partner_name: Visual Studio Code Marketplace
+  partner: vs-code-marketplace
+  partner_match: aggregator
+  type: marketplace
+  marketplace: vscode
+  channel: partner-built
+  relationship: platform-app
+  direction: third-party
+  evidence: https://marketplace.visualstudio.com/publishers/Prisma
+  listing_count: 2
+  apps:
+  - Prisma
+  - Prisma - Insider
+  publisher_name: Prisma
+  badges:
+  - Verified publisher
+  - Verified domain
+  detected_by: sweep-devtools.py
+  detected: '2026-10-14'
 generated: '2026-10-13'
 method: searched
+checked:
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
+marketplace_apps: []
+source:
+- https://github.com/marketplace?type=actions
+- https://marketplace.visualstudio.com/vscode
