@@ -1,20 +1,4 @@
 edges:
-- partner_name: PostgreSQL
-  partner: postgresql
-  partner_match: shape-anchor
-  channel: provider-built
-  relationship: compatible
-  direction: provider-built
-  shape: postgres-wire
-  type: docs
-  degree: declared-unqualified
-  evidence: https://www.prisma.io/docs/postgres
-  evidence_kind: own-docs
-  evidence_file: https://github.com/api-evangelist/prisma/blob/main/evidence/compatibility/prisma-postgres-wire-1.md
-  quote: 'Any PostgreSQL client works: Prisma ORM, psql , Kysely, Drizzle, node-postgres , or anything else that
-    speaks Postgres.'
-  detected_by: sweep-shape-compat.py
-  first_seen: '2026-10-13'
 - partner_name: GitHub Marketplace (actions)
   partner: github-actions
   partner_match: aggregator
@@ -84,12 +68,46 @@ edges:
   - namespace-domain
   detected_by: sweep-agent-tools.py
   first_seen: '2026-10-14'
+- partner_name: Stripe (own)
+  partner: stripe
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://marketplace.stripe.com/apps/prisma
+  mirror_of: stripe/integrations/stripe-integration-edges.yml
+  apps:
+  - Prisma
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+  category: developer_tools
+- partner_name: PostgreSQL
+  partner: postgresql
+  partner_match: shape-anchor
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  shape: postgres-wire
+  type: docs
+  degree: declared-unqualified
+  evidence: https://www.prisma.io/docs/postgres
+  evidence_kind: own-docs
+  evidence_file: https://github.com/api-evangelist/prisma/blob/main/evidence/compatibility/prisma-postgres-wire-1.md
+  quote: 'Any PostgreSQL client works: Prisma ORM, psql , Kysely, Drizzle, node-postgres , or anything else that
+    speaks Postgres.'
+  detected_by: sweep-shape-compat.py
+  first_seen: '2026-10-13'
 generated: '2026-10-13'
 method: searched
 checked:
 - https://github.com/marketplace?type=actions
 - https://marketplace.visualstudio.com/vscode
 - https://registry.modelcontextprotocol.io/v0/servers
+- stripe/integrations/stripe-integration-edges.yml
 marketplace_apps: []
 source:
 - https://github.com/marketplace?type=actions
