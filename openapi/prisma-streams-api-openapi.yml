@@ -127,32 +127,71 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PulseError'
   schemas:
+    PulseError:
+      type: object
+      description: Error response from the Pulse service
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
+          type: object
+          description: Additional error context
+          additionalProperties: true
+      required:
+      - code
+      - message
+    StreamCreateRequest:
+      type: object
+      description: Request to create a new named event stream
+      properties:
+        name:
+          type: string
+          description: Unique name for the stream. Used for resumability; reconnecting with the same name resumes from the last acknowledged position.
+          examples:
+          - all-user-events
+        model:
+          type: string
+          description: The Prisma model name to stream events for
+          examples:
+          - User
+        filter:
+          $ref: '#/components/schemas/EventFilter'
+      required:
+      - name
+      - model
+    PulseEvent:
+      type: object
+      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
+      discriminator:
+        propertyName: action
+        mapping:
+          create: '#/components/schemas/PulseCreateEvent'
+          update: '#/components/schemas/PulseUpdateEvent'
+          delete: '#/components/schemas/PulseDeleteEvent'
+      properties:
+        id:
+          type: string
+          description: Unique ULID identifier for the event
+          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
+        action:
+          type: string
+          description: The type of database operation that triggered the event
+          enum:
+          - create
+          - update
+          - delete
+        modelName:
+          type: string
+          description: Name of the Prisma model the event relates to
+      required:
+      - id
+      - action
+      - modelName
     StreamInfo:
       type: object
       description: Information about a named event stream
@@ -182,25 +221,6 @@ components:
       - model
       - status
       - createdAt
-    StreamCreateRequest:
-      type: object
-      description: Request to create a new named event stream
-      properties:
-        name:
-          type: string
-          description: Unique name for the stream. Used for resumability; reconnecting with the same name resumes from the last acknowledged position.
-          examples:
-          - all-user-events
-        model:
-          type: string
-          description: The Prisma model name to stream events for
-          examples:
-          - User
-        filter:
-          $ref: '#/components/schemas/EventFilter'
-      required:
-      - name
-      - model
     EventFilter:
       type: object
       description: Filters to apply to event subscriptions. Filters can target specific event types and field values.
@@ -221,51 +241,31 @@ components:
           type: object
           description: Filter conditions for delete events based on scalar fields
           additionalProperties: true
-    PulseEvent:
-      type: object
-      description: A database change event captured by Prisma Pulse. The structure varies depending on the action type.
-      discriminator:
-        propertyName: action
-        mapping:
-          create: '#/components/schemas/PulseCreateEvent'
-          update: '#/components/schemas/PulseUpdateEvent'
-          delete: '#/components/schemas/PulseDeleteEvent'
-      properties:
-        id:
-          type: string
-          description: Unique ULID identifier for the event
-          pattern: ^[0-9A-HJKMNP-TV-Z]{26}$
-        action:
-          type: string
-          description: The type of database operation that triggered the event
-          enum:
-          - create
-          - update
-          - delete
-        modelName:
-          type: string
-          description: Name of the Prisma model the event relates to
-      required:
-      - id
-      - action
-      - modelName
-    PulseError:
-      type: object
-      description: Error response from the Pulse service
-      properties:
-        code:
-          type: string
-          description: Machine-readable error code
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
+  responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PulseError'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

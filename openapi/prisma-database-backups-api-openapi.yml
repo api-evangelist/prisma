@@ -283,26 +283,6 @@ components:
         label:
           type: string
           description: Optional label for the backup
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
     DatabaseBackup:
       type: object
       description: A backup of a Prisma Postgres database
@@ -345,9 +325,29 @@ components:
       - type
       - status
       - createdAt
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
   responses:
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
@@ -358,8 +358,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
       content:
         application/json:
           schema:

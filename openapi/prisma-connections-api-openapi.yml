@@ -929,6 +929,18 @@ paths:
       description: Prisma Management API production server
 components:
   responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -941,18 +953,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: An unexpected error occurred on the server
       content:
@@ -960,21 +960,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    ConnectionCreate:
-      type: object
-      description: Request body for creating a new connection string
-      properties:
-        name:
-          type: string
-          description: Display name for the connection
-        type:
-          type: string
-          description: Type of connection to create
-          enum:
-          - prisma
-          - direct
-      required:
-      - type
     Connection:
       type: object
       description: A database connection string configuration
@@ -1003,16 +988,6 @@ components:
       - databaseId
       - type
       - createdAt
-    ConnectionWithCredentials:
-      allOf:
-      - $ref: '#/components/schemas/Connection'
-      - type: object
-        properties:
-          connectionString:
-            type: string
-            description: The full connection string with credentials. Only returned once during creation.
-        required:
-        - connectionString
     Error:
       type: object
       description: Standard error response
@@ -1033,6 +1008,31 @@ components:
           required:
           - code
           - message
+    ConnectionWithCredentials:
+      allOf:
+      - $ref: '#/components/schemas/Connection'
+      - type: object
+        properties:
+          connectionString:
+            type: string
+            description: The full connection string with credentials. Only returned once during creation.
+        required:
+        - connectionString
+    ConnectionCreate:
+      type: object
+      description: Request body for creating a new connection string
+      properties:
+        name:
+          type: string
+          description: Display name for the connection
+        type:
+          type: string
+          description: Type of connection to create
+          enum:
+          - prisma
+          - direct
+      required:
+      - type
   parameters:
     DatabaseId:
       name: databaseId

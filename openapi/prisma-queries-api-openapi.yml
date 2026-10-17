@@ -205,75 +205,7 @@ paths:
     - url: https://optimize.prisma-data.net
       description: Prisma Optimize production endpoint
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    Unauthorized:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/AccelerateError'
-    BadRequest_2:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized_2:
-      description: Invalid or missing API key
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError_2:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    QueryRequest:
-      type: object
-      description: A Prisma query request routed through the Accelerate proxy
-      properties:
-        query:
-          type: string
-          description: The Prisma query operation serialized as a GraphQL query string
-        variables:
-          type: object
-          description: Variables for the query operation
-          additionalProperties: true
-        extensions:
-          type: object
-          description: Query extensions including cache strategy configuration
-          properties:
-            cacheStrategy:
-              $ref: '#/components/schemas/CacheStrategy'
-      required:
-      - query
     AccelerateError:
       type: object
       description: Error response from Accelerate. All Accelerate errors follow the P6xxx error code format.
@@ -294,6 +226,44 @@ components:
       required:
       - code
       - message
+    QueryResponse:
+      type: object
+      description: Response from a proxied query through Accelerate
+      properties:
+        data:
+          type: object
+          description: The query result data
+          additionalProperties: true
+        errors:
+          type: array
+          description: Any errors that occurred during query execution
+          items:
+            $ref: '#/components/schemas/AccelerateError'
+        extensions:
+          type: object
+          description: Response extensions including cache metadata
+          properties:
+            accelerateInfo:
+              $ref: '#/components/schemas/AccelerateInfo'
+    QueryRequest:
+      type: object
+      description: A Prisma query request routed through the Accelerate proxy
+      properties:
+        query:
+          type: string
+          description: The Prisma query operation serialized as a GraphQL query string
+        variables:
+          type: object
+          description: Variables for the query operation
+          additionalProperties: true
+        extensions:
+          type: object
+          description: Query extensions including cache strategy configuration
+          properties:
+            cacheStrategy:
+              $ref: '#/components/schemas/CacheStrategy'
+      required:
+      - query
     CacheStrategy:
       type: object
       description: Cache configuration for a specific query. Defines how long results should be cached and how stale data should be handled.
@@ -350,41 +320,6 @@ components:
       required:
       - cacheStatus
       - requestId
-    QueryResponse:
-      type: object
-      description: Response from a proxied query through Accelerate
-      properties:
-        data:
-          type: object
-          description: The query result data
-          additionalProperties: true
-        errors:
-          type: array
-          description: Any errors that occurred during query execution
-          items:
-            $ref: '#/components/schemas/AccelerateError'
-        extensions:
-          type: object
-          description: Response extensions including cache metadata
-          properties:
-            accelerateInfo:
-              $ref: '#/components/schemas/AccelerateInfo'
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-          required:
-          - code
-          - message
     QueryIngestPayload:
       type: object
       description: Payload sent by the Optimize extension containing query execution data
@@ -422,6 +357,22 @@ components:
       required:
       - sessionId
       - queries
+    Error:
+      type: object
+      description: Standard error response
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+          required:
+          - code
+          - message
     RecordedQuery:
       type: object
       description: A query captured during a recording session
@@ -478,6 +429,55 @@ components:
       - operation
       - duration
       - timestamp
+  responses:
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    Unauthorized:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AccelerateError'
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest_2:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized_2:
+      description: Invalid or missing API key
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError_2:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     SessionId:
       name: sessionId

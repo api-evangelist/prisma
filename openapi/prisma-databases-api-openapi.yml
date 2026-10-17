@@ -2641,84 +2641,20 @@ paths:
     - url: https://api.prisma.io/v1
       description: Prisma Management API production server
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    InternalServerError:
-      description: An unexpected error occurred on the server
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    DirectConnection:
+    DatabaseApiKey:
       type: object
-      description: Direct TCP connection details for the database
+      description: An API key for accessing the database
       properties:
-        host:
+        apiKey:
           type: string
-          description: Database host address
-        port:
-          type: integer
-          description: Database port number
-          default: 5432
-        username:
+          description: The API key value
+        connectionString:
           type: string
-          description: Database username
-        password:
-          type: string
-          description: Database password
-        database:
-          type: string
-          description: Database name
+          description: Full connection string incorporating this API key
       required:
-      - host
-      - port
-      - username
-      - password
-      - database
-    Error:
-      type: object
-      description: Standard error response
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-              description: Machine-readable error code
-            message:
-              type: string
-              description: Human-readable error message
-            details:
-              type: object
-              description: Additional error context
-              additionalProperties: true
-          required:
-          - code
-          - message
+      - apiKey
+      - connectionString
     DatabaseCreate:
       type: object
       description: Request body for creating a new database
@@ -2790,19 +2726,83 @@ components:
       - status
       - createdAt
       - updatedAt
-    DatabaseApiKey:
+    Error:
       type: object
-      description: An API key for accessing the database
+      description: Standard error response
       properties:
-        apiKey:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Machine-readable error code
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+              additionalProperties: true
+          required:
+          - code
+          - message
+    DirectConnection:
+      type: object
+      description: Direct TCP connection details for the database
+      properties:
+        host:
           type: string
-          description: The API key value
-        connectionString:
+          description: Database host address
+        port:
+          type: integer
+          description: Database port number
+          default: 5432
+        username:
           type: string
-          description: Full connection string incorporating this API key
+          description: Database username
+        password:
+          type: string
+          description: Database password
+        database:
+          type: string
+          description: Database name
       required:
-      - apiKey
-      - connectionString
+      - host
+      - port
+      - username
+      - password
+      - database
+  responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: An unexpected error occurred on the server
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     ProjectId:
       name: projectId

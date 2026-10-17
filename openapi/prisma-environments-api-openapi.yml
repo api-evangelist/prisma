@@ -125,6 +125,18 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
+    RateLimited:
+      description: Too many requests - rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was invalid or malformed
       content:
@@ -137,18 +149,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     InternalServerError:
       description: An unexpected error occurred on the server
       content:
@@ -156,6 +156,21 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    EnvironmentCreate:
+      type: object
+      description: Request body for creating a new environment
+      properties:
+        name:
+          type: string
+          description: Display name for the new environment
+          examples:
+          - Staging
+        connectionString:
+          type: string
+          description: Database connection string for the environment
+      required:
+      - name
+      - connectionString
     Error:
       type: object
       description: Standard error response from the API
@@ -176,21 +191,6 @@ components:
           required:
           - code
           - message
-    EnvironmentCreate:
-      type: object
-      description: Request body for creating a new environment
-      properties:
-        name:
-          type: string
-          description: Display name for the new environment
-          examples:
-          - Staging
-        connectionString:
-          type: string
-          description: Database connection string for the environment
-      required:
-      - name
-      - connectionString
     Environment:
       type: object
       description: An environment represents a deployment stage within a project, such as development, staging, or production, with its own database connection and API keys.

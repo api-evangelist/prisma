@@ -262,50 +262,28 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
-  responses:
-    BadRequest:
-      description: The request was invalid or malformed
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    NotFound:
-      description: The requested record was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
-    InternalServerError:
-      description: An unexpected error occurred
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/PrismaError'
   schemas:
-    CreateInput:
+    PrismaError:
       type: object
-      description: Input data for creating a new record
+      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
       properties:
-        data:
+        code:
+          type: string
+          description: Prisma error code (e.g., P2002 for unique constraint violation)
+          pattern: ^P[0-9]{4}$
+          examples:
+          - P2002
+          - P2025
+        message:
+          type: string
+          description: Human-readable error description
+        meta:
           type: object
-          description: The field values for the new record
+          description: Additional error context
           additionalProperties: true
-        select:
-          type: object
-          description: Fields to include in the returned record
-          additionalProperties:
-            type: boolean
-        include:
-          type: object
-          description: Relations to eagerly load in the returned record
-          additionalProperties:
-            type: boolean
       required:
-      - data
-    Record:
-      type: object
-      description: A database record. The structure depends on the model schema and select/include options used in the query.
-      additionalProperties: true
+      - code
+      - message
     UpsertInput:
       type: object
       description: Input data for upserting a record
@@ -336,27 +314,10 @@ components:
       - where
       - create
       - update
-    PrismaError:
+    Record:
       type: object
-      description: Error response from Prisma Client. Error codes follow the Pxxxx format documented at https://www.prisma.io/docs/orm/reference/error-reference
-      properties:
-        code:
-          type: string
-          description: Prisma error code (e.g., P2002 for unique constraint violation)
-          pattern: ^P[0-9]{4}$
-          examples:
-          - P2002
-          - P2025
-        message:
-          type: string
-          description: Human-readable error description
-        meta:
-          type: object
-          description: Additional error context
-          additionalProperties: true
-      required:
-      - code
-      - message
+      description: A database record. The structure depends on the model schema and select/include options used in the query.
+      additionalProperties: true
     UpdateInput:
       type: object
       description: Input data for updating a record
@@ -377,14 +338,46 @@ components:
             type: boolean
       required:
       - data
+    CreateInput:
+      type: object
+      description: Input data for creating a new record
+      properties:
+        data:
+          type: object
+          description: The field values for the new record
+          additionalProperties: true
+        select:
+          type: object
+          description: Fields to include in the returned record
+          additionalProperties:
+            type: boolean
+        include:
+          type: object
+          description: Relations to eagerly load in the returned record
+          additionalProperties:
+            type: boolean
+      required:
+      - data
+  responses:
+    NotFound:
+      description: The requested record was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    BadRequest:
+      description: The request was invalid or malformed
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
+    InternalServerError:
+      description: An unexpected error occurred
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PrismaError'
   parameters:
-    RecordId:
-      name: id
-      in: path
-      required: true
-      description: Unique identifier of the record
-      schema:
-        type: string
     ModelName:
       name: model
       in: path
@@ -395,6 +388,13 @@ components:
         examples:
         - user
         - post
+    RecordId:
+      name: id
+      in: path
+      required: true
+      description: Unique identifier of the record
+      schema:
+        type: string
 externalDocs:
   description: Prisma Client API Reference
   url: https://www.prisma.io/docs/orm/reference/prisma-client-reference

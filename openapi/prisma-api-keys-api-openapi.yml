@@ -107,14 +107,14 @@ paths:
           $ref: '#/components/responses/InternalServerError'
 components:
   responses:
-    BadRequest:
-      description: The request was invalid or malformed
+    RateLimited:
+      description: Too many requests - rate limit exceeded
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication is required or the provided credentials are invalid
+    BadRequest:
+      description: The request was invalid or malformed
       content:
         application/json:
           schema:
@@ -125,8 +125,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Too many requests - rate limit exceeded
+    Unauthorized:
+      description: Authentication is required or the provided credentials are invalid
       content:
         application/json:
           schema:
@@ -138,6 +138,34 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
+    ApiKey:
+      type: object
+      description: An API key used to authenticate Prisma Client requests to Data Platform resources. The key value is only available at creation time.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the API key
+        name:
+          type: string
+          description: Display name of the API key
+        hint:
+          type: string
+          description: Masked hint showing the last few characters of the key
+          examples:
+          - '****abc123'
+        environmentId:
+          type: string
+          description: Identifier of the associated environment
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the API key was created
+      required:
+      - id
+      - name
+      - hint
+      - environmentId
+      - createdAt
     ApiKeyWithValue:
       allOf:
       - $ref: '#/components/schemas/ApiKey'
@@ -181,34 +209,6 @@ components:
           required:
           - code
           - message
-    ApiKey:
-      type: object
-      description: An API key used to authenticate Prisma Client requests to Data Platform resources. The key value is only available at creation time.
-      properties:
-        id:
-          type: string
-          description: Unique identifier for the API key
-        name:
-          type: string
-          description: Display name of the API key
-        hint:
-          type: string
-          description: Masked hint showing the last few characters of the key
-          examples:
-          - '****abc123'
-        environmentId:
-          type: string
-          description: Identifier of the associated environment
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the API key was created
-      required:
-      - id
-      - name
-      - hint
-      - environmentId
-      - createdAt
   parameters:
     EnvironmentId:
       name: environmentId
