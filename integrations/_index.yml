@@ -327,3 +327,54 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: prisma-raycast
+  label: Raycast
+  partner: raycast
+  partner_name: Raycast
+  category: Raycast Store extension (community wrapper)
+  type: marketplace
+  marketplace: raycast-store
+  channel: connector-listing
+  evidence: https://www.raycast.com/raj_asha/prisma-cli-commands
+  source: edge
+  relationship: connector-coverage
+  contract_reference:
+    register: Raycast Store (raycast/extensions monorepo + store_listings JSON)
+    spec_file: null
+    role: raycast-community-wrapper
+    builder: community
+    authors:
+    - amanvarshney01
+    - raj_asha
+    matched_domain: prisma.io
+    matched_by: domain
+    monorepo_commit: 84f9ac51336a8c69f70974a75bc067c0feae3658
+    listings:
+    - title: Prisma CLI Commands
+      store_url: https://www.raycast.com/raj_asha/prisma-cli-commands
+      installs: 211
+      categories:
+      - Productivity
+      - Documentation
+      - Developer Tools
+      source: https://github.com/raycast/extensions/tree/84f9ac51336a8c69f70974a75bc067c0feae3658/extensions/prisma-cli-commands/
+      author: raj_asha
+    - title: Prisma Postgres
+      store_url: https://www.raycast.com/amanvarshney01/prisma-postgres
+      installs: 120
+      categories:
+      - Developer Tools
+      source: https://github.com/raycast/extensions/tree/84f9ac51336a8c69f70974a75bc067c0feae3658/extensions/prisma-postgres/
+      author: amanvarshney01
+    categories:
+    - Developer Tools
+    - Documentation
+    - Productivity
+    identity_note: the extension's own source calls a host on the product's domain AND its title / package name
+      passes partner_link's name check; built by Raycast community developers, not the vendor
+    signal_note: 'coverage: Raycast''s store reaches the product through community-built extensions; one edge per
+      (product, store); install / listing counts are context, never counted'
+    detected_by: sweep-raycast-store-extensions.py
+    detected: '2026-10-22'
+  status: not-a-workflow
+  arazzo: null
