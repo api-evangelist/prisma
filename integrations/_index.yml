@@ -301,3 +301,29 @@
   relationship: platform-app
   status: not-a-workflow
   arazzo: null
+- slug: prisma-netlify-own
+  label: Netlify (own)
+  partner: netlify
+  partner_name: Netlify (own)
+  category: Database
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://www.netlify.com/integrations/prisma/
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
+- slug: prisma-vercel-own
+  label: Vercel (own)
+  partner: vercel
+  partner_name: Vercel (own)
+  category: Storage
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://vercel.com/marketplace/prisma
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null

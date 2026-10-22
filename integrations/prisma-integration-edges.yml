@@ -415,6 +415,43 @@ edges:
   category: infrastructure-as-code provider registry listing
   badges:
   - Verified publisher (GitHub domain-verified organization)
+- partner_name: Netlify (own)
+  partner: netlify
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.netlify.com/integrations/prisma/
+  mirror_of: netlify/integrations/netlify-integration-edges.yml
+  apps:
+  - Prisma
+  - Prisma Postgres
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Database
+  partner_tier: extension
+- partner_name: Vercel (own)
+  partner: vercel
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://vercel.com/marketplace/prisma
+  mirror_of: vercel/integrations/vercel-integration-edges.yml
+  apps:
+  - Prisma Postgres
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Storage
+  partner_tier: native
 generated: '2026-10-13'
 method: searched
 checked:
@@ -444,6 +481,8 @@ checked:
 - https://www.skills.sh/sitemap.xml
 - eclipse/integrations/eclipse-integration-edges.yml
 - terraform/integrations/terraform-integration-edges.yml
+- netlify/integrations/netlify-integration-edges.yml
+- vercel/integrations/vercel-integration-edges.yml
 marketplace_apps: []
 source:
 - https://github.com/marketplace?type=actions
