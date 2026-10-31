@@ -1,4 +1,4 @@
-# Prisma (prisma)
+# Prisma
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,181 +64,311 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Prisma is a next-generation ORM that helps developers build applications faster and with fewer errors. It provides a type-safe database client, migrations system, and visual database browser.
+Prisma gives TypeScript and Node.js teams a type-safe ORM, managed serverless Postgres, and Compute for deploying apps and AI agents next to their database. The product line is Prisma ORM, Prisma Postgres, Prisma Compute, Prisma Composer, Prisma Studio, Object Store buckets and Query Insights, wired together by one CLI, a REST Management API at api.prisma.io/v1, and a hosted MCP server at mcp.prisma.io. Accelerate, Pulse and Optimize have left the advertised line.
 
-**APIs.json:** [https://www.prisma.io](https://www.prisma.io)
+**Areas:** Database · PostgreSQL · ORM · Developer Tools · Application Hosting · Serverless · Object Storage · TypeScript · MCP · AI Agents · Provisioning · Data Platform
 
-## Timestamps
+## Prisma on APIs.io
 
-- **Created:** 2024
-- **Modified:** 2026-05-19
+Everything profiled for Prisma is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/prisma/](https://apis.io/providers/prisma/)** — or go straight to one of the APIs or properties below.
 
-## APIs
+### APIs (29)
 
-### Prisma Data Platform API
+- [Prisma Aggregation API](https://apis.io/apis/prisma/prisma-aggregation-api/) — Count, aggregate, and groupBy operations for analytics
+- [Prisma API Keys API](https://apis.io/apis/prisma/prisma-api-keys-api/) — Operations for managing API keys for platform resources
+- [Prisma Batch API](https://apis.io/apis/prisma/prisma-batch-api/) — Batch operations for bulk create, update, and delete
+- [Prisma Cache API](https://apis.io/apis/prisma/prisma-cache-api/) — Cache management and invalidation operations
+- [Prisma Connections API](https://apis.io/apis/prisma/prisma-connections-api/) — Operations for managing database connection strings
+- [Prisma CRUD API](https://apis.io/apis/prisma/prisma-crud-api/) — Core create, read, update, and delete operations for database models
+- [Prisma Database Backups API](https://apis.io/apis/prisma/prisma-database-backups-api/) — Operations for managing database backup and restore operations
+- [Prisma Database Usage API](https://apis.io/apis/prisma/prisma-database-usage-api/) — Operations for retrieving database usage metrics and statistics
+- [Prisma Databases API](https://apis.io/apis/prisma/prisma-databases-api/) — Operations for provisioning and managing Prisma Postgres databases
+- [Prisma Environments API](https://apis.io/apis/prisma/prisma-environments-api/) — Operations for managing project environments
+- [Prisma Events API](https://apis.io/apis/prisma/prisma-events-api/) — Database change event retrieval and management
+- [Prisma Health API](https://apis.io/apis/prisma/prisma-health-api/) — Service health and status checks
+- [Prisma Integrations API](https://apis.io/apis/prisma/prisma-integrations-api/) — Operations for managing third-party integrations
+- [Prisma Members API](https://apis.io/apis/prisma/prisma-members-api/) — Operations for managing workspace members and roles
+- [Prisma Metrics API](https://apis.io/apis/prisma/prisma-metrics-api/) — Performance metrics and statistics
+- [Prisma Projects API](https://apis.io/apis/prisma/prisma-projects-api/) — Operations for managing projects within workspaces
+- [Prisma Queries API](https://apis.io/apis/prisma/prisma-queries-api/) — Proxied database query operations routed through Accelerate with optional caching
+- [Prisma Raw API](https://apis.io/apis/prisma/prisma-raw-api/) — Raw SQL query execution
+- [Prisma Recommendations API](https://apis.io/apis/prisma/prisma-recommendations-api/) — AI-powered query optimization recommendations
+- [Prisma Sessions API](https://apis.io/apis/prisma/prisma-sessions-api/) — Recording session management for query capture and analysis
+- [Prisma Streams API](https://apis.io/apis/prisma/prisma-streams-api/) — Resumable event streams with at-least-once delivery and ordering guarantees. Requires event persistence to be enabled.
+- [Prisma Subscriptions API](https://apis.io/apis/prisma/prisma-subscriptions-api/) — Transient event subscriptions with at-most-once delivery. Missed events during downtime are not recovered.
+- [Prisma Workspaces API](https://apis.io/apis/prisma/prisma-workspaces-api/) — Operations for managing Prisma Data Platform workspaces
+- [Prisma Buckets API](https://apis.io/apis/prisma/prisma-buckets-api/) — The Buckets API from Prisma — 4 operation(s) for buckets.
+- [Prisma Databases Connections API](https://apis.io/apis/prisma/prisma-databases-connections-api/) — The Databases Connections API from Prisma — 1 operation(s) for databases connections.
+- [Prisma [Experimental] API](https://apis.io/apis/prisma/prisma-experimental-api/) — Experimental endpoints are in active development and may change at any time without notice.
+- [Prisma Misc API](https://apis.io/apis/prisma/prisma-misc-api/) — The Misc API from Prisma — 3 operation(s) for misc.
+- [Prisma Regions API](https://apis.io/apis/prisma/prisma-regions-api/) — The Regions API from Prisma — 1 operation(s) for regions.
+- [Prisma Service Tokens API](https://apis.io/apis/prisma/prisma-service-tokens-api/) — The Service Tokens API from Prisma — 2 operation(s) for service tokens.
 
-REST API for managing Prisma Data Platform resources including projects, environments, and database connections through the Prisma Console.
+### Published properties
 
-#### Tags
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-- Database
-- Developer Tools
-- ORM
-- Platform
+#### Arazzo workflows (12)
 
-#### Properties
+Multi-step workflows that chain operations into a business task.
 
-- [Documentation](https://www.prisma.io/docs/platform/about)
-- [OpenAPI](https://api.cloud.prisma.io/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI](openapi/prisma-data-platform-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-data-platform.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-data-platform.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Authentication](https://www.prisma.io/docs/management-api/authentication)
-- [Getting Started](https://www.prisma.io/docs/console/getting-started)
+- [Prisma Accelerate Cached Query then Invalidate](https://apis.io/arazzos/prisma/prisma-accelerate-query-and-invalidate-workflow/)
+- [Prisma Client List and Count Records](https://apis.io/arazzos/prisma/prisma-client-list-and-count-records-workflow/)
+- [Prisma Client Upsert a Record](https://apis.io/arazzos/prisma/prisma-client-upsert-record-workflow/)
+- [Prisma Optimize Record and Analyze a Session](https://apis.io/arazzos/prisma/prisma-optimize-record-and-analyze-workflow/)
+- [Prisma Data Platform Bootstrap a Project Environment](https://apis.io/arazzos/prisma/prisma-platform-bootstrap-environment-workflow/)
+- [Prisma Data Platform Rotate an Environment API Key](https://apis.io/arazzos/prisma/prisma-platform-rotate-api-key-workflow/)
+- [Prisma Postgres Add a Database to a Project](https://apis.io/arazzos/prisma/prisma-postgres-add-database-to-project-workflow/)
+- [Prisma Postgres Backup and Restore](https://apis.io/arazzos/prisma/prisma-postgres-backup-and-restore-workflow/)
+- [Prisma Postgres Find and Delete a Project](https://apis.io/arazzos/prisma/prisma-postgres-find-and-delete-project-workflow/)
+- [Prisma Postgres Provision a Project](https://apis.io/arazzos/prisma/prisma-postgres-provision-project-workflow/)
+- [Prisma Postgres Rotate a Database Connection String](https://apis.io/arazzos/prisma/prisma-postgres-rotate-connection-workflow/)
+- [Prisma Pulse Create and Resume a Named Stream](https://apis.io/arazzos/prisma/prisma-pulse-named-stream-resume-workflow/)
 
-### Prisma Accelerate API
+#### MCP servers (3)
 
-API for Prisma Accelerate, a fully managed global connection pool and caching layer for existing databases with query-level cache policies directly from the Prisma ORM.
+Model Context Protocol servers that expose the API to agents.
 
-#### Tags
+- [Moved to /providers/prisma/](https://apis.io/servers/prisma/mcp-server/)
+- [MCP server (provider repository)](https://apis.io/servers/prisma/mcp-server-provider-repository/)
+- [prisma](https://apis.io/servers/prisma/prisma/)
 
-- Caching
-- Connection Pooling
-- Database
-- Performance
-- Serverless
+#### Agent skills (7)
 
-#### Properties
+Agent skills built on the API.
 
-- [Documentation](https://www.prisma.io/docs/accelerate)
-- [OpenAPI](openapi/prisma-accelerate-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-accelerate.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-accelerate.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Getting Started](https://www.prisma.io/docs/accelerate/getting-started)
-- [Reference](https://www.prisma.io/docs/accelerate/reference/api-reference)
-- [F A Q](https://www.prisma.io/docs/accelerate/more/faq)
+- [prisma-cli](https://apis.io/agent-skills/prisma/prisma-cli/)
+- [prisma-client-api](https://apis.io/agent-skills/prisma/prisma-client-api/)
+- [prisma-database-setup](https://apis.io/agent-skills/prisma/prisma-database-setup/)
+- [prisma-driver-adapter-implementation](https://apis.io/agent-skills/prisma/prisma-driver-adapter-implementation/)
+- [prisma-postgres](https://apis.io/agent-skills/prisma/prisma-postgres/)
+- [prisma-postgres-setup](https://apis.io/agent-skills/prisma/prisma-postgres-setup/)
+- [prisma-upgrade-v7](https://apis.io/agent-skills/prisma/prisma-upgrade-v7/)
 
-### Prisma Pulse API
+#### Agentic access (1)
 
-API for Prisma Pulse, a managed Change Data Capture service enabling real-time database change events and type-safe subscriptions via Prisma Client.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Prisma Agentic Access](https://apis.io/agentic-access/prisma/prisma-agentic-access/)
 
-- Change Data Capture
-- Database
-- Events
-- Real-Time
-- Subscriptions
+#### JSON Schema (60)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://www.prisma.io/docs/pulse/database-events)
-- [OpenAPI](openapi/prisma-pulse-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-pulse.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-pulse.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Getting Started](https://www.prisma.io/docs/pulse/getting-started)
-- [F A Q](https://www.prisma.io/docs/pulse/faq)
+- [AccelerateError](https://apis.io/schemas/prisma/prisma-accelerateerror/)
+- [AccelerateInfo](https://apis.io/schemas/prisma/prisma-accelerateinfo/)
+- [AggregateResult](https://apis.io/schemas/prisma/prisma-aggregateresult/)
+- [ApiKey](https://apis.io/schemas/prisma/prisma-apikey/)
+- [ApiKeyCreate](https://apis.io/schemas/prisma/prisma-apikeycreate/)
+- [ApiKeyWithValue](https://apis.io/schemas/prisma/prisma-apikeywithvalue/)
+- [BackupCreate](https://apis.io/schemas/prisma/prisma-backupcreate/)
+- [BatchPayload](https://apis.io/schemas/prisma/prisma-batchpayload/)
+- [Prisma Accelerate Cache Strategy](https://apis.io/schemas/prisma/prisma-cache-strategy/)
+- [CacheInvalidationRequest](https://apis.io/schemas/prisma/prisma-cacheinvalidationrequest/)
+- [CacheInvalidationResponse](https://apis.io/schemas/prisma/prisma-cacheinvalidationresponse/)
+- [CacheStrategy](https://apis.io/schemas/prisma/prisma-cachestrategy/)
+- [Connection](https://apis.io/schemas/prisma/prisma-connection/)
+- [ConnectionCreate](https://apis.io/schemas/prisma/prisma-connectioncreate/)
+- [ConnectionWithCredentials](https://apis.io/schemas/prisma/prisma-connectionwithcredentials/)
+- [CreateInput](https://apis.io/schemas/prisma/prisma-createinput/)
+- [CreateManyInput](https://apis.io/schemas/prisma/prisma-createmanyinput/)
+- [Prisma Postgres Database](https://apis.io/schemas/prisma/prisma-database/)
+- [DatabaseApiKey](https://apis.io/schemas/prisma/prisma-databaseapikey/)
+- [DatabaseBackup](https://apis.io/schemas/prisma/prisma-databasebackup/)
+- [DatabaseCreate](https://apis.io/schemas/prisma/prisma-databasecreate/)
+- [DatabaseUsage](https://apis.io/schemas/prisma/prisma-databaseusage/)
+- [DirectConnection](https://apis.io/schemas/prisma/prisma-directconnection/)
+- [Environment](https://apis.io/schemas/prisma/prisma-environment/)
+- [EnvironmentCreate](https://apis.io/schemas/prisma/prisma-environmentcreate/)
+- …and 35 more published on APIs.io
 
-### Prisma Postgres Management API
+#### JSON Structure (1)
 
-REST API for programmatically provisioning and managing Prisma Postgres databases, projects, and workspaces, supporting automation, CI/CD workflows, and partner integrations.
+Data models expressed in JSON Structure.
 
-#### Tags
+- [Prisma Structure](https://apis.io/json-structure/prisma/prisma-structure/)
 
-- Database
-- Infrastructure
-- Managed Database
-- PostgreSQL
-- Provisioning
+#### JSON-LD (1)
 
-#### Properties
+Linked-data contexts for the provider's vocabulary.
 
-- [Documentation](https://www.prisma.io/docs/postgres/introduction/management-api)
-- [OpenAPI](openapi/prisma-postgres-management-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-postgres-management.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-postgres-management.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Getting Started](https://www.prisma.io/docs/guides/management-api-basic)
-- [Authentication](https://www.prisma.io/docs/management-api/authentication)
-- [S D Ks](https://www.prisma.io/docs/management-api/sdk)
+- [Prisma Context](https://apis.io/jsonld/prisma/prisma-context/)
 
-### Prisma Client API
+#### Vocabulary (1)
 
-Auto-generated, type-safe query builder for Node.js and TypeScript that provides programmatic database access for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
+The provider's domain terms, defined.
 
-#### Tags
+- [Prisma Domain Vocabulary](https://apis.io/vocabularies/prisma/prisma-vocabulary/)
 
-- Database
-- Node.js
-- ORM
-- Query Builder
-- TypeScript
+#### Collections (35)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://www.prisma.io/docs/orm)
-- [OpenAPI](openapi/prisma-client-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-client.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-client.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Reference](https://www.prisma.io/docs/orm/reference/prisma-client-reference)
-- [Getting Started](https://www.prisma.io/docs/getting-started/prisma-orm/quickstart/prisma-postgres)
-- [S D Ks](https://www.npmjs.com/package/@prisma/client)
+- [Prisma Accelerate API](https://apis.io/collections/prisma/open-prisma-accelerate/)
+- [Prisma Accelerate Aggregation API](https://apis.io/collections/prisma/open-prisma-aggregation-api/)
+- [Prisma Accelerate Aggregation API Keys API](https://apis.io/collections/prisma/open-prisma-api-keys-api/)
+- [Prisma Accelerate Aggregation Batch API](https://apis.io/collections/prisma/open-prisma-batch-api/)
+- [Prisma Accelerate Aggregation Cache API](https://apis.io/collections/prisma/open-prisma-cache-api/)
+- [Prisma Client API](https://apis.io/collections/prisma/open-prisma-client/)
+- [Prisma Accelerate Aggregation Connections API](https://apis.io/collections/prisma/open-prisma-connections-api/)
+- [Prisma Accelerate Aggregation CRUD API](https://apis.io/collections/prisma/open-prisma-crud-api/)
+- [Prisma Data Platform API](https://apis.io/collections/prisma/open-prisma-data-platform/)
+- [Prisma Accelerate Aggregation Database Backups API](https://apis.io/collections/prisma/open-prisma-database-backups-api/)
+- [Prisma Accelerate Aggregation Database Usage API](https://apis.io/collections/prisma/open-prisma-database-usage-api/)
+- [Prisma Accelerate Aggregation Databases API](https://apis.io/collections/prisma/open-prisma-databases-api/)
+- [Prisma Accelerate Aggregation Environments API](https://apis.io/collections/prisma/open-prisma-environments-api/)
+- [Prisma Accelerate Aggregation Events API](https://apis.io/collections/prisma/open-prisma-events-api/)
+- [Prisma Accelerate Aggregation Health API](https://apis.io/collections/prisma/open-prisma-health-api/)
+- [Prisma Accelerate Aggregation Integrations API](https://apis.io/collections/prisma/open-prisma-integrations-api/)
+- [Prisma Accelerate Aggregation Members API](https://apis.io/collections/prisma/open-prisma-members-api/)
+- [Prisma Accelerate Aggregation Metrics API](https://apis.io/collections/prisma/open-prisma-metrics-api/)
+- [Prisma Optimize API](https://apis.io/collections/prisma/open-prisma-optimize/)
+- [Prisma Postgres Management API](https://apis.io/collections/prisma/open-prisma-postgres-management/)
+- [Prisma Accelerate Aggregation Projects API](https://apis.io/collections/prisma/open-prisma-projects-api/)
+- [Prisma Pulse API](https://apis.io/collections/prisma/open-prisma-pulse/)
+- [Prisma Accelerate Aggregation Queries API](https://apis.io/collections/prisma/open-prisma-queries-api/)
+- [Prisma Accelerate Aggregation Raw API](https://apis.io/collections/prisma/open-prisma-raw-api/)
+- [Prisma Accelerate Aggregation Recommendations API](https://apis.io/collections/prisma/open-prisma-recommendations-api/)
+- …and 10 more published on APIs.io
 
-### Prisma Optimize API
+#### Overlays (30)
 
-Query performance tool for analyzing, debugging, and improving database queries during development, with AI-powered recommendations to reduce database load and improve responsiveness.
+OpenAPI overlays, including conversational phrasing for each operation.
 
-#### Tags
+- [Prisma Aggregation Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-aggregation-api-phrasing-overlay/)
+- [Prisma Api Keys Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-api-keys-api-phrasing-overlay/)
+- [Prisma Batch Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-batch-api-phrasing-overlay/)
+- [Prisma Buckets Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-buckets-api-phrasing-overlay/)
+- [Prisma Cache Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-cache-api-phrasing-overlay/)
+- [Prisma Connections Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-connections-api-phrasing-overlay/)
+- [Prisma Crud Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-crud-api-phrasing-overlay/)
+- [Prisma Database Backups Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-database-backups-api-phrasing-overlay/)
+- [Prisma Database Usage Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-database-usage-api-phrasing-overlay/)
+- [Prisma Databases Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-databases-api-phrasing-overlay/)
+- [Prisma Databases Connections Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-databases-connections-api-phrasing-overlay/)
+- [Prisma Environments Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-environments-api-phrasing-overlay/)
+- [Prisma Events Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-events-api-phrasing-overlay/)
+- [Prisma Experimental Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-experimental-api-phrasing-overlay/)
+- [Prisma Health Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-health-api-phrasing-overlay/)
+- [Prisma Integrations Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-integrations-api-phrasing-overlay/)
+- [Prisma Members Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-members-api-phrasing-overlay/)
+- [Prisma Metrics Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-metrics-api-phrasing-overlay/)
+- [Prisma Misc Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-misc-api-phrasing-overlay/)
+- [Prisma Postgres Management Api Overlay](https://apis.io/overlays/prisma/prisma-postgres-management-api-overlay/)
+- [Prisma Projects Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-projects-api-phrasing-overlay/)
+- [Prisma Queries Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-queries-api-phrasing-overlay/)
+- [Prisma Raw Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-raw-api-phrasing-overlay/)
+- [Prisma Recommendations Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-recommendations-api-phrasing-overlay/)
+- [Prisma Regions Api Phrasing Overlay](https://apis.io/overlays/prisma/prisma-regions-api-phrasing-overlay/)
+- …and 5 more published on APIs.io
 
-- AI
-- Database
-- Developer Tools
-- Performance
-- Query Optimization
+#### Governance rules (1)
 
-#### Properties
+Spectral rulesets for the provider's contracts.
 
-- [Documentation](https://www.prisma.io/docs/optimize)
-- [OpenAPI](openapi/prisma-optimize-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/prisma-optimize.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/prisma-optimize.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Getting Started](https://www.prisma.io/docs/optimize/getting-started)
-- [S D Ks](https://www.npmjs.com/package/@prisma/extension-optimize)
+- [Prisma — jsonschema rules](https://apis.io/rules/prisma/prisma-jsonschema-spectral-rules/)
 
-## Common Properties
+#### Security (4)
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [LinkedIn](https://www.linkedin.com/company/prisma-io)
-- [Portal](https://console.prisma.io/login)
-- [Documentation](https://www.prisma.io/docs)
-- [Getting Started](https://www.prisma.io/docs/getting-started)
-- [Authentication](https://www.prisma.io/docs/management-api/authentication)
-- [Blog](https://www.prisma.io/blog)
-- [Changelog](https://www.prisma.io/changelog)
-- [GitHub Organization](https://github.com/prisma)
-- [Community](https://www.prisma.io/community)
-- [Discord](https://pris.ly/discord)
-- [Twitter](https://twitter.com/prisma)
-- [Pricing](https://www.prisma.io/pricing)
-- [Status Page](https://www.prisma-status.com)
-- [Support](https://www.prisma.io/support)
-- [Terms of Service](https://www.prisma.io/terms)
-- [Privacy Policy](https://www.prisma.io/privacy)
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Prisma Authentication](https://apis.io/security/prisma/prisma-authentication/)
+- [Prisma Domain Security](https://apis.io/security/prisma/prisma-domain-security/)
+- [Prisma Trust Center](https://apis.io/security/prisma/prisma-trust-center/)
+- [Prisma Vulnerability Disclosure](https://apis.io/security/prisma/prisma-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Prisma Scopes](https://apis.io/scopes/prisma/prisma-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Prisma Plans Pricing](https://apis.io/plans/prisma/prisma-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Prisma Rate Limits](https://apis.io/rate-limits/prisma/prisma-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Prisma Finops](https://apis.io/finops/prisma/prisma-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.prisma.io)
-- [Login](https://console.prisma.io/login)
-- [Sign Up](https://console.prisma.io/sign-up)
-- [J S O N- L D  Context](json-ld/prisma-context.jsonld)
-- [J S O N  Schema](json-schema/prisma-workspace-schema.json)
-- [J S O N  Schema](json-schema/prisma-project-schema.json)
-- [J S O N  Schema](json-schema/prisma-database-schema.json)
-- [J S O N  Schema](json-schema/prisma-cache-strategy-schema.json)
-- [J S O N  Schema](json-schema/prisma-pulse-event-schema.json)
-- [J S O N  Schema](json-schema/prisma-query-recommendation-schema.json)
-- [Integrations](https://www.prisma.io/partners)
-- [M C P Server](https://github.com/prisma/mcp)
-- [Agent Skill](https://github.com/prisma/skills)
+- [Documentation](https://www.prisma.io/docs)
+- [Getting started](https://www.prisma.io/docs/getting-started)
+- [API reference](https://www.prisma.io/docs/rest-api)
+- [Pricing](https://www.prisma.io/pricing)
+- [Support](https://www.prisma.io/support)
+- [Changelog](https://www.prisma.io/changelog)
+- [Blog](https://www.prisma.io/blog)
+- [Terms of service](https://www.prisma.io/terms)
+- [Privacy policy](https://www.prisma.io/privacy)
+- [GitHub](https://github.com/prisma)
+- [Status](https://www.prisma-status.com)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** https://www.prisma.io
+**Kin Score 71.7** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 70.0 |
+| Contract quality | 59.2 |
+| Contract governance | 28.0 |
+| Operational transparency | 44.7 |
+| Developer ergonomics | 89.3 |
+| Access clarity | 78.9 |
+
+**Agent readiness 54.0** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | derived (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | verified |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/prisma/](https://apis.io/providers/prisma/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Prisma: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/prisma/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
