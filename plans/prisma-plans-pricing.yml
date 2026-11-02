@@ -1,0 +1,111 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.prisma.io/pricing
+sources:
+- https://www.prisma.io/pricing
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: developer-api
+pricing_basis: tiered-subscription
+delivery:
+  delivery: open-core
+  method: page
+  read: '2026-10-28'
+  evidence: Yes. Prisma ORM is open source and will always be free. The paid plans cover Prisma Postgres
+    (managed database hosting) and Prisma Compute (app hosting).
+  free_edition: Prisma ORM
+published: true
+note: Usage-based tiers for Prisma Postgres and Prisma Compute; Prisma ORM stated as free and open source
+  but no licence named.
+plan_count: 5
+currency: USD
+plans:
+- name: Free
+  price_text: $0 / month
+  price: 0
+  currency: USD
+  period: month
+  included_quota: 1M requests/month, 360 GB-hours memory, 4 active vCPU-hours, 10 GB outbound bandwidth;
+    200k operations/month, 2 GB storage, 50 databases
+  overage: —
+- name: Starter
+  price_text: $10 / month
+  price: 10
+  currency: USD
+  period: month
+  included_quota: 5M requests/month; 1M operations/month; 10 GB storage; 1,000 databases; 7-day daily
+    backups
+  overage: $1 per million requests, $0.006 per GB-hour memory, $0.064 per active vCPU-hours, $0.025 per
+    GB outbound bandwidth, $8 per million operations, $2.00 per GB storage
+- name: Pro
+  price_text: $49 / month
+  price: 49
+  currency: USD
+  period: month
+  included_quota: 20M requests/month; 10M operations/month; 50 GB storage; 1,000 databases; 7-day daily
+    backups
+  overage: $1 per million requests, $2 per million operations, $1.50 per GB storage, $0.006 per GB-hour,
+    $0.064 per vCPU-hour, $0.025 per GB
+- name: Business
+  price_text: $129 / month
+  price: 129
+  currency: USD
+  period: month
+  included_quota: 100M requests/month; 50M operations/month; 100 GB storage; 1,000 databases; 30-day backup
+    retention
+  overage: $1 per million requests, $1 per million operations, $0.006 per GB-hour, $0.064 per vCPU-hour,
+    $0.025 per GB
+- name: Need more?
+  price_text: Custom pricing is available for high-volume teams.
+  period: none
+rate_limit_statements:
+- Connection limit (pooled) Free 10 Starter 100 Pro 500 Business 1,000
+- Connection limit (direct) Free 10 Starter 10 Pro 50 Business 100
+- Cache purge requests Free 5 per hour Starter 5 per hour Pro 10 per hour Business 20 per hour
+- Operation duration (db queries) 10 min pooled, unlimited direct
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - hybrid
+  - metered
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Starter
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Business
+    access: other
+    model: hybrid
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Need more?
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
