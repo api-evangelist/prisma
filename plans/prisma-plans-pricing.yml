@@ -67,7 +67,7 @@ rate_limit_statements:
 - Cache purge requests Free 5 per hour Starter 5 per hour Pro 10 per hour Business 20 per hour
 - Operation duration (db queries) 10 min pooled, unlimited direct
 x-canonical:
-  generated: '2026-11-01'
+  generated: '2026-11-02'
   vocabulary: engine/economics/plans-canonical.yml
   models:
   - hybrid
